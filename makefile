@@ -32,7 +32,7 @@ install:
 
 clean:
 	@echo "** Removing object files and executable..."
-	rm -f $(DIRECSRC)/$(OBJ)
+	rm -f $(OBJ)
 	rm -f $(DIRECSRC)/$(EXENAME)
 
 execute:
