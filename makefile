@@ -25,7 +25,7 @@ $(EXENAME): $(OBJ)
 
 install:
 	@echo "** Installing..."
-	sh ./Tools/creerRepertoires.sh
+	sh ./rsc/Tools/creerRepertoires.sh
 	cp $(DIRECSRC)/$(EXENAME) $(DIRECBIN)
 	cp $(OBJ) $(DIRECOBJ)
 	chmod u+x $(DIRECBIN)/$(EXENAME)
