@@ -18,7 +18,7 @@ class CFont_Manager : public CResource_Manager
     void				      delete_font     (const std::string& filename);
 
   private:
-    std::map<std::string, sf::Font> m_font;
+    std::map<std::string, sf::Font> m_fonts;
 
 };
 

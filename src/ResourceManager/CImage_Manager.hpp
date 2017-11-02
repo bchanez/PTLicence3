@@ -18,7 +18,7 @@ class CImage_Manager : public CResource_Manager
     void				      delete_image    (const std::string& filename);
 
   private:
-    std::map<std::string, sf::Image> m_image;
+    std::map<std::string, sf::Image> m_images;
 
 };
 
