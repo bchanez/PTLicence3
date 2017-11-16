@@ -8,9 +8,9 @@ int main()
     RenderWindow window(VideoMode(200, 200), "Projet");
 
     Texture texture;
-    if (!texture.loadFromFile("rsc/img/dirt.png"))
+    if (!texture.loadFromFile("rsc/graphics/character.png"))
     {
-        cout << "Impossible d'ouvrir l'image : dirt.png";
+        cout << "Impossible d'ouvrir l'image : character.png";
     }
 
     Sprite sprite;
