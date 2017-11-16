@@ -13,9 +13,9 @@ class CResourceHolder
 
 		static const CResourceHolder& get();
 
-		const sf::Texture& getTexture(ETexture_Name name) const;
-		const sf::Font& getFont(EFont_Name name) const;
-		const sf::SoundBuffer& getSound(ESound_Name name) const;
+		const sf::Texture& texture(ETexture_Name name) const;
+		const sf::Font& font(EFont_Name name) const;
+		const sf::SoundBuffer& sound(ESound_Name name) const;
 
 	private:
 		CTexture_Manager m_textures;

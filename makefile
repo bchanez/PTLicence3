@@ -5,7 +5,7 @@ DIRECBIN := ./bin
 DIRECOBJ := ./obj
 
 CC := g++ -std=c++14 #-O3 -s
-CFLAGS := -Wall
+CFLAGS := -pedantic -Wall -Wextra -Wold-style-cast -Woverloaded-virtual -Wfloat-equal -Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wconversion -Wshadow -Weffc++ -Wredundant-decls -Wdouble-promotion -Winit-self -Wswitch-default -Wswitch-enum -Wundef -Wlogical-op -Winline
 
 LIBS := -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 INCLUDES :=
