@@ -14,17 +14,17 @@ const CResourceHolder & CResourceHolder::get()
 	return holder;
 }
 
-const sf::Texture & CResourceHolder::getTexture(ETexture_Name name) const
+const sf::Texture & CResourceHolder::texture(ETexture_Name name) const
 {
 	return m_textures.get(name);
 }
 
-const sf::Font & CResourceHolder::getFont(EFont_Name name) const
+const sf::Font & CResourceHolder::font(EFont_Name name) const
 {
 	return m_fonts.get(name);
 }
 
-const sf::SoundBuffer & CResourceHolder::getSound(ESound_Name name) const
+const sf::SoundBuffer & CResourceHolder::sound(ESound_Name name) const
 {
 	return m_sounds.get(name);
 }

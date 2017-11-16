@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include "ResourceManager/CResourceHolder.hpp"
 #include <iostream>
 using namespace std;
 using namespace sf;
@@ -7,14 +8,8 @@ int main()
 {
     RenderWindow window(VideoMode(200, 200), "Projet");
 
-    Texture texture;
-    if (!texture.loadFromFile("rsc/img/dirt.png"))
-    {
-        cout << "Impossible d'ouvrir l'image : dirt.png";
-    }
-
     Sprite sprite;
-    sprite.setTexture(texture);
+    sprite.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Characters));
 
     while (window.isOpen())
     {
