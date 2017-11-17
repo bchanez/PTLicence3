@@ -2,5 +2,5 @@
 
 CTexture_Manager::CTexture_Manager()
 {
-	addResource(ETexture_Name::e_Characters, "rsc/graphics/character.png");
+	addResource(ETexture_Name::e_Characters, "rsc/graphics/potatoman.png");
 }
