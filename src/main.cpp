@@ -18,6 +18,9 @@ int main()
     View view(sf::FloatRect(-(WINDOW_SIZE_X/2), -(WINDOW_SIZE_Y/2), WINDOW_SIZE_X, WINDOW_SIZE_Y));
     window.setView(view);
 
+    window.setFramerateLimit(60);
+    window.setKeyRepeatEnabled(false);
+
 
     //Nouveau personnage
     CCharacter character;
@@ -39,13 +42,7 @@ int main()
                 window.setView(view);
             }
 
-            if (event.type == sf::Event::KeyPressed)
-            {
-                if (event.key.code == sf::Keyboard::A)
-                {
-                    std::cout << "the A key was pressed" << std::endl;
-                }
-            }
+            character.getEvent(event);
         }
 
         character.update();
