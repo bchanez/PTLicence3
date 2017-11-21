@@ -18,9 +18,6 @@ int main()
     View view(sf::FloatRect(-(WINDOW_SIZE_X/2), -(WINDOW_SIZE_Y/2), WINDOW_SIZE_X, WINDOW_SIZE_Y));
     window.setView(view);
 
-    //Initialisation des variables permettant la responsivité de la fenêtre
-    sf::Vector2u lastSize = sf::Vector2u(WINDOW_SIZE_X, WINDOW_SIZE_Y), newSize = sf::Vector2u(WINDOW_SIZE_X, WINDOW_SIZE_Y);
-
 
     //Nouveau personnage
     CCharacter character;
@@ -33,18 +30,22 @@ int main()
         while (window.pollEvent(event))
         {
             //Si l'évènement est le clic sur la croix rouge pour fermer la fenêtre
-            if (event.type == Event::Closed)
+            if (event.type == Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
                 window.close(); //Fermeture de la fenêtre
-        }
 
-        //Récupération de la taille de la fenêtre
-        newSize = window.getSize();
+            if (event.type == sf::Event::Resized)
+            {
+                view.setSize(event.size.width, event.size.height);
+                window.setView(view);
+            }
 
-        //Si modification, adaptation de la vue
-        if (newSize != lastSize){
-          view.setSize(newSize.x, newSize.y);
-          window.setView(view);
-          lastSize = newSize;
+            if (event.type == sf::Event::KeyPressed)
+            {
+                if (event.key.code == sf::Keyboard::A)
+                {
+                    std::cout << "the A key was pressed" << std::endl;
+                }
+            }
         }
 
         character.update();
