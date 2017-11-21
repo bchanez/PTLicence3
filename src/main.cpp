@@ -12,10 +12,12 @@ using namespace sf;
 
 int main()
 {
+    float ZOOM = 1.5;   //Pour un meilleur affichage, le multiplicateur doit être un chiffre rond ou 1.5
+
     //Création d'une fenêtre
     RenderWindow window(VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "Projet");
     //Création de la vue du jeu
-    View view(sf::FloatRect(-(WINDOW_SIZE_X/2), -(WINDOW_SIZE_Y/2), WINDOW_SIZE_X, WINDOW_SIZE_Y));
+    View view(sf::FloatRect(-(WINDOW_SIZE_X/2), -(WINDOW_SIZE_Y/2), WINDOW_SIZE_X/ZOOM, WINDOW_SIZE_Y/ZOOM));
     window.setView(view);
     //Options de la fenêtre
     window.setFramerateLimit(60);
@@ -39,7 +41,7 @@ int main()
             //Adapte l'affichage à la taille de la fenêtre
             if (event.type == sf::Event::Resized)
             {
-                view.setSize(event.size.width, event.size.height);
+                view.setSize(event.size.width/ZOOM, event.size.height/ZOOM);
                 window.setView(view);
             }
 

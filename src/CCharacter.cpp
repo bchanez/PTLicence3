@@ -1,5 +1,6 @@
 #include "CCharacter.hpp"
 
+#define WALK_SPEED 1
 #define RUN_SPEED 2
 
 CCharacter::CCharacter(){
@@ -97,7 +98,7 @@ void CCharacter::update(){
       //Mise à jour de la texture
       m_sprite.setTextureRect(sf::IntRect((((int)m_clock.getElapsedTime().asMilliseconds()%400)/100)*40, m_orientation*40, 40, 40));
       //Mise à jour de la position
-      m_sprite.move(sf::Vector2f(m_speed.x*(int)m_move_speed, m_speed.y*(int)m_move_speed));
+      m_sprite.move(sf::Vector2f(m_speed.x*WALK_SPEED, m_speed.y*WALK_SPEED));
 
       //Si le personnage est à l'arrêt, on repasse à l'état arrêt
       if (m_speed == sf::Vector2i(0, 0)){
@@ -122,7 +123,7 @@ void CCharacter::update(){
       //Mise à jour de la texture
       m_sprite.setTextureRect(sf::IntRect((((int)m_clock.getElapsedTime().asMilliseconds()%400)/100)*40, m_orientation*40, 40, 40));
       //Mise à jour de la position
-      m_sprite.move(sf::Vector2f(m_speed.x*(int)m_move_speed*RUN_SPEED, m_speed.y*(int)m_move_speed*RUN_SPEED));
+      m_sprite.move(sf::Vector2f(m_speed.x*RUN_SPEED, m_speed.y*RUN_SPEED));
 
       //Si le personnage est à l'arrêt, on repasse à l'état arrêt
       if (m_speed == sf::Vector2i(0, 0)){
