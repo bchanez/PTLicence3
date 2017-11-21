@@ -18,10 +18,11 @@ protected :
 
 private :
 
-    enum s {idle, walk};
+    enum s {idle, walk, run};
     enum o {right, left};
     sf::Vector2i m_speed;
     unsigned int m_move_speed, m_orientation;
+    bool m_shift;
 
 };
 

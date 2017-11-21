@@ -17,7 +17,7 @@ int main()
     //Création de la vue du jeu
     View view(sf::FloatRect(-(WINDOW_SIZE_X/2), -(WINDOW_SIZE_Y/2), WINDOW_SIZE_X, WINDOW_SIZE_Y));
     window.setView(view);
-
+    //Options de la fenêtre
     window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);
 
@@ -36,6 +36,7 @@ int main()
             if (event.type == Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
                 window.close(); //Fermeture de la fenêtre
 
+            //Adapte l'affichage à la taille de la fenêtre
             if (event.type == sf::Event::Resized)
             {
                 view.setSize(event.size.width, event.size.height);
@@ -45,6 +46,7 @@ int main()
             character.getEvent(event);
         }
 
+        //Mise à jour du personnage
         character.update();
 
         //Réinitialisation de l'affichage
