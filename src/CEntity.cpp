@@ -1,10 +1,12 @@
 #include "CEntity.hpp"
 
-CEntity::CEntity(){
+CEntity::CEntity()
+{
 
 }
 
-void update(){
+void update()
+{
 
 
 }

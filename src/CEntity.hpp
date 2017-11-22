@@ -5,7 +5,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-class CEntity : public sf::Drawable{
+class CEntity : public sf::Drawable
+{
 
 public :
 
@@ -24,7 +25,8 @@ protected :
 private :
 
   //Fonction pour afficher le sprite
-  virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const{
+  virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+  {
       target.draw(m_sprite);
   }
 

@@ -5,7 +5,8 @@
 #include "ResourceManager/CResourceHolder.hpp"
 #include <iostream>
 
-class CCharacter : public CEntity{
+class CCharacter : public CEntity
+{
 
 public :
 
@@ -25,7 +26,5 @@ private :
     bool m_shift;
 
 };
-
-
 
 #endif

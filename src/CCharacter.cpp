@@ -3,7 +3,8 @@
 #define WALK_SPEED 1
 #define RUN_SPEED 2
 
-CCharacter::CCharacter(){
+CCharacter::CCharacter()
+{
 
   //Initialisation des variables
   m_sprite.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Characters));
@@ -16,56 +17,62 @@ CCharacter::CCharacter(){
   m_shift = false;
 }
 
-void CCharacter::getEvent(sf::Event &event){
+void CCharacter::getEvent(sf::Event &event)
+{
 
-  //On récupère les touches appuyées
-  if (event.type == sf::Event::KeyPressed)
+  switch (event.type)
   {
-    if (event.key.code == sf::Keyboard::Z )
-    {
-      m_speed.y += -m_move_speed;
-    }
-    if (event.key.code == sf::Keyboard::Q)
-    {
-      m_speed.x += -m_move_speed;
-    }
-    if (event.key.code == sf::Keyboard::S)
-    {
-      m_speed.y += m_move_speed;
-    }
-    if (event.key.code == sf::Keyboard::D)
-    {
-      m_speed.x += m_move_speed;
-    }
-    if (event.key.code == sf::Keyboard::LShift)
-    {
-      m_shift = true;
-    }
-  }
+    //On récupère les touches appuyées
+    case sf::Event::KeyPressed :
+      switch (event.key.code)
+      {
+          case sf::Keyboard::Z :
+            m_speed.y += -m_move_speed;
+            break;
 
-  //On récupère les touches relâchées
-  if (event.type == sf::Event::KeyReleased)
-  {
-    if (event.key.code == sf::Keyboard::Z)
-    {
-      m_speed.y -= -m_move_speed;
-    }
-    if (event.key.code == sf::Keyboard::Q)
-    {
-      m_speed.x -= -m_move_speed;
-    }
-    if (event.key.code == sf::Keyboard::S)
-    {
-      m_speed.y -= m_move_speed;
-    }
-    if (event.key.code == sf::Keyboard::D)
-    {
-      m_speed.x -= m_move_speed;
-    }
-    if (event.key.code == sf::Keyboard::LShift)
-    {
-      m_shift = false;
-    }
+          case sf::Keyboard::Q :
+            m_speed.x += -m_move_speed;
+            break;
+
+          case sf::Keyboard::S :
+            m_speed.y += m_move_speed;
+            break;
+
+          case sf::Keyboard::D :
+            m_speed.x += m_move_speed;
+            break;
+
+          case sf::Keyboard::LShift :
+            m_shift = true;
+            break;
+      }
+      break;
+
+    //On récupère les touches relâchées
+    case sf::Event::KeyReleased :
+      switch (event.key.code)
+      {
+          case sf::Keyboard::Z :
+            m_speed.y -= -m_move_speed;
+            break;
+
+          case sf::Keyboard::Q :
+            m_speed.x -= -m_move_speed;
+            break;
+
+          case sf::Keyboard::S :
+            m_speed.y -= m_move_speed;
+            break;
+
+          case sf::Keyboard::D :
+            m_speed.x -= m_move_speed;
+            break;
+
+          case sf::Keyboard::LShift :
+            m_shift = false;
+            break;
+      }
+      break;
   }
 }
 
