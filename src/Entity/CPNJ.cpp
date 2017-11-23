@@ -43,7 +43,7 @@ void CPNJ::IA()
   //Si IDLE, on choisit une position aléatoire où se déplacer
   if ((r = rand()%1000) == 0 && m_state == idle)
   {
-    m_goal_point = sf::Vector2i(rand()%400 -200, rand()%400 -200);
+    m_goal_point = sf::Vector2i(rand()%(1920/2) -(1920/4), rand()%(1080/2) -(1080/4));
   }
   else if ((r = rand()%1000) == 1 && m_state == idle)
   {
