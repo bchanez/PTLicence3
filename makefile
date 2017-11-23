@@ -5,7 +5,7 @@ DIRECBIN := ./bin
 DIRECOBJ := ./obj
 
 CC := g++ -std=c++14 #-O3 -s
-CFLAGS := -pedantic -Wall -Wextra
+CFLAGS := -Wall -Wextra
 
 LIBS := -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 INCLUDES :=
