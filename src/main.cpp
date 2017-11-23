@@ -1,9 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include "ResourceManager/CResourceHolder.hpp"
 #include <iostream>
-#include "CEntity.hpp"
-#include "CCharacter.hpp"
-#include "CPNJ.hpp"
+#include "Entity/CEntity.hpp"
+#include "Entity/CCharacter.hpp"
+#include "Entity/CPNJ.hpp"
 using namespace std;
 using namespace sf;
 
@@ -11,21 +11,24 @@ using namespace sf;
 #define WINDOW_SIZE_X 800
 #define WINDOW_SIZE_Y 600
 
+#define PNJ_NB 100
+
 int main()
 {
 
     srand(time(NULL));
-    
-    float ZOOM = 3;   //Pour un meilleur affichage, le multiplicateur doit être un chiffre rond ou 1.5
+
+    float ZOOM = 2;   //Pour un meilleur affichage, le multiplicateur doit être un chiffre rond ou 1.5
 
     //Création d'une fenêtre
-    RenderWindow window(VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "Projet");
+    //RenderWindow window(VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "Projet", sf::Style::Fullscreen);
+    RenderWindow window(VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "Projet", sf::Style::Fullscreen);
     //Création de la vue du jeu
-    View view(sf::FloatRect(0, 0, WINDOW_SIZE_X/ZOOM, WINDOW_SIZE_Y/ZOOM));
+    View view(sf::FloatRect(0, 0, 1920/ZOOM, 1080/ZOOM));
     view.setCenter(0, 0);
     window.setView(view);
     //Options de la fenêtre
-    //window.setFramerateLimit(60);
+    window.setFramerateLimit(70);
     window.setKeyRepeatEnabled(false);
 
 
@@ -33,7 +36,7 @@ int main()
     CCharacter character;
 
     //Nouveau PNJ
-    CPNJ pnj[40];
+    CPNJ pnj[PNJ_NB];
 
     //Boucle principale
     while (window.isOpen())
@@ -60,14 +63,14 @@ int main()
         character.update();
 
         //Mise à jour du personnage
-        for (int i=0; i<40; i++)
+        for (int i=0; i<PNJ_NB; i++)
           pnj[i].update();
 
         //Réinitialisation de l'affichage
         window.clear();
         //Chargement des images
         window.draw(character);
-        for (int i=0; i<40; i++)
+        for (int i=0; i<PNJ_NB; i++)
           window.draw(pnj[i]);
         //Affichage à l'écran
         window.display();
