@@ -5,7 +5,7 @@
 #include <cctype>
 #include <string>
 
-#define _TILE_SIZE 32
+#define _TILE_SIZE 40
 
 CMap::CMap()
 {
@@ -14,7 +14,9 @@ CMap::CMap()
   sf::Sprite tileSprite;    //Sprite of the tile
 
   sf::Vector2i map[100][100]; //Size of the map (Here 100 x 100)
-  sf::Vector2i loadCounter = sf::Vector2i(0,0); //loadCounter for the map
+  sf::Vector2i loadCounter = sf::Vector2i(0,-1); //loadCounter for the map
+
+  int lastx = 0;
 
   if(openfile.is_open())
   {
@@ -39,6 +41,7 @@ CMap::CMap()
 
           if(openfile.peek() == '\n') //If we reach the end of a line
           {
+              lastx = loadCounter.x;
               loadCounter.x = 0;
               loadCounter.y++;
           } else {
@@ -46,26 +49,28 @@ CMap::CMap()
           }
       }
 
-      loadCounter.y++;
   }
 
-  m_prerender.create(160, 80);
+  m_prerender.create(4000, 4000);
   m_prerender.clear(sf::Color::Transparent);
 
-  for (int i = 0; i < loadCounter.x; ++i)
+  for (int i = 0; i <= lastx; ++i)
   {
-      for (int j = 0; j < loadCounter.y; ++j)
+      for (int j = 0; j <= loadCounter.y; ++j)
       {
           if(map[i][j].x != -1 && map[i][j].y != -1)
           {
-              tileSprite.setPosition(i*32, j*32);
-              tileSprite.setTextureRect(sf::IntRect(map[i][j].x * 32, map[i][j].y * 32, 32, 32));
+              tileSprite.setPosition(i*40, j*40);
+              tileSprite.setTextureRect(sf::IntRect(map[i][j].x * 40, map[i][j].y * 40, 40, 40));
 
               m_prerender.draw(tileSprite);
-              m_prerender.display();
 
-              m_sprite.setTexture(m_prerender.getTexture());
           }
       }
   }
+
+  m_prerender.display();
+  m_sprite.setTexture(m_prerender.getTexture());
+
+
 }

@@ -16,6 +16,8 @@ enum class ETexture_Name
 	e_Hair_6,
 	e_Hair_7,
 	e_Hair_8,
+	e_TShirt_1,
+	e_Pants_1,
 	e_TileMap_Grass
 };
 

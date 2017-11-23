@@ -26,7 +26,7 @@ int main()
     RenderWindow window(VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "Projet", sf::Style::Fullscreen);
     //Création de la vue du jeu
     View view(sf::FloatRect(0, 0, 1920/ZOOM, 1080/ZOOM));
-    view.setCenter(0, 0);
+    view.setCenter(1920/ZOOM/2, 1080/ZOOM/2);
     window.setView(view);
     //Options de la fenêtre
     window.setFramerateLimit(70);
@@ -41,6 +41,10 @@ int main()
 
     //Nouvelle Map
     CMap map;
+
+    sf::Clock chrono;
+    float itime = 0;
+    int ips = 0;
 
     //Boucle principale
     while (window.isOpen())
@@ -63,6 +67,15 @@ int main()
             character.getEvent(event);
         }
 
+        itime += chrono.restart().asSeconds();
+
+        if (itime >= 1)
+        {
+          itime = 0;
+          cout << ips << " FPS" << endl;
+          ips = 0;
+        }
+
         //Mise à jour du personnage
         character.update();
 
@@ -78,6 +91,7 @@ int main()
         window.draw(character);
         for (int i=0; i<PNJ_NB; i++)
           window.draw(pnj[i]);
+          ips++;
         //Affichage à l'écran
         window.display();
     }

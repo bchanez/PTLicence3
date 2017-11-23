@@ -33,6 +33,8 @@ CPNJ::CPNJ()
   m_shift = false;
 
   m_sprite.setOrigin(sf::Vector2f(20, 30));
+  m_sprite.setPosition(sf::Vector2f(rand()%960, rand()%540));
+  m_goal_point = sf::Vector2i(m_sprite.getPosition().x, m_sprite.getPosition().y);
 }
 
 void CPNJ::IA()
@@ -43,7 +45,7 @@ void CPNJ::IA()
   //Si IDLE, on choisit une position aléatoire où se déplacer
   if ((r = rand()%1000) == 0 && m_state == idle)
   {
-    m_goal_point = sf::Vector2i(rand()%(1920/2) -(1920/4), rand()%(1080/2) -(1080/4));
+    m_goal_point = sf::Vector2i(rand()%(1920/2), rand()%(1080/2));
   }
   else if ((r = rand()%1000) == 1 && m_state == idle)
   {

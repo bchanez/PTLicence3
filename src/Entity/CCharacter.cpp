@@ -15,6 +15,10 @@ CCharacter::CCharacter()
   m_prerender.draw(spr);
   spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Hair_5));
   m_prerender.draw(spr);
+  spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Pants_1));
+  m_prerender.draw(spr);
+  spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_TShirt_1));
+  m_prerender.draw(spr);
   m_prerender.display();
 
   //Application de la texture
