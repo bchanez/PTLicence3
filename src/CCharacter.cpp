@@ -6,6 +6,7 @@
 CCharacter::CCharacter()
 {
 
+  //Création de la texture du personnage
   m_prerender.create(160, 80);
   m_prerender.clear(sf::Color::Transparent);
 
@@ -16,9 +17,11 @@ CCharacter::CCharacter()
   m_prerender.draw(spr);
   m_prerender.display();
 
+  //Application de la texture
   m_sprite.setTexture(m_prerender.getTexture());
   m_sprite.setTextureRect(sf::IntRect(0, 0, 40, 40));
 
+  //Initialisation des variables
   m_state = 1;
   m_speed = sf::Vector2i(0, 0);
   m_move_speed = 1;
