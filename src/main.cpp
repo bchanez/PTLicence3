@@ -4,6 +4,7 @@
 #include "Entity/CEntity.hpp"
 #include "Entity/CCharacter.hpp"
 #include "Entity/CPNJ.hpp"
+#include "Entity/CMap.hpp"
 using namespace std;
 using namespace sf;
 
@@ -35,8 +36,11 @@ int main()
     //Nouveau personnage
     CCharacter character;
 
-    //Nouveau PNJ
+    //Nouveau PNJs
     CPNJ pnj[PNJ_NB];
+
+    //Nouvelle Map
+    CMap map;
 
     //Boucle principale
     while (window.isOpen())
@@ -69,6 +73,8 @@ int main()
         //Réinitialisation de l'affichage
         window.clear();
         //Chargement des images
+        window.draw(map);
+
         window.draw(character);
         for (int i=0; i<PNJ_NB; i++)
           window.draw(pnj[i]);

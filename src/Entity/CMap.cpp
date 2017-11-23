@@ -19,9 +19,9 @@ CMap::CMap()
   if(openfile.is_open())
   {
       std::string tileLocation; //The first line in the Map.txt is the location of the texture file
-      openfile >> tileLocation; //We open the texture file
+      //openfile >> tileLocation; //We open the texture file
 
-      tileTexture.loadFromFile(tileLocation); //The texture is loaded
+      //tileTexture.loadFromFile(tileLocation); //The texture is loaded
 
       tileSprite.setTexture(CResourceHolder::get().texture(ETexture_Name::e_TileMap_Grass)); //The sprite is set
 

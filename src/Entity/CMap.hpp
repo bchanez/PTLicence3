@@ -2,7 +2,7 @@
 #define CMAP_
 
 #include "CEntity.hpp"
-#include "ResourceManager/CResourceHolder.hpp"
+#include "../ResourceManager/CResourceHolder.hpp"
 #include <iostream>
 
 class CMap : public CEntity

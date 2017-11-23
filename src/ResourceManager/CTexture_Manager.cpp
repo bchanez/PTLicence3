@@ -11,4 +11,5 @@ CTexture_Manager::CTexture_Manager()
 	addResource(ETexture_Name::e_Hair_6, "rsc/graphics/hair_6.png");
 	addResource(ETexture_Name::e_Hair_7, "rsc/graphics/hair_7.png");
 	addResource(ETexture_Name::e_Hair_8, "rsc/graphics/hair_8.png");
+	addResource(ETexture_Name::e_Hair_8, "rsc/graphics/tilemap_grass.png");
 }
