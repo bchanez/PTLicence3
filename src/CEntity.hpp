@@ -4,6 +4,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
+#include <iostream>
 
 class CEntity : public sf::Drawable
 {
@@ -17,9 +18,10 @@ public :
 protected :
 
   sf::Sprite m_sprite;
+  sf::RenderTexture m_prerender;
   unsigned int m_state;
 
-  sf::Clock m_clock;
+  sf::Clock m_clock, m_move_clock;
 
 
 private :
