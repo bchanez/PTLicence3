@@ -13,7 +13,6 @@ class CFont_Manager : public CResourceManager<EFont_Name, sf::Font>
 {
 	public:
 		CFont_Manager();
-		~CFont_Manager();
 
 	private:
 		std::map <EFont_Name, sf::Font> m_fonts;

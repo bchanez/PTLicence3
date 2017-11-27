@@ -1,5 +1,5 @@
-#ifndef CPNJ_
-#define CPNJ_
+#ifndef CPNJ_HPP_
+#define CPNJ_HPP_
 
 #include "CEntity.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"
@@ -8,28 +8,20 @@
 
 class CPNJ : public CEntity
 {
-
-  public :
+  public:
 
     CPNJ();
+    ~CPNJ();
 
+    void update(float dt);
 
-    void update();
+  protected:
 
-  protected :
+  private:
 
-  private :
+    void IA();
 
-      void IA();
-
-
-      enum s {idle, walk, run};
-      enum o {right, left};
-      sf::Vector2f m_speed;
-      sf::Vector2i m_goal_point;
-      unsigned int m_move_speed, m_orientation;
-      bool m_shift;
-
+    enum state {idle, walk, wander, action, question, run, dead, disappear};
 };
 
 #endif

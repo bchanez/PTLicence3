@@ -8,16 +8,6 @@ template<typename Enum, typename Resource>
 class CResourceManager
 {
 	public:
-		CResourceManager()
-		{
-
-		}
-
-		~CResourceManager()
-		{
-
-		}
-
 		const Resource& get(Enum name) const
 		{
 			return m_resources.at(name);

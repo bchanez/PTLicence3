@@ -25,7 +25,6 @@ class CTexture_Manager : public CResourceManager<ETexture_Name, sf::Texture>
 {
 	public:
 		CTexture_Manager();
-		~CTexture_Manager();
 
 	private:
 		std::map <ETexture_Name, sf::Texture> m_textures;

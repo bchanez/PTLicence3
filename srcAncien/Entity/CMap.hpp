@@ -1,5 +1,5 @@
-#ifndef CMAP_HPP_
-#define CMAP_HPP_
+#ifndef CMAP_
+#define CMAP_
 
 #include "CEntity.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"
@@ -7,14 +7,18 @@
 
 class CMap : public CEntity
 {
-	public:
 
-		CMap();
-		~CMap();
+public :
 
-	protected:
+	CMap();
 
-	private:
+  void getEvent(sf::Event &event);
+  void update();
+
+protected :
+
+private :
+
 
 };
 

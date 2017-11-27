@@ -1,10 +1,7 @@
 #include "CTexture_Manager.hpp"
-#include "../Tools/DEBUG.hpp"
 
 CTexture_Manager::CTexture_Manager()
 {
-	LOG("CTexture_Manager Constructor\n");
-
 	addResource(ETexture_Name::e_Characters, "rsc/graphics/potatoman.png");
 	addResource(ETexture_Name::e_Hair_1, "rsc/graphics/hair_1.png");
 	addResource(ETexture_Name::e_Hair_2, "rsc/graphics/hair_2.png");
@@ -17,9 +14,4 @@ CTexture_Manager::CTexture_Manager()
 	addResource(ETexture_Name::e_TShirt_1, "rsc/graphics/tshirt_1.png");
 	addResource(ETexture_Name::e_Pants_1, "rsc/graphics/pants_1.png");
 	addResource(ETexture_Name::e_TileMap_Grass, "rsc/graphics/tilemap_grass.png");
-}
-
-CTexture_Manager::~CTexture_Manager()
-{
-	LOG("CTexture_Manager Destructor\n");
 }

@@ -1,14 +1,11 @@
 #include "CResourceHolder.hpp"
-#include "../Tools/DEBUG.hpp"
 
 CResourceHolder::CResourceHolder()
 {
-  LOG("CResourceHolder Constructor\n");
 }
 
 CResourceHolder::~CResourceHolder()
 {
-	LOG("CResourceHolder Destructor\n");
 }
 
 const CResourceHolder & CResourceHolder::get()

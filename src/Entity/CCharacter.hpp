@@ -1,29 +1,29 @@
-#ifndef CCHARACTER_
-#define CCHARACTER_
+#ifndef CCHARACTER_HPP_
+#define CCHARACTER_HPP_
 
 #include "CEntity.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"
+#include "../Tools/CInput.hpp"
 #include <iostream>
 
 class CCharacter : public CEntity
 {
 
-  public :
+  public:
 
     CCharacter();
+    ~CCharacter();
 
-    void getEvent(sf::Event &event);
-    void update();
+    CInput& getInput();
+    void getEvent(float dt);
+    void update(float dt);
 
-  protected :
+  protected:
 
-  private :
+  private:
 
-      enum s {idle, walk, run};
-      enum o {right, left};
-      sf::Vector2i m_speed;
-      unsigned int m_move_speed, m_orientation;
-      bool m_shift;
+    CInput m_input;
+    enum state {idle, walk, run, action, dead, disappear};
 
 };
 
