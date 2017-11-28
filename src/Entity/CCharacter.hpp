@@ -11,11 +11,11 @@ class CCharacter : public CEntity
 
   public:
 
-    CCharacter();
-    ~CCharacter();
+    CCharacter(void);
+    virtual ~CCharacter(void);
 
-    CInput& getInput();
-    void getEvent(float dt);
+    void setTexture(void);
+    CInput& getInput(void);
     void update(float dt);
 
   protected:
@@ -23,7 +23,7 @@ class CCharacter : public CEntity
   private:
 
     CInput m_input;
-    enum state {idle, walk, run, action, dead, disappear};
+    enum Estate {e_idle, e_walk, e_run, e_action, e_dead, e_disappear};
 
 };
 

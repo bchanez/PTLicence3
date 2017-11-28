@@ -22,30 +22,53 @@ void CPNJ::update(float dt)
   switch (m_state)
   {
     case idle :
-      break;
+    {
+
+    }
+    break;
 
     case walk :
-      break;
+    {
+
+    }
+    break;
 
     case run :
-      break;
+    {
+
+    }
+    break;
 
     case wander :
-      break;
+    {
+
+    }
+    break;
 
     case action :
-      break;
+    {
+
+    }
+    break;
 
     case question :
-      break;
+    {
+
+    }
+    break;
 
     case dead :
-      break;
+    {
+
+    }
+    break;
 
     case disappear :
-      break;
+    {
 
-    default :
-      break;
+    }
+    break;
+
+    default : {} break;
   }
 }

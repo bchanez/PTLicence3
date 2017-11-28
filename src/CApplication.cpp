@@ -19,12 +19,14 @@ CApplication::~CApplication()
 void CApplication::runMainLoop()
 {
 	while (CDisplay::isOpen()) {
+		float dt = m_clock.restart().asSeconds();
+
 		CDisplay::checkWindowEvents();
 		CDisplay::clear();
 
-		_states.top()->input	();
-		_states.top()->update	(0.1f);
-		_states.top()->draw		();
+		_states.top()->input ();
+		_states.top()->update (dt);
+		_states.top()->draw ();
 
 		CDisplay::display();
 	}

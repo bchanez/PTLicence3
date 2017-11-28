@@ -1,16 +1,16 @@
 #include "CEntity.hpp"
 #include "../Tools/DEBUG.hpp"
 
-CEntity::CEntity()
+CEntity::CEntity(void)
 {
   LOG("CEntity Constructor\n");
 }
 
-CEntity::~CEntity()
+CEntity::~CEntity(void)
 {
   LOG("CEntity Destructor\n");
 }
 
-void update()
-{
-}
+void CEntity::setTexture(void) {}
+
+void CEntity::update(float dt) {}

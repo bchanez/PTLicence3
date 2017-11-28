@@ -6,24 +6,32 @@
 #include <SFML/System.hpp>
 #include <iostream>
 
+#define WALK_SPEED 60
+#define RUN_SPEED 120
+
 class CEntity : public sf::Drawable
 {
 
   public:
-    CEntity();
-    ~CEntity();
-    void update();
+    CEntity(void);
+    virtual ~CEntity(void);
+
+    void setTexture(void);
+    void update(float dt);
 
   protected:
 
     sf::Sprite m_sprite;
     sf::RenderTexture m_prerender;
 
-    sf::Vector2i m_position;
-    unsigned int m_move_speed, m_orientation;
-    enum orientation {right, left};
+    sf::Vector2f m_position;
+    unsigned int m_move_speed;
 
+    enum Estate {};
     unsigned int m_state;
+
+    enum Eorientation {e_right, e_left};
+    unsigned int m_orientation;
 
   private:
 

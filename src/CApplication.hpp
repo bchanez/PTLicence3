@@ -21,6 +21,8 @@ public:
 
 private:
 	std::stack<std::unique_ptr<State::CGame_State>> _states;
+
+	sf::Clock m_clock;
 };
 
 #endif
