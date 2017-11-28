@@ -8,27 +8,31 @@ class CAnimation
 {
     struct Frame
     {
-        Frame(const sf::IntRect& frame, float timeToNextFrame)
-        :   frame           (frame)
-        ,   timeToNextFrame (timeToNextFrame) {}
+      Frame(const sf::IntRect f, float t)
+      {
+        frame = f;
+        timeToNextFrame = t;
+      }
 
-        sf::IntRect frame;
-        float       timeToNextFrame;
+      sf::IntRect frame;
+      float timeToNextFrame;
     };
 
     public:
       CAnimation();
       ~CAnimation();
 
-      void addFrame (const sf::IntRect& frame, float timeToNextFrame);
+      void addFrame(const sf::IntRect& frame, float timeToNextFrame);
       const sf::IntRect getFrame();
+      const sf::IntRect getCurrentFrame();
+      void restart(void);
 
     private:
         std::vector<Frame> m_frames;
 
-        sf::Clock   m_timer;
-        unsigned    m_currentFrame      = 0;
-        float       m_longestFrameTime  = 0;
+        sf::Clock m_timer;
+
+        unsigned int m_currentFrame;
 };
 
 #endif

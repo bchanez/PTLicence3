@@ -4,7 +4,7 @@ DIRECSRC := ./src
 DIRECBIN := ./bin
 DIRECOBJ := ./obj
 
-CC := g++ -std=c++14 #-O3 -s
+CC := g++ -std=c++14 -g#-O3 -s
 CFLAGS := -Wall -Wextra
 
 LIBS := -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
