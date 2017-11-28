@@ -6,7 +6,8 @@ std::unique_ptr<sf::RenderWindow> window;
 
 void CDisplay::init()
 {
-	window = std::make_unique<sf::RenderWindow>(sf::VideoMode(WINDOWED_SCREEN_WIDTH, WINDOWED_SCREEN_HEIGHT, 32), "Jeu");
+	//window = std::make_unique<sf::RenderWindow>(sf::VideoMode(WINDOWED_SCREEN_WIDTH, WINDOWED_SCREEN_HEIGHT), "Projet");
+	window = std::make_unique<sf::RenderWindow>(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "Projet", sf::Style::Fullscreen);
 	window.get()->setVerticalSyncEnabled(true);
 	window.get()->setKeyRepeatEnabled(true);
 }

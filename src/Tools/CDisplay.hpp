@@ -17,9 +17,9 @@ namespace CDisplay
 
 	bool isOpen();
 
-	// Taille de la fenetre en WINDOWED : 800x480 pixels
-	constexpr int WINDOWED_SCREEN_WIDTH = 800;
-	constexpr int WINDOWED_SCREEN_HEIGHT = 480;
+	// Taille de la fenetre en WINDOWED : 960x540 pixels
+	constexpr int WINDOWED_SCREEN_WIDTH = 960;
+	constexpr int WINDOWED_SCREEN_HEIGHT = 540;
 }
 
 #endif
