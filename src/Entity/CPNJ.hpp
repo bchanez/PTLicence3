@@ -4,7 +4,6 @@
 #include "CEntity.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"
 #include <iostream>
-#include <time.h>
 
 class CPNJ : public CEntity
 {
@@ -13,15 +12,16 @@ class CPNJ : public CEntity
     explicit CPNJ();
     virtual ~CPNJ();
 
+    void setTexture(void);
+    void setAnimation(void);
     void update(float dt);
-
-  protected:
 
   private:
 
-    void IA();
+    enum state {e_idle, e_walk, e_run, e_action, e_wander, e_question, e_dead, e_disappear};
 
-    enum state {idle, walk, wander, action, question, run, dead, disappear};
+    int m_nb_animation = 2;
+    enum EAnimation {e_walk_right, e_walk_left};
 };
 
 #endif

@@ -1,9 +1,10 @@
 #ifndef CENTITY_HPP_
 #define CENTITY_HPP_
 
-#include <vector>
 #include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
+
+#include "../Tools/CAnimation.hpp"
+#include <vector>
 #include <iostream>
 
 #define WALK_SPEED 60
@@ -33,7 +34,10 @@ class CEntity : public sf::Drawable
     enum Eorientation {e_right, e_left};
     unsigned int m_orientation;
 
-  private:
+    int m_nb_animation;
+    enum EAnimation {};
+    std::vector<CAnimation> m_animation;
+
 
     //Fonction pour afficher le sprite
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
