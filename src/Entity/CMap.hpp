@@ -9,8 +9,8 @@ class CMap : public CEntity
 {
 	public:
 
-		CMap();
-		~CMap();
+		explicit CMap();
+		virtual ~CMap();
 
 	protected:
 

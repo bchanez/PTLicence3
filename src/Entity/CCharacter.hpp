@@ -13,7 +13,7 @@ class CCharacter : public CEntity
 
   public:
 
-    CCharacter(void);
+    explicit CCharacter(void);
     virtual ~CCharacter(void);
 
     void setTexture(void);

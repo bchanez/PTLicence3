@@ -11,8 +11,8 @@ namespace State
 	class CPlaying : public CGame_State
 	{
 	public:
-		CPlaying(CApplication& application);
-		~CPlaying();
+		explicit CPlaying(CApplication& application);
+		virtual ~CPlaying();
 
 		void input() override;
 		void update(float dt) override;

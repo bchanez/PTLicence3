@@ -8,12 +8,12 @@ template<typename Enum, typename Resource>
 class CResourceManager
 {
 	public:
-		CResourceManager()
+		explicit CResourceManager()
 		{
 
 		}
 
-		~CResourceManager()
+		virtual ~CResourceManager()
 		{
 
 		}

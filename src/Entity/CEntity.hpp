@@ -13,11 +13,11 @@ class CEntity : public sf::Drawable
 {
 
   public:
-    CEntity(void);
+    explicit CEntity(void);
     virtual ~CEntity(void);
 
-    void setTexture(void);
-    void update(float dt);
+    virtual void setTexture(void);
+    virtual void update(float dt);
 
   protected:
 
@@ -38,7 +38,7 @@ class CEntity : public sf::Drawable
     //Fonction pour afficher le sprite
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
-        target.draw(m_sprite);
+        target.draw(m_sprite, states);
     }
 };
 

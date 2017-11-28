@@ -1,7 +1,7 @@
 #include "CTexture_Manager.hpp"
 #include "../Tools/DEBUG.hpp"
 
-CTexture_Manager::CTexture_Manager()
+/*explicit*/ CTexture_Manager::CTexture_Manager()
 {
 	LOG("CTexture_Manager Constructor\n");
 
@@ -19,7 +19,7 @@ CTexture_Manager::CTexture_Manager()
 	addResource(ETexture_Name::e_TileMap_Grass, "rsc/graphics/tilemap_grass.png");
 }
 
-CTexture_Manager::~CTexture_Manager()
+/*virtual*/ CTexture_Manager::~CTexture_Manager()
 {
 	LOG("CTexture_Manager Destructor\n");
 }

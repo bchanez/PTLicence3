@@ -12,8 +12,8 @@ enum class ESound_Name
 class CSound_Manager : public CResourceManager<ESound_Name, sf::SoundBuffer>
 {
 	public:
-		CSound_Manager();
-		~CSound_Manager();
+		explicit CSound_Manager();
+		virtual ~CSound_Manager();
 
 	private:
 		std::map <ESound_Name, sf::SoundBuffer> m_sounds;

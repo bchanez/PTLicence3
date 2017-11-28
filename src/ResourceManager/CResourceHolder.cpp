@@ -1,12 +1,12 @@
 #include "CResourceHolder.hpp"
 #include "../Tools/DEBUG.hpp"
 
-CResourceHolder::CResourceHolder()
+/*explicit*/ CResourceHolder::CResourceHolder()
 {
   LOG("CResourceHolder Constructor\n");
 }
 
-CResourceHolder::~CResourceHolder()
+/*virtual*/ CResourceHolder::~CResourceHolder()
 {
 	LOG("CResourceHolder Destructor\n");
 }

@@ -5,13 +5,13 @@
 
 namespace State
 {
-	CPlaying::CPlaying(CApplication & application)
+	/*explicit*/ CPlaying::CPlaying(CApplication & application)
 		: CGame_State(application)
 	{
 		LOG("CPlaying Constructor\n");
 	}
 
-	CPlaying::~CPlaying()
+	/*virtual*/ CPlaying::~CPlaying()
 	{
 		LOG("CPlaying Destructor\n");
 	}

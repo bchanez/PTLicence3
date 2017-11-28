@@ -1,12 +1,12 @@
 #include "CPNJ.hpp"
 #include "../Tools/DEBUG.hpp"
 
-CPNJ::CPNJ()
+/*explicit*/ CPNJ::CPNJ()
 {
   LOG("CPNJ Constructor\n");
 }
 
-CPNJ::~CPNJ()
+/*virtual*/ CPNJ::~CPNJ()
 {
   LOG("CPNJ Destructor\n");
 }

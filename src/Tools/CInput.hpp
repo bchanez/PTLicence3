@@ -10,8 +10,8 @@ class CInput
 
 public:
 
-	CInput();
-	~CInput();
+	explicit CInput();
+	virtual ~CInput();
 
 	Button	getButton(void) const;
 

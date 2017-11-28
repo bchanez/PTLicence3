@@ -9,8 +9,8 @@
 class CApplication
 {
 public:
-	CApplication();
-	~CApplication();
+	explicit CApplication();
+	virtual ~CApplication();
 
 	void runMainLoop();
 

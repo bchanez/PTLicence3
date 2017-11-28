@@ -6,12 +6,12 @@
 #include <cctype>
 #include <string>
 
-CMap::CMap()
+/*explicit*/ CMap::CMap()
 {
   LOG("CMap Constructor\n");
 }
 
-CMap::~CMap()
+/*virtual*/ CMap::~CMap()
 {
   LOG("CMap Destructor\n");
 }

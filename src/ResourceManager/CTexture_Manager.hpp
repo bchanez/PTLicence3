@@ -24,8 +24,8 @@ enum class ETexture_Name
 class CTexture_Manager : public CResourceManager<ETexture_Name, sf::Texture>
 {
 	public:
-		CTexture_Manager();
-		~CTexture_Manager();
+		explicit CTexture_Manager();
+		virtual ~CTexture_Manager();
 
 	private:
 		std::map <ETexture_Name, sf::Texture> m_textures;

@@ -2,14 +2,14 @@
 #include <iostream>
 #include "DEBUG.hpp"
 
-CAnimation::CAnimation()
+/*explicit*/ CAnimation::CAnimation()
 {
   LOG("CAnimation Constructor\n");
 
   m_currentFrame = 0;
 }
 
-CAnimation::~CAnimation()
+/*virtual*/ CAnimation::~CAnimation()
 {
   LOG("CAnimation Destructor\n");
 }
@@ -41,5 +41,5 @@ const sf::IntRect CAnimation::getCurrentFrame()
 
 void CAnimation::restart(void)
 {
-  m_currentFrame = m_frames.size();
+  m_currentFrame = 0;
 }

@@ -10,8 +10,8 @@ namespace State
 	class CGame_State
 	{
 	public:
-		CGame_State(CApplication& application);
-		~CGame_State();
+		explicit CGame_State(CApplication& application);
+		virtual ~CGame_State();
 
 		virtual void input() = 0;
 		virtual void update(float dt)	= 0;

@@ -1,14 +1,13 @@
 #include "CCharacter.hpp"
 #include "../Tools/DEBUG.hpp"
 
-CCharacter::CCharacter(void)
+/*explicit*/ CCharacter::CCharacter(void)
 {
   LOG("CCharacter Constructor\n");
 
   m_position = sf::Vector2f(0.f, 0.f);
   m_sprite.setPosition(m_position);
-
-  m_move_speed = 1;
+  m_sprite.setOrigin(sf::Vector2f(20, 30));
 
   m_state = e_idle;
   m_orientation = e_right;
@@ -17,7 +16,7 @@ CCharacter::CCharacter(void)
   setAnimation();
 }
 
-CCharacter::~CCharacter(void)
+/*virtual*/ CCharacter::~CCharacter(void)
 {
   LOG("CCharacter Destructor\n");
 }
@@ -78,9 +77,15 @@ void CCharacter::update(float dt)
 
       // mise a jour de l'animation
       if (m_orientation == e_right)
+      {
+        m_animation[e_walk_right].restart();
         m_sprite.setTextureRect(m_animation[e_walk_right].getCurrentFrame());
+      }
       else if (m_orientation == e_left)
+      {
+        m_animation[e_walk_left].restart();
         m_sprite.setTextureRect(m_animation[e_walk_left].getCurrentFrame());
+      }
     }
     break;
 
@@ -95,8 +100,6 @@ void CCharacter::update(float dt)
       if(!m_input.getButton().left && !m_input.getButton().right && !m_input.getButton().up  && !m_input.getButton().down)
       {
         m_state = e_idle;
-        m_animation[e_walk_right].restart();
-        m_animation[e_walk_left].restart();
       }
       else
         if(m_input.getButton().shift)
@@ -130,8 +133,6 @@ void CCharacter::update(float dt)
       if(!m_input.getButton().left && !m_input.getButton().right && !m_input.getButton().up  && !m_input.getButton().down)
       {
         m_state = e_idle;
-        m_animation[e_walk_right].restart();
-        m_animation[e_walk_left].restart();
       }
       else
         if(!m_input.getButton().shift)

@@ -3,7 +3,7 @@
 #include "Tools/DEBUG.hpp"
 #include "StateEngine/CPlaying_State.hpp"
 
-CApplication::CApplication()
+/*explicit*/ CApplication::CApplication()
 {
 	LOG("CApplication Constructor\n");
 	CDisplay::init();
@@ -11,7 +11,7 @@ CApplication::CApplication()
 	pushState(std::make_unique<State::CPlaying>(*this));
 }
 
-CApplication::~CApplication()
+/*virtual*/ CApplication::~CApplication()
 {
 	LOG("CApplication Destructor\n");
 }

@@ -2,14 +2,14 @@
 #include <iostream>
 #include "DEBUG.hpp"
 
-CInput::CInput()
+/*explicit*/ CInput::CInput()
 {
   LOG("CInput Constructor\n");
 
 	button.left = button.right = button.up = button.down = button.shift = false;
 }
 
-CInput::~CInput()
+/*virtual*/CInput::~CInput()
 {
   LOG("CInput Destructor\n");
 }

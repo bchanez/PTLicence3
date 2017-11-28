@@ -19,8 +19,8 @@ class CAnimation
     };
 
     public:
-      CAnimation();
-      ~CAnimation();
+      explicit CAnimation();
+      virtual ~CAnimation();
 
       void addFrame(const sf::IntRect& frame, float timeToNextFrame);
       const sf::IntRect getFrame();

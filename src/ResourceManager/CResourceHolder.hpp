@@ -8,8 +8,8 @@
 class CResourceHolder
 {
 	public:
-		CResourceHolder();
-		~CResourceHolder();
+		explicit CResourceHolder();
+		virtual ~CResourceHolder();
 
 		static const CResourceHolder& get();
 

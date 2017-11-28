@@ -10,8 +10,8 @@ class CPNJ : public CEntity
 {
   public:
 
-    CPNJ();
-    ~CPNJ();
+    explicit CPNJ();
+    virtual ~CPNJ();
 
     void update(float dt);
 
