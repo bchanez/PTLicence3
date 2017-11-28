@@ -21,8 +21,7 @@ void CAnimation::addFrame(const sf::IntRect& frame, float timeToNextFrame)
 
 const sf::IntRect CAnimation::getFrame()
 {
-  sf::Time elapsed = m_timer.getElapsedTime();
-  if (elapsed.asSeconds() >= m_frames[m_currentFrame].timeToNextFrame)
+  if (m_timer.getElapsedTime().asSeconds() >= m_frames[m_currentFrame].timeToNextFrame)
   {
       m_currentFrame++;
       if (m_currentFrame >= m_frames.size())

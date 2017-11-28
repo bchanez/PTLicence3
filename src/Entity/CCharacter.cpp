@@ -33,12 +33,12 @@ void CCharacter::setTexture(void)
   m_prerender.draw(spr);
   spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Hair_5));
   m_prerender.draw(spr);
-  /*spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Pants_1));
+  spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Pants_1));
   m_prerender.draw(spr);
   spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_TShirt_1));
   m_prerender.draw(spr);
 
-  */m_prerender.display();
+  m_prerender.display();
 
 
   m_sprite.setTexture(m_prerender.getTexture());
@@ -47,7 +47,7 @@ void CCharacter::setTexture(void)
 // definie les animations du personnage
 void CCharacter::setAnimation(void)
 {
-  for (int i = 0; i < m_nb_animation ; ++i)
+  for (unsigned int i = 0; i < m_nb_animation ; ++i)
     m_animation.push_back(CAnimation());
 
   for (int i = 0; i < 4 ; ++i)

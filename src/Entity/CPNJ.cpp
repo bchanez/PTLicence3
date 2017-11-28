@@ -1,16 +1,19 @@
 #include "CPNJ.hpp"
 #include "../Tools/DEBUG.hpp"
+#include "../Tools/CRandom.hpp"
 
 /*explicit*/ CPNJ::CPNJ()
 {
   LOG("CPNJ Constructor\n");
 
-  m_position = sf::Vector2f(960.f, 540.f);
+  m_position = sf::Vector2f(CRandom::floatInRange(100.f, 1820.f), CRandom::floatInRange(100.f, 980.f));
   m_sprite.setPosition(m_position);
   m_sprite.setOrigin(sf::Vector2f(20, 30));
 
   m_state = e_idle;
   m_orientation = e_right;
+
+  m_goal_point = sf::Vector2i(0, 0);
 
   setTexture();
   setAnimation();
@@ -43,7 +46,7 @@ void CPNJ::setTexture(void)
 // definie les animations du pnj
 void CPNJ::setAnimation(void)
 {
-  for (int i = 0; i < m_nb_animation ; ++i)
+  for (unsigned int i = 0; i < m_nb_animation ; ++i)
     m_animation.push_back(CAnimation());
 
   for (int i = 0; i < 4 ; ++i)
@@ -59,23 +62,66 @@ void CPNJ::update(float dt)
   {
     case e_idle :
     {
+      if (CRandom::intInRange(0, 1000) == 0)
+      {
+        m_goal_point = sf::Vector2i(CRandom::intInRange(100, 1820), CRandom::intInRange(100, 980));
+        m_state = e_walk;
+      }
+      else if (CRandom::intInRange(0, 500) == 0)
+      {
+        m_orientation = 1 - m_orientation;
+      }
 
+
+      // mise a jour de l'animation
+      if (m_orientation == e_right)
+      {
+        m_animation[e_walk_right].restart();
+        m_sprite.setTextureRect(m_animation[e_walk_right].getCurrentFrame());
+      }
+      else if (m_orientation == e_left)
+      {
+        m_animation[e_walk_left].restart();
+        m_sprite.setTextureRect(m_animation[e_walk_left].getCurrentFrame());
+      }
     }
     break;
 
     case e_walk :
+    {
+      m_move_speed = WALK_SPEED;
+      if(m_goal_point.x < (int) m_position.x) { m_position.x += -(m_move_speed * dt); m_orientation = e_left; }
+      if(m_goal_point.x > (int) m_position.x) { m_position.x += m_move_speed * dt; m_orientation = e_right; }
+      if(m_goal_point.y < (int) m_position.y) m_position.y += -(m_move_speed * dt);
+      if(m_goal_point.y > (int) m_position.y) m_position.y += m_move_speed * dt;
+
+      if((sf::Vector2i)m_position == m_goal_point)
+        m_state = e_idle;
+
+      // mise a jour de la position
+      m_sprite.setPosition(m_position);
+
+      // mise a jour de l'animation
+      if (m_orientation == e_right)
+      {
+        m_animation[e_walk_left].restart();
+        m_sprite.setTextureRect(m_animation[e_walk_right].getFrame());
+      }
+      else if (m_orientation == e_left)
+      {
+        m_animation[e_walk_right].restart();
+        m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
+      }
+    }
+    break;
+
+    case e_action :
     {
 
     }
     break;
 
     case e_run :
-    {
-
-    }
-    break;
-
-    case e_action :
     {
 
     }

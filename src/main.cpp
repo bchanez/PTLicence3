@@ -1,8 +1,10 @@
 #include "CApplication.hpp"
-#include <iostream>
+#include "Tools/CRandom.hpp"
 
 int main()
 {
+	CRandom::init();
+
 	CApplication game;
 	game.runMainLoop();	// Lancement du jeu
 

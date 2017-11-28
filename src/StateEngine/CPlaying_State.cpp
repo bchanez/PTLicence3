@@ -3,12 +3,16 @@
 #include "../Tools/DEBUG.hpp"
 #include <iostream>
 
+#define NB_PNJ 15
+
 namespace State
 {
 	/*explicit*/ CPlaying::CPlaying(CApplication & application)
 		: CGame_State(application)
 	{
 		LOG("CPlaying Constructor\n");
+
+		//m_listPNJ.assign(NB_PNJ, CPNJ());
 	}
 
 	/*virtual*/ CPlaying::~CPlaying()
@@ -18,16 +22,22 @@ namespace State
 
 	void State::CPlaying::input()
 	{
-		character.getInput().gestionInputs();
+		m_character.getInput().gestionInputs();
 	}
 
 	void CPlaying::update(float dt)
 	{
-		character.update(dt);
+		//for (unsigned int i = 0; i < m_listPNJ.size(); ++i)
+			//m_listPNJ[i].update(dt);
+
+		m_character.update(dt);
 	}
 
 	void CPlaying::draw()
 	{
-		CDisplay::draw(character);
+		//for (unsigned int i = 0; i < m_listPNJ.size(); ++i)
+			//CDisplay::draw(m_listPNJ[i]);
+
+		CDisplay::draw(m_character);
 	}
 }

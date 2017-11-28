@@ -4,8 +4,6 @@
 #include "CEntity.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"
 #include "../Tools/CInput.hpp"
-#include <iostream>
-
 
 class CCharacter : public CEntity
 {
@@ -25,8 +23,8 @@ class CCharacter : public CEntity
     CInput m_input;
     enum Estate {e_idle, e_walk, e_run, e_action, e_dead, e_disappear};
 
-    int m_nb_animation = 2;
     enum EAnimation {e_walk_right, e_walk_left};
+    unsigned int m_nb_animation = 2;
 };
 
 #endif

@@ -3,7 +3,6 @@
 
 #include "CEntity.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"
-#include <iostream>
 
 class CPNJ : public CEntity
 {
@@ -18,10 +17,12 @@ class CPNJ : public CEntity
 
   private:
 
-    enum state {e_idle, e_walk, e_run, e_action, e_wander, e_question, e_dead, e_disappear};
+    enum state {e_idle, e_walk, e_action, e_run, e_wander, e_question, e_dead, e_disappear};
 
-    int m_nb_animation = 2;
     enum EAnimation {e_walk_right, e_walk_left};
+    unsigned int m_nb_animation = 2;
+
+    sf::Vector2i m_goal_point;
 };
 
 #endif

@@ -2,10 +2,7 @@
 #define CENTITY_HPP_
 
 #include <SFML/Graphics.hpp>
-
 #include "../Tools/CAnimation.hpp"
-#include <vector>
-#include <iostream>
 
 #define WALK_SPEED 60
 #define RUN_SPEED 120
@@ -34,8 +31,8 @@ class CEntity : public sf::Drawable
     enum Eorientation {e_right, e_left};
     unsigned int m_orientation;
 
-    int m_nb_animation;
     enum EAnimation {};
+    unsigned int m_nb_animation;
     std::vector<CAnimation> m_animation;
 
 

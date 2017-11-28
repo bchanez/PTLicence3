@@ -2,9 +2,10 @@
 #define PLAYING_STATE_HPP_
 
 #include "CGame_State.hpp"
-#include "../Tools/CAnimation.hpp"
-#include "../Tools/CInput.hpp"
+#include "../Entity/CMap.hpp"
+#include "../Entity/CPNJ.hpp"
 #include "../Entity/CCharacter.hpp"
+#include <list>
 
 namespace State
 {
@@ -19,8 +20,9 @@ namespace State
 		void draw() override;
 
 	private:
-		CInput m_input;
-		CCharacter character;
+		CMap m_map;
+		//std::list<CPNJ> m_listPNJ;
+		CCharacter m_character;
 	};
 }
 
