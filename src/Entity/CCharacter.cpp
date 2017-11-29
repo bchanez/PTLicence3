@@ -99,27 +99,31 @@ void CCharacter::update(float dt)
       if(m_input.getButton().down) m_position.y += m_move_speed * dt;
 
       if(!m_input.getButton().left && !m_input.getButton().right && !m_input.getButton().up  && !m_input.getButton().down)
-      {
         m_state = e_idle;
-      }
       else
         if(m_input.getButton().shift)
           m_state = e_run;
 
-      // mise a jour de la position
-      m_sprite.setPosition(m_position);
 
-      // mise a jour de l'animation
-      if (m_orientation == e_right)
+      if (m_position != m_sprite.getPosition())
       {
-        m_animation[e_walk_left].restart();
-        m_sprite.setTextureRect(m_animation[e_walk_right].getFrame());
+        // mise a jour de la position
+        m_sprite.setPosition(m_position);
+
+        // mise a jour de l'animation
+        if (m_orientation == e_right)
+        {
+          m_animation[e_walk_left].restart();
+          m_sprite.setTextureRect(m_animation[e_walk_right].getFrame());
+        }
+        else if (m_orientation == e_left)
+        {
+          m_animation[e_walk_right].restart();
+          m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
+        }
       }
-      else if (m_orientation == e_left)
-      {
-        m_animation[e_walk_right].restart();
-        m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
-      }
+      else
+        m_state = e_idle;
     }
     break;
 
@@ -132,27 +136,30 @@ void CCharacter::update(float dt)
       if(m_input.getButton().down) m_position.y += m_move_speed * dt;
 
       if(!m_input.getButton().left && !m_input.getButton().right && !m_input.getButton().up  && !m_input.getButton().down)
-      {
         m_state = e_idle;
-      }
       else
         if(!m_input.getButton().shift)
           m_state = e_walk;
 
-      // mise a jour de la position
-      m_sprite.setPosition(m_position);
+      if (m_position != m_sprite.getPosition())
+      {
+        // mise a jour de la position
+        m_sprite.setPosition(m_position);
 
-      // mise a jour de l'animation
-      if (m_orientation == e_right)
-      {
-        m_animation[e_walk_left].restart();
-        m_sprite.setTextureRect(m_animation[e_walk_right].getFrame());
+        // mise a jour de l'animation
+        if (m_orientation == e_right)
+        {
+          m_animation[e_walk_left].restart();
+          m_sprite.setTextureRect(m_animation[e_walk_right].getFrame());
+        }
+        else if (m_orientation == e_left)
+        {
+          m_animation[e_walk_right].restart();
+          m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
+        }
       }
-      else if (m_orientation == e_left)
-      {
-        m_animation[e_walk_right].restart();
-        m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
-      }
+      else
+        m_state = e_idle;
     }
     break;
 

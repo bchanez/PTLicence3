@@ -98,20 +98,25 @@ void CPNJ::update(float dt)
       if((sf::Vector2i)m_position == m_goal_point)
         m_state = e_idle;
 
-      // mise a jour de la position
-      m_sprite.setPosition(m_position);
+      if (m_position != m_sprite.getPosition())
+      {
+        // mise a jour de la position
+        m_sprite.setPosition(m_position);
 
-      // mise a jour de l'animation
-      if (m_orientation == e_right)
-      {
-        m_animation[e_walk_left].restart();
-        m_sprite.setTextureRect(m_animation[e_walk_right].getFrame());
+        // mise a jour de l'animation
+        if (m_orientation == e_right)
+        {
+          m_animation[e_walk_left].restart();
+          m_sprite.setTextureRect(m_animation[e_walk_right].getFrame());
+        }
+        else if (m_orientation == e_left)
+        {
+          m_animation[e_walk_right].restart();
+          m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
+        }
       }
-      else if (m_orientation == e_left)
-      {
-        m_animation[e_walk_right].restart();
-        m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
-      }
+      else
+        m_state = e_idle;
     }
     break;
 

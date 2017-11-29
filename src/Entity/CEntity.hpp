@@ -15,7 +15,7 @@ class CEntity : public sf::Drawable
     virtual ~CEntity(void);
 
     virtual void setTexture(void);
-    virtual void update(void);
+    virtual void update(float dt);
 
   protected:
 
