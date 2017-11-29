@@ -5,6 +5,9 @@
 #include "../Entity/CMap.hpp"
 #include "../Entity/CPNJ.hpp"
 #include "../Entity/CCharacter.hpp"
+#include "../Tools/CDisplay.hpp"
+#include "../Tools/DEBUG.hpp"
+#include <iostream>
 #include <memory>
 #include <vector>
 

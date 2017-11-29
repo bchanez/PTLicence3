@@ -12,7 +12,8 @@ void CDisplay::init()
 	window.get()->setKeyRepeatEnabled(false);
 
 	//Création de la vue du jeu
-	m_zoom = 2;
+	int m_zoom = 2;
+	sf::View m_view;
 	m_view.setSize(1920.f/m_zoom, 1080.f/m_zoom);
 	m_view.setCenter(1920.f/m_zoom/2, 1080.f/m_zoom/2);
 	window.get()->setView(m_view);

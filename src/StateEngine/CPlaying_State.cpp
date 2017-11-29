@@ -1,7 +1,4 @@
 #include "CPlaying_State.hpp"
-#include "../Tools/CDisplay.hpp"
-#include "../Tools/DEBUG.hpp"
-#include <iostream>
 
 #define NB_PNJ 15
 
@@ -35,7 +32,7 @@ namespace State
 
 		m_character.update(dt);
 	}
- 
+
 	void CPlaying::draw()
 	{
 		for (unsigned int i = 0; i < m_listPNJ.size(); ++i)

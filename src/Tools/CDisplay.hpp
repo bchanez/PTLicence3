@@ -24,8 +24,8 @@ namespace CDisplay
 	constexpr int FULL_SCREEN_WIDTH = 1920;
 	constexpr int FULL_SCREEN_HEIGHT = 1080;
 
-	sf::View m_view;
-	int m_zoom;
+	extern sf::View m_view;
+	extern int m_zoom;
 
 }
 
