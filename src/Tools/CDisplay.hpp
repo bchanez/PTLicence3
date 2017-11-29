@@ -20,6 +20,13 @@ namespace CDisplay
 	// Taille de la fenetre en WINDOWED : 960x540 pixels
 	constexpr int WINDOWED_SCREEN_WIDTH = 960;
 	constexpr int WINDOWED_SCREEN_HEIGHT = 540;
+	// Taille de la fenetre en FULLSCREEN : 1920x1080 pixels
+	constexpr int FULL_SCREEN_WIDTH = 1920;
+	constexpr int FULL_SCREEN_HEIGHT = 1080;
+
+	sf::View m_view;
+	int m_zoom;
+
 }
 
 #endif
