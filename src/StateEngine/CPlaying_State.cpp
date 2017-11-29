@@ -3,7 +3,7 @@
 #include "../Tools/DEBUG.hpp"
 #include <iostream>
 
-
+#define NB_PNJ 15
 
 namespace State
 {
@@ -12,12 +12,14 @@ namespace State
 	{
 		LOG("CPlaying Constructor\n");
 
-		//for (int i = 0; i < NB_PNJ; ++i)
-			//m_listPNJ.push_back(CPNJ());
+		for(int i = 0; i < NB_PNJ; i++)
+			m_listPNJ.push_back(std::make_unique<CPNJ>());
+		//m_listPNJ.assign(NB_PNJ, std::make_unique<CPNJ>);
 	}
 
 	/*virtual*/ CPlaying::~CPlaying()
 	{
+		m_listPNJ.clear();
 		LOG("CPlaying Destructor\n");
 	}
 
@@ -28,16 +30,16 @@ namespace State
 
 	void CPlaying::update(float dt)
 	{
-		for (int i = 0; i < NB_PNJ; ++i)
-			m_listPNJ[i].update(dt);
+		for (unsigned int i = 0; i < m_listPNJ.size(); ++i)
+			m_listPNJ[i].get()->update(dt);
 
 		m_character.update(dt);
 	}
-
+ 
 	void CPlaying::draw()
 	{
-		for (int i = 0; i < NB_PNJ; ++i)
-			CDisplay::draw(m_listPNJ[i]);
+		for (unsigned int i = 0; i < m_listPNJ.size(); ++i)
+			CDisplay::draw(*(m_listPNJ[i].get()));
 
 		CDisplay::draw(m_character);
 	}

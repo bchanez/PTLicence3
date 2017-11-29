@@ -5,10 +5,8 @@
 #include "../Entity/CMap.hpp"
 #include "../Entity/CPNJ.hpp"
 #include "../Entity/CCharacter.hpp"
-#include <list>
-#include <iostream>
-
-#define NB_PNJ 15
+#include <memory>
+#include <vector>
 
 namespace State
 {
@@ -24,8 +22,7 @@ namespace State
 
 	private:
 		CMap m_map;
-		//std::list<CPNJ> m_listPNJ;
-		CPNJ m_listPNJ[NB_PNJ];
+		std::vector<std::unique_ptr<CPNJ>> m_listPNJ;
 		CCharacter m_character;
 	};
 }
