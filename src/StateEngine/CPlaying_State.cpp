@@ -3,7 +3,7 @@
 #include "../Tools/DEBUG.hpp"
 #include <iostream>
 
-#define NB_PNJ 15
+
 
 namespace State
 {
@@ -12,7 +12,8 @@ namespace State
 	{
 		LOG("CPlaying Constructor\n");
 
-		m_listPNJ.assign(NB_PNJ, CPNJ());
+		//for (int i = 0; i < NB_PNJ; ++i)
+			//m_listPNJ.push_back(CPNJ());
 	}
 
 	/*virtual*/ CPlaying::~CPlaying()
@@ -27,7 +28,7 @@ namespace State
 
 	void CPlaying::update(float dt)
 	{
-		for (unsigned int i = 0; i < m_listPNJ.size(); ++i)
+		for (int i = 0; i < NB_PNJ; ++i)
 			m_listPNJ[i].update(dt);
 
 		m_character.update(dt);
@@ -35,7 +36,7 @@ namespace State
 
 	void CPlaying::draw()
 	{
-		for (unsigned int i = 0; i < m_listPNJ.size(); ++i)
+		for (int i = 0; i < NB_PNJ; ++i)
 			CDisplay::draw(m_listPNJ[i]);
 
 		CDisplay::draw(m_character);
