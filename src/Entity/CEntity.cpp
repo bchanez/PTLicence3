@@ -13,4 +13,4 @@
 
 /*virtual*/ void CEntity::setTexture(void) {}
 
-/*virtual*/ void CEntity::update(float dt) {}
+/*virtual*/ void CEntity::update(void) {}

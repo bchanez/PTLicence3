@@ -15,7 +15,7 @@ class CEntity : public sf::Drawable
     virtual ~CEntity(void);
 
     virtual void setTexture(void);
-    virtual void update(float dt);
+    virtual void update(void);
 
   protected:
 
@@ -36,7 +36,7 @@ class CEntity : public sf::Drawable
     std::vector<CAnimation> m_animation;
 
 
-    //Fonction pour afficher le sprite
+    //Fonction pour afficher les sprites herite
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
         target.draw(m_sprite, states);

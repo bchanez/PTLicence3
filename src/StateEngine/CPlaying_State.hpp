@@ -21,7 +21,7 @@ namespace State
 
 	private:
 		CMap m_map;
-		//std::list<CPNJ> m_listPNJ;
+		std::list<CPNJ> m_listPNJ;
 		CCharacter m_character;
 	};
 }
