@@ -17,7 +17,7 @@ class CEvent: public CEntity
     void setAnimation(void);
     void update(float dt);
 
-  private:
+  protected:
 
     enum Estate {};
 
