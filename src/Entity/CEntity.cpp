@@ -10,6 +10,4 @@
   LOG("CEntity Destructor\n");
 }
 
-/*virtual*/ void CEntity::setTexture(void) {}
-
 /*virtual*/ void CEntity::update(float dt) {}

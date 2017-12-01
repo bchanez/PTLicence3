@@ -5,15 +5,18 @@
 #include <fstream>
 #include <cctype>
 #include <string>
+#include "CDrawable.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"
 #include "../Tools/DEBUG.hpp"
 
-class CMap
+class CMap : public CDrawable
 {
 	public:
 
 		explicit CMap();
 		virtual ~CMap();
+
+		void setTexture(void);
 
 	protected:
 

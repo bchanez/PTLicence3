@@ -9,3 +9,8 @@
 {
   LOG("CMap Destructor\n");
 }
+
+void CMap::setTexture(void)
+{
+
+}
