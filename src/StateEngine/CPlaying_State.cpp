@@ -11,7 +11,7 @@ namespace State
 
 		for(int i = 0; i < NB_PNJ; i++)
 			m_listPNJ.push_back(std::make_unique<CPNJ>());
-		//m_listPNJ.assign(NB_PNJ, std::make_unique<CPNJ>);
+
 	}
 
 	/*virtual*/ CPlaying::~CPlaying()
@@ -35,6 +35,8 @@ namespace State
 
 	void CPlaying::draw()
 	{
+		CDisplay::draw(m_map);
+
 		for (unsigned int i = 0; i < m_listPNJ.size(); ++i)
 			CDisplay::draw(*(m_listPNJ[i].get()));
 
