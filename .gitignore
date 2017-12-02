@@ -4,3 +4,5 @@
 /bin/*
 /rsc/graphics/*.gif
 /rsc/graphics/*.ase
+app
+*.o
