@@ -11,3 +11,8 @@
 }
 
 /*virtual*/ void CEntity::update(float dt) {}
+
+sf::Vector2f CEntity::getPosition(void)
+{
+  return m_position;
+}

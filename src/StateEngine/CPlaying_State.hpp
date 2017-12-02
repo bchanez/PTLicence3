@@ -24,9 +24,14 @@ namespace State
 			void draw() override;
 
 		private:
+
+			void updateDepthOfEntity(void);
+
+
 			CMap m_map;
-			std::vector<std::unique_ptr<CPNJ>> m_listPNJ;
-			CCharacter m_character;
+
+			std::vector<std::unique_ptr<CEntity>> m_listEntite; // joueur, pnj, evenement
+			unsigned int m_indiceCharacter; // variable qui stoque l'indice du character dans le tableau
 	};
 }
 

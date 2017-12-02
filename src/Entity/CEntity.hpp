@@ -17,6 +17,7 @@ class CEntity : public CDrawable
     virtual ~CEntity(void);
 
     virtual void update(float dt);
+    sf::Vector2f getPosition(void);
 
   protected:
 
