@@ -26,7 +26,7 @@ namespace State
 		private:
 
 			void updateDepthOfEntity(void);
-
+			void quickSort(std::vector<std::unique_ptr<CEntity>> tableau, int debut, int fin);
 
 			CMap m_map;
 

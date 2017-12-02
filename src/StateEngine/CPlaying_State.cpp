@@ -26,7 +26,7 @@ namespace State
 		LOG("CPlaying Destructor\n");
 	}
 
-	void State::CPlaying::input()
+	void CPlaying::input()
 	{
 		// met a jour les touches appuyees pour le personnage
 		dynamic_cast<CCharacter *>(m_listEntite[m_indiceCharacter].get())->getInput().gestionInputs();
@@ -40,6 +40,7 @@ namespace State
 
 		// update de la profondeur des Entity
 		updateDepthOfEntity();
+		//quickSort(m_listEntite, 0, (int)m_listEntite.size() - 1);
 	}
 
 	void CPlaying::draw()
@@ -68,4 +69,37 @@ namespace State
 									m_indiceCharacter = i;
 						}
 	}
+
+
+	void CPlaying::quickSort(std::vector<std::unique_ptr<CEntity>> tableau, int debut, int fin)
+	{
+			int gauche = debut-1;
+			int droite = fin+1;
+			const float pivot = tableau[debut]->getPosition().y;
+
+			if(debut >= fin)
+					return;
+
+			while(1)
+			{
+					do droite--; while(tableau[droite]->getPosition().y > pivot);
+					do gauche++; while(tableau[gauche]->getPosition().y < pivot);
+
+					if(gauche < droite)
+					{
+						std::swap(tableau[gauche], tableau[droite]);
+
+						// change l'indice de la position du character dans le tableau
+						if (gauche == m_indiceCharacter)
+							m_indiceCharacter = droite;
+						else if (droite == m_indiceCharacter)
+							m_indiceCharacter = gauche;
+					}
+					else break;
+			}
+
+			quickSort(tableau, debut, droite);
+			quickSort(tableau, droite+1, fin);
+	}
+
 }
