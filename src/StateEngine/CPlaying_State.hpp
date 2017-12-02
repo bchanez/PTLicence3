@@ -25,13 +25,12 @@ namespace State
 
 		private:
 
-			void updateDepthOfEntity(void);
-			void quickSort(std::vector<std::unique_ptr<CEntity>> tableau, int debut, int fin);
+			void quickSort(std::vector<std::unique_ptr<CEntity>>& tableau, int debut, int fin);
 
 			CMap m_map;
 
 			std::vector<std::unique_ptr<CEntity>> m_listEntite; // joueur, pnj, evenement
-			unsigned int m_indiceCharacter; // variable qui stoque l'indice du character dans le tableau
+			int m_indiceCharacter; // variable qui stoque l'indice du character dans le tableau
 	};
 }
 

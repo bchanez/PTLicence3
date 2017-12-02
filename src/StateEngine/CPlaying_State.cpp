@@ -39,8 +39,8 @@ namespace State
 			m_listEntite[i]->update(dt);
 
 		// update de la profondeur des Entity
-		updateDepthOfEntity();
-		//quickSort(m_listEntite, 0, (int)m_listEntite.size() - 1);
+		//updateDepthOfEntity();
+		quickSort(m_listEntite, 0, (int)m_listEntite.size() - 1);
 	}
 
 	void CPlaying::draw()
@@ -53,25 +53,7 @@ namespace State
 			CDisplay::draw(*(m_listEntite[i].get()));
 	}
 
-	void CPlaying::updateDepthOfEntity(void)
-	{
-		// trie par ordre decroisant de la position sur l'axe y
-		for(unsigned int i = 0; i < m_listEntite.size(); ++i)
-				for(unsigned int j = i; j < m_listEntite.size(); ++j)
-						if(m_listEntite[j]->getPosition().y < m_listEntite[i]->getPosition().y)
-						{
-								std::swap(m_listEntite[j], m_listEntite[i]);
-
-								// change l'indice de la position du character dans le tableau
-								if (i == m_indiceCharacter)
-									m_indiceCharacter = j;
-								else if (j == m_indiceCharacter)
-									m_indiceCharacter = i;
-						}
-	}
-
-
-	void CPlaying::quickSort(std::vector<std::unique_ptr<CEntity>> tableau, int debut, int fin)
+	void CPlaying::quickSort(std::vector<std::unique_ptr<CEntity>>& tableau, int debut, int fin)
 	{
 			int gauche = debut-1;
 			int droite = fin+1;
