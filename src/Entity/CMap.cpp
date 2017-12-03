@@ -12,9 +12,120 @@
   LOG("CMap Destructor\n");
 }
 
+int CMap::rand_a_b(int a, int b)
+{
+  srand(time(NULL));
+  return rand()%(b-a) +a;
+}
+
+void CMap::genMap(void)
+{
+  //Codes
+  //Coin HG 0.0
+  //Bordure MG 0.1
+  //Coin BG 0.2
+  //Bordure MH 1.0
+  //Full 1.1
+  //Bordure MB 1.2
+  //Coin HD 2.0
+  //Bordure MD 2.1
+  //Coin BD 2.2
+  //Trou BD 3.0
+  //Trou BG 5.0
+  //Trou HD 3.3
+  //Trou HG 5.3
+
+  //Règles:
+  //nB Trous >= 1 && < 3
+  //nB Sorties = 4 (une par côté)
+  //nB event => A decider
+
+  std::string map_to_write[21][24];
+  for (size_t i = 0; i < 21; i++) {
+    for (size_t j = 0; j < 24; j++) {
+      map_to_write[i][j] = "x,x";
+    }
+  }
+
+  std::ofstream outfile ("rsc/map/test.txt");
+
+  //Sorties
+  int exit_up, exit_down, exit_right, exit_left;
+  exit_up = rand_a_b(0,20);
+  exit_right = rand_a_b(0,23);
+  exit_down = rand_a_b(0,20);
+  exit_left = rand_a_b(0,23);
+  map_to_write[exit_up][0] = "1,1";
+  map_to_write[exit_down][23] = "1,1";
+  map_to_write[0][exit_right] = "1,1";
+  map_to_write[20][exit_left] = "1,1";
+
+  std::string line = "";
+  outfile << "tiles.png" << std::endl;
+
+  for (size_t i = 0; i < 21; i++) {
+    line = "";
+
+    for (size_t j = 0; j < 24; j++) {
+      if(map_to_write[i][j] == "x,x"){
+        if(i == 0){
+          //Bordure gauche
+
+          map_to_write[i][j] = "1,0";
+        }
+        else if(j == 0){
+          //Bordure haut
+
+          map_to_write[i][j] = "0,1";
+
+          //Une sortie
+        }
+        else if(i == 20){
+          //Bordure droite
+
+          map_to_write[i][j] = "1,2";
+
+        }else if(j == 23){
+          //Bordure bas
+
+          map_to_write[i][j] = "2,1";
+
+          //Une sortie
+        }
+        else{
+          //Coeur de la map
+
+          map_to_write[i][j] = "1,1";
+
+          //nbTrous
+        }
+      }
+      if(j != 23){
+        line = line + map_to_write[i][j] + " ";
+      }else{
+        line = line + map_to_write[i][j];
+      }
+
+
+
+    }
+
+    outfile << line << std::endl;
+
+  }
+
+
+
+
+  outfile.close();
+}
+
 void CMap::setTexture(void)
 {
-  std::ifstream openfile("rsc/map/map.txt");
+  CMap::genMap();
+
+  //std::ifstream openfile("rsc/map/map.txt");
+  std::ifstream openfile("rsc/map/test.txt");
   sf::Texture tileTexture;  //Texture of the tile
   sf::Sprite tileSprite;    //Sprite of the tile
 

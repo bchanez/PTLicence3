@@ -3,8 +3,12 @@
 
 #include <SFML/Graphics.hpp>
 #include <fstream>
+#include <iostream>
 #include <cctype>
 #include <string>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include "CDrawable.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"
 #include "../Tools/DEBUG.hpp"
@@ -21,6 +25,8 @@ class CMap : public CDrawable
 		virtual ~CMap();
 
 		void setTexture(void);
+		void genMap(void);
+		int rand_a_b(int a, int b);
 
 	protected:
 
