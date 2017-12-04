@@ -45,19 +45,19 @@ void CEvent_pub::update(float dt)
   {
     case e_idle :
     {
-      m_sprite.setTextureRect(m_animation[e_idle].getCurrentFrame());
+      m_sprite.setTextureRect(m_animation[e_idle].getFrame());
     }
     break;
 
     case e_call :
     {
-      m_sprite.setTextureRect(m_animation[e_call].getCurrentFrame());
+      m_sprite.setTextureRect(m_animation[e_call].getFrame());
     }
     break;
 
     case e_active :
     {
-      m_sprite.setTextureRect(m_animation[e_active].getCurrentFrame());
+      m_sprite.setTextureRect(m_animation[e_active].getFrame());
     }
     break;
 
