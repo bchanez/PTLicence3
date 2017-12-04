@@ -32,7 +32,7 @@ void CPNJ::setTexture(void)
   sf::Sprite spr;
   spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Characters));
   m_prerender.draw(spr);
-  spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Hair_5));
+  spr.setTexture(CResourceHolder::get().texture((ETexture_Name)(rand()%8+1)));
   m_prerender.draw(spr);
 
   m_prerender.display();
