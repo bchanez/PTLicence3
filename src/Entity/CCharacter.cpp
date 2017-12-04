@@ -186,4 +186,10 @@ void CCharacter::update(float dt)
 
     default : {} break;
   }
+
+
+  sf::View &vi = CDisplay::getView();
+  vi.setCenter(m_position);
+  CDisplay::getWindow().setView(vi);
+
 }

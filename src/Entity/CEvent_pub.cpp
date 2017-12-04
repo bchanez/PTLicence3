@@ -29,7 +29,7 @@ void CEvent_pub::setAnimation(void)
   for (unsigned int i = 0; i < m_nb_animation ; ++i)
     m_animation.push_back(CAnimation());
 
-  for (int i = 0; i < 4 ; ++i)
+  for (int i = 0; i < m_nb_animation ; ++i)
   {
     m_animation[e_idle].addFrame(sf::IntRect(i * 100, 0, 100, 80), 0.1f);
     m_animation[e_call].addFrame(sf::IntRect(i * 100, 80, 100, 80), 0.1f);
@@ -61,7 +61,7 @@ void CEvent_pub::update(float dt)
       m_sprite.setTextureRect(m_animation[e_active].getCurrentFrame());
     }
     break;
-    
+
     default : {} break;
   }
 }

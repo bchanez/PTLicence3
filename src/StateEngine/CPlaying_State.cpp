@@ -19,7 +19,7 @@ namespace State
 
 		// ajout des evenement
 
-		m_listEntite.push_back(std::make_unique<CEvent_pub>());
+		//m_listEntite.push_back(std::make_unique<CEvent_pub>());
 		//m_listEntite[m_listEntite.size()-1].get()->setPosition(sf::Vector2f(300, 300));
 	}
 
