@@ -20,4 +20,5 @@ sf::Vector2f CEntity::getPosition(void)
 void CEntity::setPosition(sf::Vector2f pos)
 {
   m_position = pos;
+  m_sprite.setPosition(m_position);
 }

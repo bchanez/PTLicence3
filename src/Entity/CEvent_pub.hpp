@@ -19,8 +19,7 @@ class CEvent_pub: public CEvent
 
   private:
 
-
-    unsigned int m_nb_animation = 36;
+    unsigned int m_nb_animation = 3;
 };
 
 #endif
