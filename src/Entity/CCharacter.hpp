@@ -5,6 +5,7 @@
 #include "../ResourceManager/CResourceHolder.hpp"
 #include "../Tools/CInput.hpp"
 #include "../Tools/DEBUG.hpp"
+#include "../Tools/CDisplay.hpp"
 
 class CCharacter : public CEntity
 {
