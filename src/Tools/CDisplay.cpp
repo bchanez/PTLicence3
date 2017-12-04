@@ -62,7 +62,7 @@ sf::RenderWindow & CDisplay::getWindow()
 	return * m_window.get();
 }
 
-sf::View CDisplay::getView()
+sf::View& CDisplay::getView()
 {
 	return m_view;
 }

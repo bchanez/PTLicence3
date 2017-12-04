@@ -6,6 +6,7 @@
 #include "../Tools/CInput.hpp"
 #include "../Tools/DEBUG.hpp"
 #include "../Tools/CDisplay.hpp"
+#include <math.h>
 
 class CCharacter : public CEntity
 {
