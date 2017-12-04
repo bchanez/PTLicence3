@@ -33,9 +33,9 @@ void CEvent_pub::setAnimation(void)
 
   for (int i = 0; i < 36 ; ++i)
   {
-    m_animation[e_idle].addFrame(sf::IntRect(i * 100, 0, 100, 80), 0.1f);
-    m_animation[e_call].addFrame(sf::IntRect(i * 100, 80, 100, 80), 0.1f);
-    m_animation[e_active].addFrame(sf::IntRect(i * 100, 160, 100, 80), 0.1f);
+    m_animation[e_idle].addFrame(sf::IntRect(i * 200, 0, 200, 160), 0.1f);
+    m_animation[e_call].addFrame(sf::IntRect(i * 200, 160, 200, 160), 0.1f);
+    m_animation[e_active].addFrame(sf::IntRect(i * 200, 320, 200, 160), 0.1f);
   }
 }
 
