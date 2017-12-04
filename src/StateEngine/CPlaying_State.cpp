@@ -54,6 +54,7 @@ namespace State
 			CDisplay::draw(*(m_listEntite[i].get()));
 	}
 
+	// trie rapide des entites par rapport a leurs positions sur l'axe y
 	void CPlaying::quickSort(std::vector<std::unique_ptr<CEntity>>& tableau, int debut, int fin)
 	{
 			int gauche = debut-1;

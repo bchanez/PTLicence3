@@ -17,8 +17,8 @@ namespace CDisplay
 
 	bool isOpen();
 
-	sf::RenderWindow & getWindow();
-	sf::View & getView();
+	sf::RenderWindow * getWindow();
+	sf::View * getView();
 
 	// Taille de la fenetre en WINDOWED : 960x540 pixels
 	constexpr int WINDOWED_SCREEN_WIDTH = 960;
