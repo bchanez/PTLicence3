@@ -4,6 +4,10 @@
 {
   LOG("CCharacter Constructor\n");
 
+  CDisplay::getView().setSize(1920.f/2, 1080.f/2);
+  CDisplay::getView().setCenter(1920.f/2/2, 1080.f/2/2);
+  CDisplay::getWindow().setView(CDisplay::getView());
+
   m_position = sf::Vector2f(960.f, 540.f);
   m_sprite.setPosition(m_position);
   m_sprite.setOrigin(sf::Vector2f(20, 30));

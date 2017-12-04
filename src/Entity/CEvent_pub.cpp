@@ -29,7 +29,6 @@ void CEvent_pub::setAnimation(void)
   for (int i = 0; i < 4 ; ++i)
   {
     m_animation[e_walk_right].addFrame(sf::IntRect(i * 40, 0, 40, 40), 0.1f);
-    m_animation[e_walk_left].addFrame(sf::IntRect(i * 40, 40, 40, 40), 0.1f);
   }
 }
 
