@@ -1,5 +1,5 @@
-#ifndef CEvent_HPP_
-#define CEvent_HPP_
+#ifndef CEVENT_HPP_
+#define CEVENT_HPP_
 
 #include "CEntity.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"

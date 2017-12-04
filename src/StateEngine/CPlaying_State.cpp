@@ -39,7 +39,6 @@ namespace State
 			m_listEntite[i]->update(dt);
 
 		// update de la profondeur des Entity
-		//updateDepthOfEntity();
 		quickSort(m_listEntite, 0, (int)m_listEntite.size() - 1);
 	}
 
