@@ -19,10 +19,10 @@ class CEvent: public CEntity
 
   protected:
 
-    enum Estate {};
+    enum Estate {e_idle, e_call, e_active};
 
     enum EAnimation {};
-    unsigned int m_nb_animation = 0;
+    unsigned int m_nb_animation;
 };
 
 #endif

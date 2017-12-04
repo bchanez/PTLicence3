@@ -16,6 +16,7 @@
 	addResource(ETexture_Name::e_TShirt_1, "rsc/graphics/tshirt_1.png");
 	addResource(ETexture_Name::e_Pants_1, "rsc/graphics/pants_1.png");
 	addResource(ETexture_Name::e_TileMap_Grass, "rsc/graphics/tilemap_grass.png");
+	addResource(ETexture_Name::e_Pub, "rsc/graphics/pub.png");
 }
 
 /*virtual*/ CTexture_Manager::~CTexture_Manager()

@@ -19,10 +19,8 @@ class CEvent_pub: public CEvent
 
   private:
 
-    enum Estate {};
 
-    enum EAnimation {};
-    unsigned int m_nb_animation = 0;
+    unsigned int m_nb_animation = 32;
 };
 
 #endif

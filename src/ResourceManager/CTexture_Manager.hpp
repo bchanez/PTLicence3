@@ -19,7 +19,8 @@ enum class ETexture_Name
 	e_Hair_8,
 	e_TShirt_1,
 	e_Pants_1,
-	e_TileMap_Grass
+	e_TileMap_Grass,
+	e_Pub
 };
 
 class CTexture_Manager : public CResourceManager<ETexture_Name, sf::Texture>
