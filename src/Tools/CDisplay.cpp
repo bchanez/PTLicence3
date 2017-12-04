@@ -3,8 +3,9 @@
 #include <iostream>
 
 std::unique_ptr<sf::RenderWindow> m_window;
+
 int m_zoom = 2;
-sf::View m_view;
+std::unique_ptr<sf::View> m_view;
 
 void CDisplay::init()
 {
@@ -14,10 +15,10 @@ void CDisplay::init()
 	m_window.get()->setKeyRepeatEnabled(false);
 
 	//Création de la vue du jeu
-	m_view.setSize(1920.f/m_zoom, 1080.f/m_zoom);
-	m_view.setCenter(1920.f/m_zoom/2, 1080.f/m_zoom/2);
-	m_window.get()->setView(m_view);
-
+	m_view = std::make_unique<sf::View>();
+	m_view.get()->setSize(1920.f/m_zoom, 1080.f/m_zoom);
+	m_view.get()->setCenter(1920.f/m_zoom/2, 1080.f/m_zoom/2);
+	m_window.get()->setView(* m_view.get());
 }
 
 void CDisplay::clear()
@@ -57,12 +58,12 @@ bool CDisplay::isOpen()
 	return m_window->isOpen();
 }
 
-sf::RenderWindow & CDisplay::getWindow()
+sf::RenderWindow * CDisplay::getWindow()
 {
-	return * m_window.get();
+	return m_window.get();
 }
 
-sf::View& CDisplay::getView()
+sf::View * CDisplay::getView()
 {
-	return m_view;
+	return m_view.get();
 }

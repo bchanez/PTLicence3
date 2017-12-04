@@ -13,6 +13,10 @@
 
   setTexture();
   setAnimation();
+
+  // centre la vue sur la position du personnage
+  CDisplay::getView()->setCenter(m_position);
+  CDisplay::getWindow()->setView(* CDisplay::getView());
 }
 
 /*virtual*/ CCharacter::~CCharacter(void)
@@ -123,6 +127,10 @@ void CCharacter::update(float dt)
       }
       else
         m_state = e_idle;
+
+      // centre la vue sur la position du personnage
+      CDisplay::getView()->setCenter(m_position);
+      CDisplay::getWindow()->setView(* CDisplay::getView());
     }
     break;
 
@@ -159,6 +167,10 @@ void CCharacter::update(float dt)
       }
       else
         m_state = e_idle;
+
+      // centre la vue sur la position du personnage
+      CDisplay::getView()->setCenter(m_position);
+      CDisplay::getWindow()->setView(* CDisplay::getView());
     }
     break;
 
@@ -182,10 +194,4 @@ void CCharacter::update(float dt)
 
     default : {} break;
   }
-
-
-  sf::View &vi = CDisplay::getView();
-  vi.setCenter(m_position);
-  CDisplay::getWindow().setView(vi);
-
 }
