@@ -6,7 +6,7 @@
 
   m_position = sf::Vector2f(960.f, 540.f);
   m_sprite.setPosition(m_position);
-  m_sprite.setOrigin(sf::Vector2f(50, 70));
+  m_sprite.setOrigin(sf::Vector2f(100, 100));
 
   m_state = e_idle;
 
