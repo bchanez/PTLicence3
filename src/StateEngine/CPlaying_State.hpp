@@ -8,7 +8,6 @@
 #include "../Entity/CEvent_pub.hpp"
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/DEBUG.hpp"
-#include <iostream>
 #include <memory>
 #include <vector>
 
