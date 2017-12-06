@@ -6,3 +6,4 @@
 /rsc/graphics/*.ase
 app
 *.o
+/rsc/map/test.txt
