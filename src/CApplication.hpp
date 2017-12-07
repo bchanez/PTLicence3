@@ -7,6 +7,8 @@
 #include "ResourceManager/CResourceHolder.hpp"
 #include "Tools/CDisplay.hpp"
 #include "Tools/DEBUG.hpp"
+#include "StateEngine/CIntro_State.hpp"
+#include "StateEngine/CMenu_State.hpp"
 #include "StateEngine/CPlaying_State.hpp"
 
 class CApplication

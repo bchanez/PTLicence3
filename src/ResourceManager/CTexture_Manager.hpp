@@ -8,6 +8,11 @@
 
 enum class ETexture_Name
 {
+	//stats
+	e_Intro,
+	e_Menu,
+
+	// character
 	e_Characters,
 	e_Hair_1,
 	e_Hair_2,
@@ -19,8 +24,12 @@ enum class ETexture_Name
 	e_Hair_8,
 	e_TShirt_1,
 	e_Pants_1,
-	e_TileMap_Grass,
-	e_Pub
+
+	// events
+	e_Pub,
+
+	// map
+	e_TileMap_Grass
 };
 
 class CTexture_Manager : public CResourceManager<ETexture_Name, sf::Texture>

@@ -21,6 +21,7 @@ namespace State
 			void draw() override;
 
 		private:
+			sf::Sprite m_menu;
 	};
 }
 

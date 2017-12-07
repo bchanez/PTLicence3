@@ -6,6 +6,8 @@ namespace State
     : CGame_State(application)
   {
     LOG("CMenu Constructor\n");
+
+    m_menu.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Menu));
   }
 
   /*virtual*/ CMenu::~CMenu()
@@ -13,7 +15,7 @@ namespace State
     LOG("CMenu Destructor\n");
   }
 
-  void CMenu::CMenu()
+  void CMenu::input()
   {
   }
 
@@ -23,5 +25,7 @@ namespace State
 
   void CMenu::draw()
   {
+    // dessine l'image du menu
+    CDisplay::draw(m_menu);
   }
 }
