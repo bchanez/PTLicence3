@@ -8,7 +8,6 @@
 #include "../Entity/CEvent_pub.hpp"
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/DEBUG.hpp"
-#include <iostream>
 #include <memory>
 #include <vector>
 
@@ -31,7 +30,7 @@ namespace State
 			CMap m_map;
 
 			std::vector<std::unique_ptr<CEntity>> m_listEntite; // joueur, pnj, evenement
-			int m_indiceCharacter; // variable qui stoque l'indice du character dans le tableau
+			int m_indiceCharacter; // variable qui stocke l'indice du character dans le tableau
 	};
 }
 

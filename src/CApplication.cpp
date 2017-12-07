@@ -6,6 +6,8 @@
 	CDisplay::init();
 
 	pushState(std::make_unique<State::CPlaying>(*this));
+	pushState(std::make_unique<State::CMenu>(*this));
+	//pushState(std::make_unique<State::CIntro>(*this));
 }
 
 /*virtual*/ CApplication::~CApplication()
