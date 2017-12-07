@@ -28,10 +28,21 @@ namespace State
 		LOG("CPlaying Destructor\n");
 	}
 
-	void CPlaying::input()
+	void CPlaying::input(sf::Event * event)
 	{
-		// met a jour les touches appuyees pour le personnage
-		dynamic_cast<CCharacter *>(m_listEntite[m_indiceCharacter].get())->getInput().gestionInputs();
+		// touche concernant l'etat
+    while (CDisplay::getWindow()->pollEvent(* event))
+    {
+      if ((* event).type == sf::Event::Closed)
+          CDisplay::getWindow()->close();
+
+      if((* event).type == sf::Event::KeyPressed)
+        if((* event).key.code == sf::Keyboard::Escape)
+					m_application->changeState(std::make_unique<State::CMenu>(m_application));
+    }
+
+		// met a jour les events pour le personnage
+		dynamic_cast<CCharacter *>(m_listEntite[m_indiceCharacter].get())->getInput().gestionInputs(&(* event));
 	}
 
 	void CPlaying::update(float dt)

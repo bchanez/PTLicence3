@@ -13,8 +13,6 @@ namespace CDisplay
 	void draw(const sf::Drawable& drawable);
 	void draw(const sf::Drawable& drawable, const sf::Texture& texture);
 
-	void checkWindowEvents();
-
 	bool isOpen();
 
 	sf::RenderWindow * getWindow();

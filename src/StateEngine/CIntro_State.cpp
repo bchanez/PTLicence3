@@ -15,8 +15,17 @@ namespace State
     LOG("CIntro Destructor\n");
   }
 
-  void CIntro::input()
+  void CIntro::input(sf::Event * event)
   {
+    // touche concernant l'etat
+    while (CDisplay::getWindow()->pollEvent(* event))
+    {
+      if((* event).type == sf::Event::Closed)
+          CDisplay::getWindow()->close();
+
+      if((* event).type == sf::Event::KeyPressed)
+        m_application->changeState(std::make_unique<State::CMenu>(m_application));
+    }
   }
 
   void CIntro::update(float dt)

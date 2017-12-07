@@ -44,17 +44,62 @@ void CInput::setButton(int bouton, bool etat)
 }
 
 //Fonctions
-void CInput::gestionInputs()
+void CInput::gestionInputs(sf::Event * event)
 {
 	// gère le clavier
-	getInput();
+	getInput(&(* event));
 
 	// gere la souris
 }
 
 // Gère les input clavier du CCharacter uniquement
-void CInput::getInput()
+void CInput::getInput(sf::Event * event)
 {
+
+  while (CDisplay::getWindow()->pollEvent(* event))
+  {
+    if((* event).type == sf::Event::KeyPressed)
+    {
+      if ((* event).key.code == sf::Keyboard::Z
+        || (* event).key.code == sf::Keyboard::W)
+        button.up = true;
+
+      if ((* event).key.code == sf::Keyboard::Q
+        || (* event).key.code == sf::Keyboard::A)
+        button.left = true;
+
+      if ((* event).key.code == sf::Keyboard::S)
+        button.down = true;
+
+      if ((* event).key.code == sf::Keyboard::D)
+        button.right = true;
+
+      if ((* event).key.code == sf::Keyboard::LShift)
+        button.shift = true;
+    }
+
+    if((* event).type == sf::Event::KeyReleased)
+    {
+      if ((* event).key.code == sf::Keyboard::Z
+        || (* event).key.code == sf::Keyboard::W)
+        button.up = false;
+
+      if ((* event).key.code == sf::Keyboard::Q
+        || (* event).key.code == sf::Keyboard::A)
+        button.left = false;
+
+      if ((* event).key.code == sf::Keyboard::S)
+        button.down = false;
+
+      if ((* event).key.code == sf::Keyboard::D)
+        button.right = false;
+
+      if ((* event).key.code == sf::Keyboard::LShift)
+        button.shift = false;
+    }
+  }
+
+/*
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z)
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::W)
 	)
@@ -83,4 +128,5 @@ void CInput::getInput()
 		button.shift = true;
 	else
 		button.shift = false;
+    */
 }

@@ -41,18 +41,6 @@ void CDisplay::draw(const sf::Drawable & drawable, const sf::Texture& texture)
 	m_window->draw(drawable, &texture);
 }
 
-// Gère les évenements pour la fenêtre uniquement
-void CDisplay::checkWindowEvents()
-{
-	sf::Event m_event;
-	while (m_window->pollEvent(m_event))
-	{
-		if (m_event.type == sf::Event::Closed
-			|| (m_event.type == sf::Event::KeyPressed && m_event.key.code == sf::Keyboard::Escape))
-				m_window->close();
-	}
-}
-
 bool CDisplay::isOpen()
 {
 	return m_window->isOpen();

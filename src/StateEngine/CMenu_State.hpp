@@ -1,12 +1,12 @@
 #ifndef CMENU_STATE_HPP_
 #define CMENU_STATE_HPP_
 
+#include <memory>
+#include <vector>
 #include "CGame_State.hpp"
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/DEBUG.hpp"
-#include <iostream>
-#include <memory>
-#include <vector>
+#include "CPlaying_State.hpp"
 
 namespace State
 {
@@ -16,7 +16,7 @@ namespace State
 			explicit CMenu(CApplication& application);
 			virtual ~CMenu();
 
-			void input() override;
+			void input(sf::Event * event) override;
 			void update(float dt) override;
 			void draw() override;
 

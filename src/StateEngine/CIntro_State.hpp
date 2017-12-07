@@ -1,12 +1,12 @@
 #ifndef CINTRO_STATE_HPP_
 #define CINTRO_STATE_HPP_
 
+#include <memory>
+#include <vector>
 #include "CGame_State.hpp"
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/DEBUG.hpp"
-#include <iostream>
-#include <memory>
-#include <vector>
+#include "CMenu_State.hpp"
 
 namespace State
 {
@@ -16,7 +16,7 @@ namespace State
 			explicit CIntro(CApplication& application);
 			virtual ~CIntro();
 
-			void input() override;
+			void input(sf::Event * event) override;
 			void update(float dt) override;
 			void draw() override;
 

@@ -1,6 +1,8 @@
 #ifndef CPLAYING_STATE_HPP_
 #define CPLAYING_STATE_HPP_
 
+#include <memory>
+#include <vector>
 #include "CGame_State.hpp"
 #include "../Entity/CMap.hpp"
 #include "../Entity/CPNJ.hpp"
@@ -8,8 +10,8 @@
 #include "../Entity/CEvent_pub.hpp"
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/DEBUG.hpp"
-#include <memory>
-#include <vector>
+#include "CMenu_State.hpp"
+
 
 namespace State
 {
@@ -19,7 +21,7 @@ namespace State
 			explicit CPlaying(CApplication& application);
 			virtual ~CPlaying();
 
-			void input() override;
+			void input(sf::Event * event) override;
 			void update(float dt) override;
 			void draw() override;
 

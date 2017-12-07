@@ -14,12 +14,12 @@ namespace State
 		explicit CGame_State(CApplication& application);
 		virtual ~CGame_State();
 
-		virtual void input() = 0;
+		virtual void input(sf::Event * event) = 0;
 		virtual void update(float dt)	= 0;
 		virtual void draw()	= 0;
 
 	protected:
-		CApplication* _p_application;
+		CApplication* m_application;
 	};
 }
 

@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "CDisplay.hpp"
 #include "DEBUG.hpp"
 
 class CInput
@@ -19,8 +20,8 @@ public:
 
 	void setButton(int bouton, bool etat);
 
-	void gestionInputs();
-	void getInput();
+	void gestionInputs(sf::Event * event);
+	void getInput(sf::Event * event);
 
 
 private:

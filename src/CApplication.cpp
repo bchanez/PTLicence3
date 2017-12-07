@@ -5,9 +5,7 @@
 	LOG("CApplication Constructor\n");
 	CDisplay::init();
 
-	pushState(std::make_unique<State::CPlaying>(*this));
-	pushState(std::make_unique<State::CMenu>(*this));
-	//pushState(std::make_unique<State::CIntro>(*this));
+	pushState(std::make_unique<State::CIntro>(*this));
 }
 
 /*virtual*/ CApplication::~CApplication()
@@ -19,11 +17,11 @@ void CApplication::runMainLoop()
 {
 	while (CDisplay::isOpen()) {
 		float dt = m_clock.restart().asSeconds();
+		sf::Event event;
 
-		CDisplay::checkWindowEvents();
 		CDisplay::clear();
 
-		_states.top()->input ();
+		_states.top()->input (& event);
 		_states.top()->update (dt);
 		_states.top()->draw ();
 

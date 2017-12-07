@@ -3,7 +3,7 @@
 
 namespace State {
 	/*explicit*/ State::CGame_State::CGame_State(CApplication & application)
-		: _p_application(&application)
+		: m_application(&application)
 	{
 			LOG("CGame_State Constructor\n");
 	}

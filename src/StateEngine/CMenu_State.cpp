@@ -15,8 +15,23 @@ namespace State
     LOG("CMenu Destructor\n");
   }
 
-  void CMenu::input()
+  void CMenu::input(sf::Event * event)
   {
+    // touche concernant l'etat
+    while (CDisplay::getWindow()->pollEvent(* event))
+    {
+      if ((* event).type == sf::Event::Closed)
+          CDisplay::getWindow()->close();
+
+      if((* event).type == sf::Event::KeyPressed)
+      {
+        if((* event).key.code == sf::Keyboard::Escape)
+          CDisplay::getWindow()->close();
+
+        if((* event).type == sf::Event::KeyPressed::Space)
+          m_application->changeState(std::make_unique<State::CPlaying>(m_application))
+      }
+    }
   }
 
   void CMenu::update(float dt)
