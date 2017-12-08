@@ -11,7 +11,9 @@
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/DEBUG.hpp"
 #include "CMenu_State.hpp"
+#include "../CApplication.hpp"
 
+class CApplication;
 
 namespace State
 {

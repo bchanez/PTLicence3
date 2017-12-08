@@ -52,15 +52,15 @@ void CApplication::changeState(std::unique_ptr<State::CGame_State> state)
 //getter des etats
 std::unique_ptr<State::CIntro> CApplication::getIntro_State(void)
 {
-	return m_intro.get();
+	return std::move(m_intro);
 }
 
 std::unique_ptr<State::CMenu> CApplication::getMenu_State(void)
 {
-	return m_menu.get();
+	return std::move(m_menu);
 }
 
 std::unique_ptr<State::CPlaying> CApplication::getPlaying_State(void)
 {
-	return m_playing.get();
+	return std::move(m_playing);
 }

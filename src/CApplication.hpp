@@ -3,10 +3,10 @@
 
 #include <memory>
 #include <stack>
-#include "StateEngine/CGame_State.hpp"
 #include "ResourceManager/CResourceHolder.hpp"
 #include "Tools/CDisplay.hpp"
 #include "Tools/DEBUG.hpp"
+#include "StateEngine/CGame_State.hpp"
 #include "StateEngine/CIntro_State.hpp"
 #include "StateEngine/CMenu_State.hpp"
 #include "StateEngine/CPlaying_State.hpp"

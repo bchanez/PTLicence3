@@ -7,6 +7,9 @@
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/DEBUG.hpp"
 #include "CPlaying_State.hpp"
+#include "../CApplication.hpp"
+
+class CApplication;
 
 namespace State
 {
