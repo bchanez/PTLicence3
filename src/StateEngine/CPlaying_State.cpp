@@ -38,7 +38,7 @@ namespace State
 
       if((* event).type == sf::Event::KeyPressed)
         if((* event).key.code == sf::Keyboard::Escape)
-					m_application->changeState(std::make_unique<State::CMenu>(m_application));
+					m_application->changeState(m_application->getMenu_State());
     }
 
 		// met a jour les events pour le personnage

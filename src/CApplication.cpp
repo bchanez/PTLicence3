@@ -5,7 +5,11 @@
 	LOG("CApplication Constructor\n");
 	CDisplay::init();
 
-	pushState(std::make_unique<State::CIntro>(*this));
+	m_intro = std::make_unique<State::CIntro>(*this);
+	m_menu = std::make_unique<State::CMenu>(*this);
+	m_playing = std::make_unique<State::CPlaying>(*this);
+
+	pushState(getIntro_State());
 }
 
 /*virtual*/ CApplication::~CApplication()
@@ -43,4 +47,20 @@ void CApplication::changeState(std::unique_ptr<State::CGame_State> state)
 {
 	_states.pop	();
 	_states.push(std::move(state));
+}
+
+//getter des etats
+std::unique_ptr<State::CIntro> CApplication::getIntro_State(void)
+{
+	return m_intro.get();
+}
+
+std::unique_ptr<State::CMenu> CApplication::getMenu_State(void)
+{
+	return m_menu.get();
+}
+
+std::unique_ptr<State::CPlaying> CApplication::getPlaying_State(void)
+{
+	return m_playing.get();
 }

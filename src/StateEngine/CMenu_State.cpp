@@ -29,7 +29,7 @@ namespace State
           CDisplay::getWindow()->close();
 
         if((* event).type == sf::Event::KeyPressed::Space)
-          m_application->changeState(std::make_unique<State::CPlaying>(m_application))
+          m_application->changeState(m_application->getPlaying_State())
       }
     }
   }
