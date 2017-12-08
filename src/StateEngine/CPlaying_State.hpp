@@ -4,16 +4,13 @@
 #include <memory>
 #include <vector>
 #include "CGame_State.hpp"
+#include "../CApplication.hpp"
+#include "../Tools/CDisplay.hpp"
+#include "../Tools/DEBUG.hpp"
 #include "../Entity/CMap.hpp"
 #include "../Entity/CPNJ.hpp"
 #include "../Entity/CCharacter.hpp"
 #include "../Entity/CEvent_pub.hpp"
-#include "../Tools/CDisplay.hpp"
-#include "../Tools/DEBUG.hpp"
-#include "CMenu_State.hpp"
-#include "../CApplication.hpp"
-
-class CApplication;
 
 namespace State
 {

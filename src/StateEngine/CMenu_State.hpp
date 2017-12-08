@@ -1,15 +1,11 @@
 #ifndef CMENU_STATE_HPP_
 #define CMENU_STATE_HPP_
 
-#include <memory>
-#include <vector>
 #include "CGame_State.hpp"
+#include "../CApplication.hpp"
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/DEBUG.hpp"
-#include "CPlaying_State.hpp"
-#include "../CApplication.hpp"
 
-class CApplication;
 
 namespace State
 {
