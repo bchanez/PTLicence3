@@ -56,8 +56,6 @@ void CInput::gestionInputs(sf::Event * event)
 void CInput::getInput(sf::Event * event)
 {
 
-  while (CDisplay::getWindow()->pollEvent(* event))
-  {
     if((* event).type == sf::Event::KeyPressed)
     {
       if ((* event).key.code == sf::Keyboard::Z
@@ -97,7 +95,7 @@ void CInput::getInput(sf::Event * event)
       if ((* event).key.code == sf::Keyboard::LShift)
         button.shift = false;
     }
-  }
+  
 
 /*
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z)
