@@ -28,8 +28,9 @@ namespace State
         if((* event).key.code == sf::Keyboard::Escape)
           CDisplay::getWindow()->close();
 
-        if((* event).type == sf::Event::KeyPressed::Space)
-          m_application->changeState(m_application->getPlaying_State())
+        if((* event).key.code == sf::Keyboard::Space)
+          m_application->changeState(m_application->getPlaying_State());
+
       }
     }
   }

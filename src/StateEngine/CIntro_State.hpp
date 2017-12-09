@@ -6,9 +6,10 @@
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/DEBUG.hpp"
 
-
 namespace State
 {
+	class CMenu;
+	class CPlaying;
 	class CIntro : public CGame_State
 	{
 		public:
