@@ -1,5 +1,4 @@
-#ifndef CAPPLICATION_HPP_
-#define CAPPLICATION_HPP_
+#pragma once
 
 #include <memory>
 #include <stack>
@@ -10,6 +9,15 @@
 #include "StateEngine/CIntro_State.hpp"
 #include "StateEngine/CMenu_State.hpp"
 #include "StateEngine/CPlaying_State.hpp"
+
+// Inclusion cyclique
+
+// Forward declaration type
+namespace State {
+	class CIntro;
+	class CMenu;
+	class CPlaying;
+}
 
 class CApplication
 {
@@ -40,5 +48,3 @@ private:
 	std::unique_ptr<State::CMenu> m_menu;
 	std::unique_ptr<State::CPlaying> m_playing;
 };
-
-#endif

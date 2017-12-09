@@ -14,8 +14,6 @@
 
 namespace State
 {
-	class CIntro;
-	class CMenu;
 	class CPlaying : public CGame_State
 	{
 		public:

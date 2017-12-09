@@ -9,8 +9,6 @@
 
 namespace State
 {
-	class CIntro;
-	class CPlaying;
 	class CMenu : public CGame_State
 	{
 		public:

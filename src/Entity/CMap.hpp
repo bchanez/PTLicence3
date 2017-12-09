@@ -1,14 +1,11 @@
-#ifndef CMAP_HPP_
-#define CMAP_HPP_
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <fstream>
 #include <iostream>
-#include <cctype>
 #include <string>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+#include <cstdlib>
+#include <ctime>
 #include "CDrawable.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"
 #include "../Tools/DEBUG.hpp"
@@ -33,5 +30,3 @@ class CMap : public CDrawable
 	private:
 
 };
-
-#endif
