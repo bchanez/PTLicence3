@@ -38,7 +38,7 @@ namespace State
 
       if((* event).type == sf::Event::KeyPressed)
         if((* event).key.code == sf::Keyboard::Escape)
-					m_application->changeState(m_application->getMenu_State());
+					m_application->changeState(EState::e_menu);
 
 			// met a jour les events pour le personnage
 			dynamic_cast<CCharacter *>(m_listEntite[m_indiceCharacter].get())->getInput().gestionInputs(&(* event));

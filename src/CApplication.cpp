@@ -5,11 +5,11 @@
 	LOG("CApplication Constructor\n");
 	CDisplay::init();
 
-	m_intro = std::make_unique<State::CIntro>(*this);
-	m_menu = std::make_unique<State::CMenu>(*this);
-	m_playing = std::make_unique<State::CPlaying>(*this);
+	m_state.insert(std::make_pair(EState::e_intro, std::make_unique<State::CIntro>(*this)));
+	m_state.insert(std::make_pair(EState::e_menu, std::make_unique<State::CMenu>(*this)));
+	m_state.insert(std::make_pair(EState::e_playing, std::make_unique<State::CPlaying>(*this)));
 
-	pushState(getIntro_State());
+	m_currentScene = EState::e_intro;
 }
 
 /*virtual*/ CApplication::~CApplication()
@@ -25,42 +25,15 @@ void CApplication::runMainLoop()
 
 		CDisplay::clear();
 
-		_states.top()->input (& event);
-		_states.top()->update (dt);
-		_states.top()->draw ();
+		m_state[m_currentScene]->input(& event);
+		m_state[m_currentScene]->update(dt);
+		m_state[m_currentScene]->draw();
 
 		CDisplay::display();
 	}
 }
 
-void CApplication::pushState(std::unique_ptr<State::CGame_State> state)
+void CApplication::changeState(EState state)
 {
-	_states.push(std::move(state));
-}
-
-void CApplication::popState()
-{
-	_states.pop();
-}
-
-void CApplication::changeState(std::unique_ptr<State::CGame_State> state)
-{
-	_states.pop	();
-	_states.push(std::move(state));
-}
-
-//getter des etats
-std::unique_ptr<State::CIntro> CApplication::getIntro_State(void)
-{
-	return std::move(m_intro);
-}
-
-std::unique_ptr<State::CMenu> CApplication::getMenu_State(void)
-{
-	return std::move(m_menu);
-}
-
-std::unique_ptr<State::CPlaying> CApplication::getPlaying_State(void)
-{
-	return std::move(m_playing);
+	m_currentScene = state;
 }

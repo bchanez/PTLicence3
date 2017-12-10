@@ -24,7 +24,7 @@ namespace State
           CDisplay::getWindow()->close();
 
       if((* event).type == sf::Event::KeyPressed)
-        m_application->changeState(m_application->getMenu_State());
+        m_application->changeState(EState::e_menu);
     }
   }
 

@@ -19,6 +19,13 @@ namespace State {
 	class CPlaying;
 }
 
+enum class EState
+{
+	e_intro,
+	e_menu,
+	e_playing
+};
+
 class CApplication
 {
 public:
@@ -28,23 +35,11 @@ public:
 
 	void runMainLoop();
 
-	void pushState(std::unique_ptr<State::CGame_State> state);
-	void popState();
-
-	void changeState(std::unique_ptr<State::CGame_State> state);
-
-	//getter des etats
-	std::unique_ptr<State::CIntro> getIntro_State(void);
-	std::unique_ptr<State::CMenu> getMenu_State(void);
-	std::unique_ptr<State::CPlaying> getPlaying_State(void);
+	void changeState(EState state);
 
 private:
-	std::stack<std::unique_ptr<State::CGame_State>> _states;
+	std::map <EState, std::unique_ptr<State::CGame_State>> m_state;
+	EState m_currentScene;
 
 	sf::Clock m_clock;
-
-	// les differents etats
-	std::unique_ptr<State::CIntro> m_intro;
-	std::unique_ptr<State::CMenu> m_menu;
-	std::unique_ptr<State::CPlaying> m_playing;
 };

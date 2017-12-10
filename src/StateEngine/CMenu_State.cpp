@@ -29,8 +29,7 @@ namespace State
           CDisplay::getWindow()->close();
 
         if((* event).key.code == sf::Keyboard::Space)
-          m_application->changeState(m_application->getPlaying_State());
-
+          m_application->changeState(EState::e_playing);
       }
     }
   }
