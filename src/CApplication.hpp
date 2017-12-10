@@ -35,6 +35,7 @@ public:
 
 	void runMainLoop(void);
 
+	void initPlayingState(int nombre_pnj);
 	void changeState(EState state);
 
 private:

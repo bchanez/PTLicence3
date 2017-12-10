@@ -4,8 +4,6 @@
 {
   LOG("CPNJ Constructor\n");
 
-  m_position = sf::Vector2f(CRandom::floatInRange(100.f, 1820.f), CRandom::floatInRange(100.f, 980.f));
-  m_sprite.setPosition(m_position);
   m_sprite.setOrigin(sf::Vector2f(20, 30));
 
   m_state = e_idle;

@@ -3,14 +3,15 @@
 /*explicit*/ CEntity::CEntity(void)
 {
   LOG("CEntity Constructor\n");
+
+  m_position = sf::Vector2f(0.f, 0.f);
+  m_sprite.setPosition(m_position);
 }
 
 /*virtual*/ CEntity::~CEntity(void)
 {
   LOG("CEntity Destructor\n");
 }
-
-/*virtual*/ void CEntity::update(float dt) {}
 
 sf::Vector2f CEntity::getPosition(void)
 {

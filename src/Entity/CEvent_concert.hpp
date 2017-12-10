@@ -12,9 +12,9 @@ class CEvent_concert: public CEvent
     explicit CEvent_concert(void);
     virtual ~CEvent_concert(void);
 
-    void setTexture(void);
-    void setAnimation(void);
-    void update(float dt);
+    void setTexture(void) override;
+    void setAnimation(void) override;
+    void update(float dt) override;
 
   private:
 

@@ -12,9 +12,9 @@ class CEvent_pub: public CEvent
     explicit CEvent_pub(void);
     virtual ~CEvent_pub(void);
 
-    void setTexture(void);
-    void setAnimation(void);
-    void update(float dt);
+    void setTexture(void) override;
+    void setAnimation(void) override;
+    void update(float dt) override;
 
   private:
 

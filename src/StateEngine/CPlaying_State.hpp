@@ -19,6 +19,8 @@ namespace State
 			explicit CPlaying(CApplication& application);
 			virtual ~CPlaying();
 
+			void init(int nombre_pnj);
+
 			void input(sf::Event * event) override;
 			void update(float dt) override;
 			void draw() override;

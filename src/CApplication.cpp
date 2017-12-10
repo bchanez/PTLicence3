@@ -19,7 +19,8 @@
 
 void CApplication::runMainLoop(void)
 {
-	while (CDisplay::isOpen()) {
+	while (CDisplay::isOpen())
+	{
 		float dt = m_clock.restart().asSeconds();
 		sf::Event event;
 
@@ -31,6 +32,11 @@ void CApplication::runMainLoop(void)
 
 		CDisplay::display();
 	}
+}
+
+void CApplication::initPlayingState(int nombre_pnj)
+{
+	dynamic_cast<State::CPlaying *>(m_state[EState::e_playing].get())->init(nombre_pnj);
 }
 
 void CApplication::changeState(EState state)

@@ -11,9 +11,18 @@
 }
 
 // donne la texture a l'evenemnt
-void CEvent_feu::setTexture(void) {}
+void CEvent_feu::setTexture(void)
+{
+  
+}
 
 // definie les animations de l'evenement
-void CEvent_feu::setAnimation(void) {}
+void CEvent_feu::setAnimation(void)
+{
 
-void CEvent_feu::update(float dt) {}
+}
+
+void CEvent_feu::update(float dt)
+{
+  (void)dt;
+}

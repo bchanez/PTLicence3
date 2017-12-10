@@ -4,8 +4,6 @@
 {
   LOG("CCharacter Constructor\n");
 
-  m_position = sf::Vector2f(960.f, 540.f);
-  m_sprite.setPosition(m_position);
   m_sprite.setOrigin(sf::Vector2f(20, 30));
 
   m_state = e_idle;
@@ -13,10 +11,6 @@
 
   setTexture();
   setAnimation();
-
-  // centre la vue sur la position du personnage
-  CDisplay::getView()->setCenter(m_position);
-  CDisplay::getWindow()->setView(* CDisplay::getView());
 }
 
 /*virtual*/ CCharacter::~CCharacter(void)

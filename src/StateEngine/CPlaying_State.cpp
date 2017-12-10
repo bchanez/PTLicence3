@@ -1,6 +1,5 @@
 #include "CPlaying_State.hpp"
-
-#define NB_PNJ 100
+#include "iostream"
 
 namespace State
 {
@@ -8,24 +7,39 @@ namespace State
 		: CGame_State(application)
 	{
 		LOG("CPlaying Constructor\n");
-
-		// ajout du joueur
-		m_indiceCharacter = 0;
-		m_listEntite.push_back(std::make_unique<CCharacter>());
-
-		// ajout des PNJs
-		for(int i = 0; i < NB_PNJ; i++)
-			m_listEntite.push_back(std::make_unique<CPNJ>());
-
-		// ajout des evenement
-		m_listEntite.push_back(std::make_unique<CEvent_pub>());
-		m_listEntite[m_listEntite.size()-1].get()->setPosition(sf::Vector2f(300, 300));
 	}
 
 	/*virtual*/ CPlaying::~CPlaying()
 	{
 		m_listEntite.clear();
 		LOG("CPlaying Destructor\n");
+	}
+
+	void CPlaying::init(int nombre_pnj)
+	{
+		m_listEntite.clear();
+
+		// ajout du joueur
+		m_indiceCharacter = 0;
+		m_listEntite.push_back(std::make_unique<CCharacter>());
+		m_listEntite[m_indiceCharacter].get()->setPosition(sf::Vector2f(960.f, 540.f));
+
+		// ajout des PNJs
+		int indiceDecalage = m_listEntite.size();
+		for(int i = indiceDecalage; i < nombre_pnj + indiceDecalage; i++)
+		{
+			m_listEntite.push_back(std::make_unique<CPNJ>());
+			m_listEntite[i].get()->setPosition(sf::Vector2f(CRandom::floatInRange(100.f, 1820.f), CRandom::floatInRange(100.f, 980.f)));
+		}
+
+		// ajout des evenement
+		m_listEntite.push_back(std::make_unique<CEvent_pub>());
+		m_listEntite[m_listEntite.size()-1].get()->setPosition(sf::Vector2f(300, 300));
+
+		// centre la vue sur la position du personnage
+		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
+	  CDisplay::getView()->setCenter(dynamic_cast<CCharacter *>(m_listEntite[m_indiceCharacter].get())->getPosition());
+	  CDisplay::getWindow()->setView(* CDisplay::getView());
 	}
 
 	void CPlaying::input(sf::Event * event)
@@ -38,7 +52,12 @@ namespace State
 
       if((* event).type == sf::Event::KeyPressed)
         if((* event).key.code == sf::Keyboard::Escape)
+				{
 					m_application->changeState(EState::e_menu);
+					CDisplay::getView()->setSize(1920.f, 1080.f);
+					CDisplay::getView()->setCenter(1920.f/2, 1080.f/2);
+					CDisplay::getWindow()->setView(* CDisplay::getView());
+				}
 
 			// met a jour les events pour le personnage
 			dynamic_cast<CCharacter *>(m_listEntite[m_indiceCharacter].get())->getInput().gestionInputs(&(* event));

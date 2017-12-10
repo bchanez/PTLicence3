@@ -20,7 +20,7 @@ class CMap : public CDrawable
 		explicit CMap();
 		virtual ~CMap();
 
-		void setTexture(void);
+		void setTexture(void) override;
 		void genMap(void);
 
 	protected:

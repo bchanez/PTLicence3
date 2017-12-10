@@ -15,10 +15,10 @@ class CCharacter : public CEntity
     explicit CCharacter(void);
     virtual ~CCharacter(void);
 
-    void setTexture(void);
+    void setTexture(void) override;
     void setAnimation(void);
     CInput& getInput(void);
-    void update(float dt);
+    void update(float dt) override;
 
   private:
 

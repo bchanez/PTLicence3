@@ -12,9 +12,9 @@ class CEvent: public CEntity
     explicit CEvent(void);
     virtual ~CEvent(void);
 
-    void setTexture(void);
-    void setAnimation(void);
-    void update(float dt);
+    void setTexture(void) override = 0;
+    void setAnimation(void) override = 0;
+    void update(float dt) override = 0;
 
   protected:
 

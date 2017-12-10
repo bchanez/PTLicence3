@@ -9,5 +9,3 @@
 {
   LOG("CDrawable Destructor\n");
 }
-
-/* virtual */ void CDrawable::setTexture(void) {}

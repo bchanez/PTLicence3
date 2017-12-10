@@ -12,9 +12,9 @@ class CEvent_tir: public CEvent
     explicit CEvent_tir(void);
     virtual ~CEvent_tir(void);
 
-    void setTexture(void);
-    void setAnimation(void);
-    void update(float dt);
+    void setTexture(void) override;
+    void setAnimation(void) override;
+    void update(float dt) override;
 
   private:
 

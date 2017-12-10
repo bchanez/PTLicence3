@@ -11,7 +11,7 @@ class CDrawable : public sf::Drawable
     explicit CDrawable(void);
     virtual ~CDrawable(void);
 
-    virtual void setTexture(void);
+    virtual void setTexture(void) = 0;
 
   protected:
 

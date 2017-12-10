@@ -30,6 +30,7 @@ namespace State
 
   void CIntro::update(float dt)
   {
+    (void)dt;
   }
 
   void CIntro::draw()

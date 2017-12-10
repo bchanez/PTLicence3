@@ -12,9 +12,9 @@ class CEvent_feu: public CEvent
     explicit CEvent_feu(void);
     virtual ~CEvent_feu(void);
 
-    void setTexture(void);
-    void setAnimation(void);
-    void update(float dt);
+    void setTexture(void) override;
+    void setAnimation(void) override;
+    void update(float dt) override;
 
   private:
 

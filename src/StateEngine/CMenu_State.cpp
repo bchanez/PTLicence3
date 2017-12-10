@@ -29,13 +29,17 @@ namespace State
           CDisplay::getWindow()->close();
 
         if((* event).key.code == sf::Keyboard::Space)
+        {
           m_application->changeState(EState::e_playing);
+          m_application->initPlayingState(100);
+        }
       }
     }
   }
 
   void CMenu::update(float dt)
   {
+    (void)dt;
   }
 
   void CMenu::draw()
