@@ -1,5 +1,4 @@
-#ifndef CRESOURCE_MANAGER_HPP_
-#define CRESOURCE_MANAGER_HPP_
+#pragma once
 
 #include <map>
 #include "../Tools/DEBUG.hpp"
@@ -36,5 +35,3 @@ class CResourceManager
 		std::map <Enum, Resource> m_resources;
 
 };
-
-#endif

@@ -30,10 +30,10 @@ class CApplication
 {
 public:
 
-	explicit CApplication();
-	virtual ~CApplication();
+	explicit CApplication(void);
+	virtual ~CApplication(void);
 
-	void runMainLoop();
+	void runMainLoop(void);
 
 	void changeState(EState state);
 

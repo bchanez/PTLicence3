@@ -1,5 +1,4 @@
-#ifndef CEVENT_CONCERT_HPP_
-#define CEVENT_CONCERT_HPP_
+#pragma once
 
 #include "CEvent.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"
@@ -24,5 +23,3 @@ class CEvent_concert: public CEvent
     enum EAnimation {};
     unsigned int m_nb_animation = 0;
 };
-
-#endif

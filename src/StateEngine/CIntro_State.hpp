@@ -1,5 +1,4 @@
-#ifndef CINTRO_STATE_HPP_
-#define CINTRO_STATE_HPP_
+#pragma once
 
 #include "CGame_State.hpp"
 #include "../CApplication.hpp"
@@ -22,5 +21,3 @@ namespace State
 			sf::Sprite m_intro;
 	};
 }
-
-#endif

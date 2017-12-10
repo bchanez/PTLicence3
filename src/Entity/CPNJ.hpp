@@ -1,5 +1,4 @@
-#ifndef CPNJ_HPP_
-#define CPNJ_HPP_
+#pragma once
 
 #include "CEntity.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"
@@ -26,5 +25,3 @@ class CPNJ : public CEntity
 
     sf::Vector2i m_goal_point;
 };
-
-#endif

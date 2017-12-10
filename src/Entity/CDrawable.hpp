@@ -1,5 +1,4 @@
-#ifndef CDRAWABLE_HPP_
-#define CDRAWABLE_HPP_
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include "../Tools/DEBUG.hpp"
@@ -25,5 +24,3 @@ class CDrawable : public sf::Drawable
         target.draw(m_sprite, states);
     }
 };
-
-#endif

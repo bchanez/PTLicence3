@@ -12,12 +12,6 @@
   LOG("CMap Destructor\n");
 }
 
-int CMap::rand_a_b(int a, int b)
-{
-  srand(time(NULL));
-  return rand()%(b-a) +a;
-}
-
 void CMap::genMap(void)
 {
   //Codes
@@ -51,10 +45,10 @@ void CMap::genMap(void)
 
   //Sorties
   int exit_up, exit_down, exit_right, exit_left;
-  exit_up = rand_a_b(0,20);
-  exit_right = rand_a_b(0,23);
-  exit_down = rand_a_b(0,20);
-  exit_left = rand_a_b(0,23);
+  exit_up = CRandom::intInRange(0, 20);
+  exit_right = CRandom::intInRange(0, 23);
+  exit_down = CRandom::intInRange(0, 20);
+  exit_left = CRandom::intInRange(0, 23);
   map_to_write[exit_up][0] = "1,1";
   map_to_write[exit_down][23] = "1,1";
   map_to_write[0][exit_right] = "1,1";

@@ -1,5 +1,4 @@
-#ifndef CTEXTURE_MANAGER_HPP_
-#define CTEXTURE_MANAGER_HPP_
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <map>
@@ -42,5 +41,3 @@ class CTexture_Manager : public CResourceManager<ETexture_Name, sf::Texture>
 		std::map <ETexture_Name, sf::Texture> m_textures;
 
 };
-
-#endif

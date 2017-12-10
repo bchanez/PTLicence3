@@ -1,5 +1,4 @@
-#ifndef CRESOURCE_HOLDER_HPP_
-#define CRESOURCE_HOLDER_HPP_
+#pragma once
 
 #include "CTexture_Manager.hpp"
 #include "CFont_Manager.hpp"
@@ -23,5 +22,3 @@ class CResourceHolder
 		CFont_Manager m_fonts;
 		CSound_Manager m_sounds;
 };
-
-#endif

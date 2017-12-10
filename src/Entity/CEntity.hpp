@@ -1,5 +1,4 @@
-#ifndef CENTITY_HPP_
-#define CENTITY_HPP_
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include "CDrawable.hpp"
@@ -35,5 +34,3 @@ class CEntity : public CDrawable
     unsigned int m_nb_animation;
     std::vector<CAnimation> m_animation;
 };
-
-#endif

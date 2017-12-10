@@ -1,5 +1,4 @@
-#ifndef CGAME_STATE_HPP_
-#define CGAME_STATE_HPP_
+#pragma once
 
 #include "../ResourceManager/CResourceHolder.hpp"
 #include "../Tools/DEBUG.hpp"
@@ -22,5 +21,3 @@ namespace State
 		CApplication* m_application;
 	};
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef CFONT_MANAGER_HPP_
-#define CFONT_MANAGER_HPP_
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <map>
@@ -19,5 +18,3 @@ class CFont_Manager : public CResourceManager<EFont_Name, sf::Font>
 	private:
 		std::map <EFont_Name, sf::Font> m_fonts;
 };
-
-#endif

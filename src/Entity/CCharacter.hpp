@@ -1,5 +1,4 @@
-#ifndef CCHARACTER_HPP_
-#define CCHARACTER_HPP_
+#pragma once
 
 #include "CEntity.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"
@@ -29,5 +28,3 @@ class CCharacter : public CEntity
     enum EAnimation {e_walk_right, e_walk_left};
     unsigned int m_nb_animation = 2;
 };
-
-#endif

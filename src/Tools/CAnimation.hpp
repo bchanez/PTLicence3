@@ -1,5 +1,4 @@
-#ifndef CANIMATION_HPP_
-#define CANIMATION_HPP_
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -35,5 +34,3 @@ class CAnimation
 
         unsigned int m_currentFrame;
 };
-
-#endif

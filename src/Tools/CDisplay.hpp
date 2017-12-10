@@ -1,5 +1,4 @@
-#ifndef CDISPLAY_HPP_
-#define CDISPLAY_HPP_
+#pragma once
 
 #include "SFML/Graphics.hpp"
 
@@ -26,5 +25,3 @@ namespace CDisplay
 	constexpr int FULL_SCREEN_HEIGHT = 1080;
 
 }
-
-#endif

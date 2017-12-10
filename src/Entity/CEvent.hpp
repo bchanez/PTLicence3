@@ -1,5 +1,4 @@
-#ifndef CEVENT_HPP_
-#define CEVENT_HPP_
+#pragma once
 
 #include "CEntity.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"
@@ -24,5 +23,3 @@ class CEvent: public CEntity
     enum EAnimation {};
     unsigned int m_nb_animation;
 };
-
-#endif

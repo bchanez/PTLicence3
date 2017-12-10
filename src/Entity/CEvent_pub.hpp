@@ -1,5 +1,4 @@
-#ifndef CEVENT_PUB_HPP_
-#define CEVENT_PUB_HPP_
+#pragma once
 
 #include "CEvent.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"
@@ -21,5 +20,3 @@ class CEvent_pub: public CEvent
 
     unsigned int m_nb_animation = 3;
 };
-
-#endif

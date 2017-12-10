@@ -1,6 +1,6 @@
 #include "CApplication.hpp"
 
-/*explicit*/ CApplication::CApplication()
+/*explicit*/ CApplication::CApplication(void)
 {
 	LOG("CApplication Constructor\n");
 	CDisplay::init();
@@ -12,12 +12,12 @@
 	m_currentScene = EState::e_intro;
 }
 
-/*virtual*/ CApplication::~CApplication()
+/*virtual*/ CApplication::~CApplication(void)
 {
 	LOG("CApplication Destructor\n");
 }
 
-void CApplication::runMainLoop()
+void CApplication::runMainLoop(void)
 {
 	while (CDisplay::isOpen()) {
 		float dt = m_clock.restart().asSeconds();

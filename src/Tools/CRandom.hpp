@@ -1,5 +1,4 @@
-#ifndef CRANDOM_HPP_
-#define CRANDOM_HPP_
+#pragma once
 
 #include <random>
 #include "DEBUG.hpp"
@@ -11,5 +10,3 @@ namespace CRandom
 	int intInRange(int low, int high);
 	float floatInRange(float low, float high);
 }
-
-#endif

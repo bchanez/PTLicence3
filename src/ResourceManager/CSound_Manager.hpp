@@ -1,5 +1,4 @@
-#ifndef CSOUND_MANAGER_HPP_
-#define CSOUND_MANAGER_HPP_
+#pragma once
 
 #include <SFML/Audio.hpp>
 #include <map>
@@ -20,5 +19,3 @@ class CSound_Manager : public CResourceManager<ESound_Name, sf::SoundBuffer>
 		std::map <ESound_Name, sf::SoundBuffer> m_sounds;
 
 };
-
-#endif

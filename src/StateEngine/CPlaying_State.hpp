@@ -1,5 +1,4 @@
-#ifndef CPLAYING_STATE_HPP_
-#define CPLAYING_STATE_HPP_
+#pragma once
 
 #include <memory>
 #include <vector>
@@ -34,5 +33,3 @@ namespace State
 			int m_indiceCharacter; // variable qui stocke l'indice du character dans le tableau
 	};
 }
-
-#endif

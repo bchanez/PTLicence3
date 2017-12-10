@@ -1,5 +1,4 @@
-#ifndef CINPUT_HPP_
-#define CINPUT_HPP_
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -31,4 +30,3 @@ private:
 	//Enum pour les boutons
 	enum { up, down, right, left, shift };
 };
-#endif
