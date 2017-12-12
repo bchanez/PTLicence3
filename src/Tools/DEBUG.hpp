@@ -7,7 +7,7 @@
 	// DEBUG 0 -> DEBUG desactive
 
 #if (DEBUG)
-	#define LOG(x) std::cout << x << std::endl;
+	#define LOG(x) std::cout << x;
 #else
 	#define LOG(x)
 #endif
