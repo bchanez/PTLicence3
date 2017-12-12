@@ -15,22 +15,27 @@ namespace State
     LOG("CIntro Destructor\n");
   }
 
+  void CIntro::init(void)
+  {
+      m_button = false;
+  }
+
   void CIntro::input(sf::Event * event)
   {
-    // touche concernant l'etat
-    while (CDisplay::getWindow()->pollEvent(* event))
-    {
-      if((* event).type == sf::Event::Closed)
-          CDisplay::getWindow()->close();
-
-      if((* event).type == sf::Event::KeyPressed)
-        m_application->changeState(EState::e_menu);
-    }
+    // event de la scene
+    if((* event).type == sf::Event::KeyPressed)
+      m_button = true;
   }
 
   void CIntro::update(float dt)
   {
     (void)dt;
+
+    if (m_button)
+    {
+      m_application->initMenuState();
+      m_application->changeState(EState::e_menu);
+    }
   }
 
   void CIntro::draw()

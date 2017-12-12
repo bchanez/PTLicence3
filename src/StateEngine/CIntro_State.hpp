@@ -13,11 +13,14 @@ namespace State
 			explicit CIntro(CApplication& application);
 			virtual ~CIntro();
 
+			void init(void);
 			void input(sf::Event * event) override;
 			void update(float dt) override;
 			void draw() override;
 
 		private:
+			bool m_button;
+
 			sf::Sprite m_intro;
 	};
 }

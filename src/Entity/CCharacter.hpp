@@ -2,13 +2,13 @@
 
 #include "CEntity.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"
-#include "../Tools/CInput.hpp"
 #include "../Tools/DEBUG.hpp"
 #include "../Tools/CDisplay.hpp"
 #include <math.h>
 
 class CCharacter : public CEntity
 {
+    struct Button { bool left, right, up, down, shift; };
 
   public:
 
@@ -17,12 +17,12 @@ class CCharacter : public CEntity
 
     void setTexture(void) override;
     void setAnimation(void);
-    CInput& getInput(void);
+    void input(sf::Event * event);
     void update(float dt) override;
 
   private:
 
-    CInput m_input;
+    Button m_button;
     enum Estate {e_idle, e_walk, e_run, e_action, e_dead, e_disappear};
 
     enum EAnimation {e_walk_right, e_walk_left};

@@ -10,6 +10,7 @@
 	m_state.insert(std::make_pair(EState::e_playing, std::make_unique<State::CPlaying>(*this)));
 
 	m_currentScene = EState::e_intro;
+	dynamic_cast<State::CIntro *>(m_state[m_currentScene].get())->init();
 }
 
 /*virtual*/ CApplication::~CApplication(void)
@@ -26,12 +27,23 @@ void CApplication::runMainLoop(void)
 
 		CDisplay::clear();
 
-		m_state[m_currentScene]->input(& event);
+		while (CDisplay::getWindow()->pollEvent(event))
+			m_state[m_currentScene]->input(& event);
 		m_state[m_currentScene]->update(dt);
 		m_state[m_currentScene]->draw();
 
 		CDisplay::display();
 	}
+}
+
+void CApplication::initIntroState(void)
+{
+	dynamic_cast<State::CIntro *>(m_state[EState::e_intro].get())->init();
+}
+
+void CApplication::initMenuState(void)
+{
+	dynamic_cast<State::CMenu *>(m_state[EState::e_menu].get())->init();
 }
 
 void CApplication::initPlayingState(int nombre_pnj)

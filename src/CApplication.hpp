@@ -35,6 +35,8 @@ public:
 
 	void runMainLoop(void);
 
+	void initIntroState(void);
+	void initMenuState(void);
 	void initPlayingState(int nombre_pnj);
 	void changeState(EState state);
 

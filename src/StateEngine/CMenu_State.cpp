@@ -15,31 +15,45 @@ namespace State
     LOG("CMenu Destructor\n");
   }
 
+  void CMenu::init(void)
+  {
+      m_button.escape = m_button.space = false;
+  }
+
   void CMenu::input(sf::Event * event)
   {
-    // touche concernant l'etat
-    while (CDisplay::getWindow()->pollEvent(* event))
+    // event de la scene
+    if((* event).type == sf::Event::KeyPressed)
     {
-      if ((* event).type == sf::Event::Closed)
-          CDisplay::getWindow()->close();
+      if ((* event).key.code == sf::Keyboard::Escape)
+        m_button.escape = true;
 
-      if((* event).type == sf::Event::KeyPressed)
-      {
-        if((* event).key.code == sf::Keyboard::Escape)
-          CDisplay::getWindow()->close();
+      if ((* event).key.code == sf::Keyboard::Space)
+        m_button.space = true;
+    }
 
-        if((* event).key.code == sf::Keyboard::Space)
-        {
-          m_application->changeState(EState::e_playing);
-          m_application->initPlayingState(100);
-        }
-      }
+    if((* event).type == sf::Event::KeyReleased)
+    {
+      if ((* event).key.code == sf::Keyboard::Escape)
+        m_button.escape = false;
+
+      if ((* event).key.code == sf::Keyboard::Space)
+        m_button.space = false;
     }
   }
 
   void CMenu::update(float dt)
   {
     (void)dt;
+
+    if (m_button.escape)
+      CDisplay::getWindow()->close();
+
+    if (m_button.space)
+    {
+      m_application->initPlayingState(100);
+      m_application->changeState(EState::e_playing);
+    }
   }
 
   void CMenu::draw()

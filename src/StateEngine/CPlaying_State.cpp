@@ -11,12 +11,15 @@ namespace State
 
 	/*virtual*/ CPlaying::~CPlaying()
 	{
-		m_listEntite.clear();
 		LOG("CPlaying Destructor\n");
+
+		m_listEntite.clear();
 	}
 
 	void CPlaying::init(int nombre_pnj)
 	{
+		m_button.escape = false;
+
 		m_listEntite.clear();
 
 		// ajout du joueur
@@ -44,28 +47,32 @@ namespace State
 
 	void CPlaying::input(sf::Event * event)
 	{
-		// touche concernant l'etat
-    while (CDisplay::getWindow()->pollEvent(* event))
-    {
-      if ((* event).type == sf::Event::Closed)
-          CDisplay::getWindow()->close();
+		// event de la scene
+    if((* event).type == sf::Event::KeyPressed)
+      if((* event).key.code == sf::Keyboard::Escape)
+				m_button.escape = true;
 
-      if((* event).type == sf::Event::KeyPressed)
-        if((* event).key.code == sf::Keyboard::Escape)
-				{
-					m_application->changeState(EState::e_menu);
-					CDisplay::getView()->setSize(1920.f, 1080.f);
-					CDisplay::getView()->setCenter(1920.f/2, 1080.f/2);
-					CDisplay::getWindow()->setView(* CDisplay::getView());
-				}
+		if((* event).type == sf::Event::KeyReleased)
+			if ((* event).key.code == sf::Keyboard::Escape)
+				m_button.escape = false;
 
-			// met a jour les events pour le personnage
-			dynamic_cast<CCharacter *>(m_listEntite[m_indiceCharacter].get())->getInput().gestionInputs(&(* event));
-    }
+		// met a jour les events pour le personnage
+		dynamic_cast<CCharacter *>(m_listEntite[m_indiceCharacter].get())->input(&(* event));
 	}
 
 	void CPlaying::update(float dt)
 	{
+		//update de la scene
+		if (m_button.escape)
+		{
+			m_application->initMenuState();
+			m_application->changeState(EState::e_menu);
+			CDisplay::getView()->setSize(1920.f, 1080.f);
+			CDisplay::getView()->setCenter(1920.f/2, 1080.f/2);
+			CDisplay::getWindow()->setView(* CDisplay::getView());
+			return;
+		}
+
 		// update des entites
 		for (unsigned int i = 0; i < m_listEntite.size(); ++i)
 			m_listEntite[i]->update(dt);

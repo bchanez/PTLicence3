@@ -15,6 +15,8 @@ namespace State
 {
 	class CPlaying : public CGame_State
 	{
+			struct Button { bool escape; };
+
 		public:
 			explicit CPlaying(CApplication& application);
 			virtual ~CPlaying();
@@ -26,6 +28,7 @@ namespace State
 			void draw() override;
 
 		private:
+			Button m_button;
 
 			void quickSort(std::vector<std::unique_ptr<CEntity>>& tableau, int debut, int fin);
 
