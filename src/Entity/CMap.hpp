@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 #include <cstdlib>
-#include "CDrawable.hpp"
+#include "../Tools/CDrawable.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"
 #include "../Tools/DEBUG.hpp"
 #include "../Tools/CRandom.hpp"

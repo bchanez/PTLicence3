@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "CDrawable.hpp"
+#include "../Tools/CDrawable.hpp"
 #include "../Tools/CAnimation.hpp"
 #include "../Tools/DEBUG.hpp"
 
