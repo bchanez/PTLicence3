@@ -38,7 +38,6 @@ namespace State
       if ((* event).key.code == sf::Keyboard::Escape)
         m_button.escape = true;
 
-
     if((* event).type == sf::Event::KeyReleased)
       if ((* event).key.code == sf::Keyboard::Escape)
         m_button.escape = false;

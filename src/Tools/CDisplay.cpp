@@ -10,7 +10,7 @@ void CDisplay::init()
 	//window = std::make_unique<sf::RenderWindow>(sf::VideoMode(WINDOWED_SCREEN_WIDTH, WINDOWED_SCREEN_HEIGHT), "Projet");
 	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "Projet", sf::Style::Fullscreen);
 	m_window.get()->setVerticalSyncEnabled(true);
-	m_window.get()->setKeyRepeatEnabled(false);
+	m_window.get()->setKeyRepeatEnabled(true);
 
 	//Création de la vue du jeu
 	m_view = std::make_unique<sf::View>();

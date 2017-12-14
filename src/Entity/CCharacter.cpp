@@ -130,8 +130,13 @@ void CCharacter::update(float dt)
     case e_walk :
     {
       m_move_speed = WALK_SPEED;
-      if(m_button.left) { m_position.x += -(m_move_speed * dt); m_orientation = e_left; }
-      if(m_button.right) { m_position.x += m_move_speed * dt; m_orientation = e_right; }
+      if(m_button.left) m_position.x += -(m_move_speed * dt);
+      if(m_button.right) m_position.x += m_move_speed * dt;
+      if(!(m_button.right && m_button.left))
+      {
+          if(m_button.left)  m_orientation = e_left;
+          if(m_button.right) m_orientation = e_right;
+      }
       if(m_button.up) m_position.y += -(m_move_speed * dt);
       if(m_button.down) m_position.y += m_move_speed * dt;
 
@@ -171,8 +176,13 @@ void CCharacter::update(float dt)
     case e_run :
     {
       m_move_speed = RUN_SPEED;
-      if(m_button.left) { m_position.x += -(m_move_speed * dt); m_orientation = e_left; }
-      if(m_button.right) { m_position.x += m_move_speed * dt; m_orientation = e_right; }
+      if(m_button.left) m_position.x += -(m_move_speed * dt);
+      if(m_button.right) m_position.x += m_move_speed * dt;
+      if(!(m_button.right && m_button.left))
+      {
+          if(m_button.left)  m_orientation = e_left;
+          if(m_button.right) m_orientation = e_right;
+      }
       if(m_button.up) m_position.y += -(m_move_speed * dt);
       if(m_button.down) m_position.y += m_move_speed * dt;
 
