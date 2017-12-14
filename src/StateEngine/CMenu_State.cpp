@@ -1,4 +1,5 @@
 #include "CMenu_State.hpp"
+#include <iostream>
 
 namespace State
 {
@@ -8,6 +9,13 @@ namespace State
     LOG("CMenu Constructor\n");
 
     m_menu.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Menu));
+
+    // bouton jouer
+    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_ButtonTest), sf::Vector2f(200,200), sf::Vector2f(500,166)));
+
+    // bouton quitter
+    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_ButtonTest), sf::Vector2f(200,400), sf::Vector2f(500,166)));
+
   }
 
   /*virtual*/ CMenu::~CMenu()
@@ -17,39 +25,51 @@ namespace State
 
   void CMenu::init(void)
   {
-      m_button.escape = m_button.space = false;
+      m_button.escape = false;
+
+      for (unsigned int i = 0; i < m_listButton.size(); ++i)
+        m_listButton[i]->init();
+
   }
 
   void CMenu::input(sf::Event * event)
   {
-    // event de la scene
     if((* event).type == sf::Event::KeyPressed)
-    {
       if ((* event).key.code == sf::Keyboard::Escape)
         m_button.escape = true;
 
-      if ((* event).key.code == sf::Keyboard::Space)
-        m_button.space = true;
-    }
 
     if((* event).type == sf::Event::KeyReleased)
-    {
       if ((* event).key.code == sf::Keyboard::Escape)
         m_button.escape = false;
 
-      if ((* event).key.code == sf::Keyboard::Space)
-        m_button.space = false;
-    }
+    if ((* event).type == sf::Event::MouseMoved)
+      for (unsigned int i = 0; i < m_listButton.size(); ++i)
+        m_listButton[i]->inputMousePosition(sf::Vector2f((* event).mouseMove.x, (* event).mouseMove.y));
+
+    if ((* event).type == sf::Event::MouseButtonPressed)
+        if ((* event).mouseButton.button == sf::Mouse::Left)
+          for (unsigned int i = 0; i < m_listButton.size(); ++i)
+            m_listButton[i]->inputMouseclicked(true);
+
+    if ((* event).type == sf::Event::MouseButtonReleased)
+        if ((* event).mouseButton.button == sf::Mouse::Left)
+          for (unsigned int i = 0; i < m_listButton.size(); ++i)
+            m_listButton[i]->inputMouseclicked(false);
   }
 
   void CMenu::update(float dt)
   {
     (void)dt;
+    // update button
+    for (unsigned int i = 0; i < m_listButton.size(); ++i)
+      m_listButton[i]->update(dt);
 
-    if (m_button.escape)
+    // update scene
+    if (m_button.escape || m_listButton[e_quitter]->action())
       CDisplay::getWindow()->close();
 
-    if (m_button.space)
+    if (m_listButton[e_jouer]->action())
     {
       m_application->initPlayingState(100);
       m_application->changeState(EState::e_playing);
@@ -60,5 +80,9 @@ namespace State
   {
     // dessine l'image du menu
     CDisplay::draw(m_menu);
+
+    //dessine les boutons
+    for (unsigned int i = 0; i < m_listButton.size(); ++i)
+      CDisplay::draw(* (m_listButton[i].get()));
   }
 }

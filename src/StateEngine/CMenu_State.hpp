@@ -3,6 +3,7 @@
 #include "CGame_State.hpp"
 #include "../CApplication.hpp"
 #include "../Tools/CDisplay.hpp"
+#include "../Tools/CButton.hpp"
 #include "../Tools/DEBUG.hpp"
 
 
@@ -10,7 +11,7 @@ namespace State
 {
 	class CMenu : public CGame_State
 	{
-			struct Button { bool escape, space; };
+			struct Button { bool escape; };
 
 		public:
 			explicit CMenu(CApplication& application);
@@ -25,5 +26,8 @@ namespace State
 			Button m_button;
 
 			sf::Sprite m_menu;
+
+			enum EButton {e_jouer, e_quitter};
+			std::vector<std::unique_ptr<CButton>> m_listButton;
 	};
 }

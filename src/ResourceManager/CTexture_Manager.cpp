@@ -8,6 +8,10 @@
 	addResource(ETexture_Name::e_Intro, "rsc/graphics/testIntro.png");
 	addResource(ETexture_Name::e_Menu, "rsc/graphics/testMenu.jpg");
 
+	// button
+	addResource(ETexture_Name::e_ButtonTest, "rsc/graphics/buttonTest.jpg");
+
+
 	// character
 	addResource(ETexture_Name::e_Characters, "rsc/graphics/potatoman.png");
 	addResource(ETexture_Name::e_Hair_1, "rsc/graphics/hair_1.png");
@@ -26,6 +30,8 @@
 
 	// map
 	addResource(ETexture_Name::e_TileMap_Grass, "rsc/graphics/tilemap_grass.png");
+
+
 }
 
 /*virtual*/ CTexture_Manager::~CTexture_Manager()

@@ -12,7 +12,7 @@ class CPNJ : public CEntity
     explicit CPNJ();
     virtual ~CPNJ();
 
-    void setTexture(void) override;
+    void setTexture(void);
     void setAnimation(void) override;
     void update(float dt) override;
 

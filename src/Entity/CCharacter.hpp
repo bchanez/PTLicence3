@@ -15,8 +15,8 @@ class CCharacter : public CEntity
     explicit CCharacter(void);
     virtual ~CCharacter(void);
 
-    void setTexture(void) override;
-    void setAnimation(void);
+    void setTexture(void);
+    void setAnimation(void) override;
     void input(sf::Event * event);
     void update(float dt) override;
 

@@ -11,6 +11,9 @@ enum class ETexture_Name
 	e_Intro,
 	e_Menu,
 
+	//buttonTest
+	e_ButtonTest,
+
 	// character
 	e_Characters,
 	e_Hair_1,

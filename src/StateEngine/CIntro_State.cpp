@@ -23,7 +23,7 @@ namespace State
   void CIntro::input(sf::Event * event)
   {
     // event de la scene
-    if((* event).type == sf::Event::KeyPressed)
+    if((* event).type == sf::Event::KeyPressed || (* event).type == sf::Event::MouseButtonPressed)
       m_button = true;
   }
 

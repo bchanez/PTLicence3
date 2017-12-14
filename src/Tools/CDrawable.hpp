@@ -3,15 +3,12 @@
 #include <SFML/Graphics.hpp>
 #include "../Tools/DEBUG.hpp"
 
-
 class CDrawable : public sf::Drawable
 {
 
   public:
     explicit CDrawable(void);
     virtual ~CDrawable(void);
-
-    virtual void setTexture(void) = 0;
 
   protected:
 
