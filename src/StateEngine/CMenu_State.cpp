@@ -45,7 +45,7 @@ namespace State
 
     if ((* event).type == sf::Event::MouseMoved)
       for (unsigned int i = 0; i < m_listButton.size(); ++i)
-        m_listButton[i]->inputMousePosition(sf::Vector2f((* event).mouseMove.x, (* event).mouseMove.y));
+        m_listButton[i]->inputMousePosition(CDisplay::getWindow()->mapPixelToCoords(sf::Vector2i((* event).mouseMove.x, (* event).mouseMove.y), * CDisplay::getView()));
 
     if ((* event).type == sf::Event::MouseButtonPressed)
         if ((* event).mouseButton.button == sf::Mouse::Left)
