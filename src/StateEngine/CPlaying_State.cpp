@@ -16,9 +16,19 @@ namespace State
 		m_listEntite.clear();
 	}
 
-	void CPlaying::init(int nombre_pnj)
+	void CPlaying::init(void)
 	{
-		m_button.escape = false;
+		m_key.escape = false;
+
+		// centre la vue sur la position du personnage
+		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
+	  CDisplay::getView()->setCenter(dynamic_cast<CCharacter *>(m_listEntite[m_indiceCharacter].get())->getPosition());
+	  CDisplay::getWindow()->setView(* CDisplay::getView());
+	}
+
+	void CPlaying::newGame(int nombre_pnj)
+	{
+		m_key.escape = false;
 
 		m_listEntite.clear();
 
@@ -41,8 +51,8 @@ namespace State
 
 		// centre la vue sur la position du personnage
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
-	  CDisplay::getView()->setCenter(dynamic_cast<CCharacter *>(m_listEntite[m_indiceCharacter].get())->getPosition());
-	  CDisplay::getWindow()->setView(* CDisplay::getView());
+		CDisplay::getView()->setCenter(dynamic_cast<CCharacter *>(m_listEntite[m_indiceCharacter].get())->getPosition());
+		CDisplay::getWindow()->setView(* CDisplay::getView());
 	}
 
 	void CPlaying::input(sf::Event * event)
@@ -50,11 +60,11 @@ namespace State
 		// event de la scene
     if((* event).type == sf::Event::KeyPressed)
       if((* event).key.code == sf::Keyboard::Escape)
-				m_button.escape = true;
+				m_key.escape = true;
 
 		if((* event).type == sf::Event::KeyReleased)
 			if ((* event).key.code == sf::Keyboard::Escape)
-				m_button.escape = false;
+				m_key.escape = false;
 
 		// met a jour les events pour le personnage
 		dynamic_cast<CCharacter *>(m_listEntite[m_indiceCharacter].get())->input(&(* event));
@@ -63,13 +73,10 @@ namespace State
 	void CPlaying::update(float dt)
 	{
 		//update de la scene
-		if (m_button.escape)
+		if (m_key.escape)
 		{
-			m_application->initMenuState();
-			m_application->changeState(EState::e_menu);
-			CDisplay::getView()->setSize(1920.f, 1080.f);
-			CDisplay::getView()->setCenter(1920.f/2, 1080.f/2);
-			CDisplay::getWindow()->setView(* CDisplay::getView());
+			m_application->initPauseState();
+			m_application->changeState(EState::e_pause);
 			return;
 		}
 

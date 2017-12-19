@@ -15,20 +15,21 @@ namespace State
 {
 	class CPlaying : public CGame_State
 	{
-			struct Button { bool escape; };
+			struct Key { bool escape; };
 
 		public:
 			explicit CPlaying(CApplication& application);
 			virtual ~CPlaying();
 
-			void init(int nombre_pnj);
+			void init(void);
+			void newGame(int nombre_pnj);
 
 			void input(sf::Event * event) override;
 			void update(float dt) override;
 			void draw() override;
 
 		private:
-			Button m_button;
+			Key m_key;
 
 			void quickSort(std::vector<std::unique_ptr<CEntity>>& tableau, int debut, int fin);
 

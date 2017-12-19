@@ -19,7 +19,7 @@ namespace State
 			void draw() override;
 
 		private:
-			bool m_button;
+			bool m_key;
 
 			sf::Sprite m_intro;
 	};

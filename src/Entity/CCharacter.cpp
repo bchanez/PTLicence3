@@ -4,7 +4,7 @@
 {
   LOG("CCharacter Constructor\n");
 
-  m_button.left = m_button.right = m_button.up = m_button.down = m_button.shift = false;
+  m_key.left = m_key.right = m_key.up = m_key.down = m_key.shift = false;
 
   m_sprite.setOrigin(sf::Vector2f(20, 30));
 
@@ -62,40 +62,40 @@ void CCharacter::input(sf::Event * event)
   {
     if ((* event).key.code == sf::Keyboard::Z
       || (* event).key.code == sf::Keyboard::W)
-      m_button.up = true;
+      m_key.up = true;
 
     if ((* event).key.code == sf::Keyboard::Q
       || (* event).key.code == sf::Keyboard::A)
-      m_button.left = true;
+      m_key.left = true;
 
     if ((* event).key.code == sf::Keyboard::S)
-      m_button.down = true;
+      m_key.down = true;
 
     if ((* event).key.code == sf::Keyboard::D)
-      m_button.right = true;
+      m_key.right = true;
 
     if ((* event).key.code == sf::Keyboard::LShift)
-      m_button.shift = true;
+      m_key.shift = true;
   }
 
   if((* event).type == sf::Event::KeyReleased)
   {
     if ((* event).key.code == sf::Keyboard::Z
       || (* event).key.code == sf::Keyboard::W)
-      m_button.up = false;
+      m_key.up = false;
 
     if ((* event).key.code == sf::Keyboard::Q
       || (* event).key.code == sf::Keyboard::A)
-      m_button.left = false;
+      m_key.left = false;
 
     if ((* event).key.code == sf::Keyboard::S)
-      m_button.down = false;
+      m_key.down = false;
 
     if ((* event).key.code == sf::Keyboard::D)
-      m_button.right = false;
+      m_key.right = false;
 
     if ((* event).key.code == sf::Keyboard::LShift)
-      m_button.shift = false;
+      m_key.shift = false;
   }
 }
 
@@ -105,9 +105,9 @@ void CCharacter::update(float dt)
   {
     case e_idle :
     {
-      if(m_button.left || m_button.right || m_button.up || m_button.down)
+      if(m_key.left || m_key.right || m_key.up || m_key.down)
       {
-        if (!m_button.shift)
+        if (!m_key.shift)
           m_state = e_walk;
         else
           m_state = e_run;
@@ -130,20 +130,20 @@ void CCharacter::update(float dt)
     case e_walk :
     {
       m_move_speed = WALK_SPEED;
-      if(m_button.left) m_position.x += -(m_move_speed * dt);
-      if(m_button.right) m_position.x += m_move_speed * dt;
-      if(!(m_button.right && m_button.left))
+      if(m_key.left) m_position.x += -(m_move_speed * dt);
+      if(m_key.right) m_position.x += m_move_speed * dt;
+      if(!(m_key.right && m_key.left))
       {
-          if(m_button.left)  m_orientation = e_left;
-          if(m_button.right) m_orientation = e_right;
+          if(m_key.left)  m_orientation = e_left;
+          if(m_key.right) m_orientation = e_right;
       }
-      if(m_button.up) m_position.y += -(m_move_speed * dt);
-      if(m_button.down) m_position.y += m_move_speed * dt;
+      if(m_key.up) m_position.y += -(m_move_speed * dt);
+      if(m_key.down) m_position.y += m_move_speed * dt;
 
-      if(!m_button.left && !m_button.right && !m_button.up  && !m_button.down)
+      if(!m_key.left && !m_key.right && !m_key.up  && !m_key.down)
         m_state = e_idle;
       else
-        if(m_button.shift)
+        if(m_key.shift)
           m_state = e_run;
 
 
@@ -176,20 +176,20 @@ void CCharacter::update(float dt)
     case e_run :
     {
       m_move_speed = RUN_SPEED;
-      if(m_button.left) m_position.x += -(m_move_speed * dt);
-      if(m_button.right) m_position.x += m_move_speed * dt;
-      if(!(m_button.right && m_button.left))
+      if(m_key.left) m_position.x += -(m_move_speed * dt);
+      if(m_key.right) m_position.x += m_move_speed * dt;
+      if(!(m_key.right && m_key.left))
       {
-          if(m_button.left)  m_orientation = e_left;
-          if(m_button.right) m_orientation = e_right;
+          if(m_key.left)  m_orientation = e_left;
+          if(m_key.right) m_orientation = e_right;
       }
-      if(m_button.up) m_position.y += -(m_move_speed * dt);
-      if(m_button.down) m_position.y += m_move_speed * dt;
+      if(m_key.up) m_position.y += -(m_move_speed * dt);
+      if(m_key.down) m_position.y += m_move_speed * dt;
 
-      if(!m_button.left && !m_button.right && !m_button.up  && !m_button.down)
+      if(!m_key.left && !m_key.right && !m_key.up  && !m_key.down)
         m_state = e_idle;
       else
-        if(!m_button.shift)
+        if(!m_key.shift)
           m_state = e_walk;
 
       if (m_position != m_sprite.getPosition())

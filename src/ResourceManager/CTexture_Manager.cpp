@@ -5,8 +5,10 @@
 	LOG("CTexture_Manager Constructor\n");
 
 	// stats
-	addResource(ETexture_Name::e_Intro, "rsc/graphics/testIntro.png");
-	addResource(ETexture_Name::e_Menu, "rsc/graphics/testMenu.jpg");
+	addResource(ETexture_Name::e_Intro, "rsc/graphics/intro.png");
+	addResource(ETexture_Name::e_Menu, "rsc/graphics/menu.png");
+	addResource(ETexture_Name::e_Configure, "rsc/graphics/configure.png");
+		addResource(ETexture_Name::e_Pause, "rsc/graphics/pause.png");
 
 	// button
 	addResource(ETexture_Name::e_ButtonTest, "rsc/graphics/buttonTest.jpg");

@@ -8,7 +8,7 @@
 
 class CCharacter : public CEntity
 {
-    struct Button { bool left, right, up, down, shift; };
+    struct Key { bool left, right, up, down, shift; };
 
   public:
 
@@ -22,7 +22,7 @@ class CCharacter : public CEntity
 
   private:
 
-    Button m_button;
+    Key m_key;
     enum Estate {e_idle, e_walk, e_run, e_action, e_dead, e_disappear};
 
     enum EAnimation {e_walk_right, e_walk_left};

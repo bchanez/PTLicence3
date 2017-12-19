@@ -25,7 +25,7 @@ namespace State
 
   void CMenu::init(void)
   {
-      m_button.escape = false;
+      m_key.escape = false;
 
       for (unsigned int i = 0; i < m_listButton.size(); ++i)
         m_listButton[i]->init();
@@ -36,11 +36,11 @@ namespace State
   {
     if((* event).type == sf::Event::KeyPressed)
       if ((* event).key.code == sf::Keyboard::Escape)
-        m_button.escape = true;
+        m_key.escape = true;
 
     if((* event).type == sf::Event::KeyReleased)
       if ((* event).key.code == sf::Keyboard::Escape)
-        m_button.escape = false;
+        m_key.escape = false;
 
     if ((* event).type == sf::Event::MouseMoved)
       for (unsigned int i = 0; i < m_listButton.size(); ++i)
@@ -65,13 +65,13 @@ namespace State
       m_listButton[i]->update(dt);
 
     // update scene
-    if (m_button.escape || m_listButton[e_quitter]->action())
+    if (m_key.escape || m_listButton[e_quitter]->action())
       CDisplay::getWindow()->close();
 
-    if (m_listButton[e_jouer]->action())
+    if (m_listButton[e_configure]->action())
     {
-      m_application->initPlayingState(100);
-      m_application->changeState(EState::e_playing);
+      m_application->initConfigureState();
+      m_application->changeState(EState::e_configure);
     }
   }
 

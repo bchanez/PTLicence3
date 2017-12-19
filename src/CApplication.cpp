@@ -7,7 +7,9 @@
 
 	m_state.insert(std::make_pair(EState::e_intro, std::make_unique<State::CIntro>(*this)));
 	m_state.insert(std::make_pair(EState::e_menu, std::make_unique<State::CMenu>(*this)));
+	m_state.insert(std::make_pair(EState::e_configure, std::make_unique<State::CConfigure>(*this)));
 	m_state.insert(std::make_pair(EState::e_playing, std::make_unique<State::CPlaying>(*this)));
+	m_state.insert(std::make_pair(EState::e_pause, std::make_unique<State::CPause>(*this)));
 
 	m_currentScene = EState::e_intro;
 	dynamic_cast<State::CIntro *>(m_state[m_currentScene].get())->init();
@@ -46,9 +48,24 @@ void CApplication::initMenuState(void)
 	dynamic_cast<State::CMenu *>(m_state[EState::e_menu].get())->init();
 }
 
-void CApplication::initPlayingState(int nombre_pnj)
+void CApplication::initConfigureState(void)
 {
-	dynamic_cast<State::CPlaying *>(m_state[EState::e_playing].get())->init(nombre_pnj);
+	dynamic_cast<State::CConfigure *>(m_state[EState::e_configure].get())->init();
+}
+
+void CApplication::initPlayingStateNewGame(int nombre_pnj)
+{
+	dynamic_cast<State::CPlaying *>(m_state[EState::e_playing].get())->newGame(nombre_pnj);
+}
+
+void CApplication::initPlayingState(void)
+{
+	dynamic_cast<State::CPlaying *>(m_state[EState::e_playing].get())->init();
+}
+
+void CApplication::initPauseState(void)
+{
+	dynamic_cast<State::CPause *>(m_state[EState::e_pause].get())->init();
 }
 
 void CApplication::changeState(EState state)

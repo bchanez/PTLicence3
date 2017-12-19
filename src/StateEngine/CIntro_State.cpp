@@ -17,21 +17,21 @@ namespace State
 
   void CIntro::init(void)
   {
-      m_button = false;
+      m_key = false;
   }
 
   void CIntro::input(sf::Event * event)
   {
     // event de la scene
     if((* event).type == sf::Event::KeyPressed || (* event).type == sf::Event::MouseButtonPressed)
-      m_button = true;
+      m_key = true;
   }
 
   void CIntro::update(float dt)
   {
     (void)dt;
 
-    if (m_button)
+    if (m_key)
     {
       m_application->initMenuState();
       m_application->changeState(EState::e_menu);
