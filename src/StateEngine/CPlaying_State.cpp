@@ -35,7 +35,7 @@ namespace State
 		// ajout du joueur
 		m_indiceCharacter = 0;
 		m_listEntite.push_back(std::make_unique<CCharacter>());
-		m_listEntite[m_indiceCharacter].get()->setPosition(sf::Vector2f(960.f, 540.f));
+		m_listEntite[m_indiceCharacter].get()->setPosition(sf::Vector2f((float)(rand()%1000), (float)(rand()%1000)));
 
 		// ajout des PNJs
 		int indiceDecalage = m_listEntite.size();

@@ -10,6 +10,7 @@
   m_orientation = e_right;
 
   m_goal_point = sf::Vector2i(0, 0);
+  m_stop = sf::Vector2f(1, 1);
 
   setTexture();
   setAnimation();
@@ -30,7 +31,7 @@ void CPNJ::setTexture(void)
   sf::Sprite spr;
   spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Characters));
   m_prerender.draw(spr);
-  spr.setTexture(CResourceHolder::get().texture((ETexture_Name)(CRandom::intInRange(3, 10))));
+  spr.setTexture(CResourceHolder::get().texture((ETexture_Name)(CRandom::intInRange(5, 12))));
   m_prerender.draw(spr);
 
   m_prerender.display();
@@ -86,13 +87,47 @@ void CPNJ::update(float dt)
     case e_walk :
     {
       m_move_speed = WALK_SPEED;
-      if(m_goal_point.x < (int) m_position.x) { m_position.x += -(m_move_speed * dt); m_orientation = e_left; }
-      if(m_goal_point.x > (int) m_position.x) { m_position.x += m_move_speed * dt; m_orientation = e_right; }
-      if(m_goal_point.y < (int) m_position.y) m_position.y += -(m_move_speed * dt);
-      if(m_goal_point.y > (int) m_position.y) m_position.y += m_move_speed * dt;
+      /*if(m_goal_point.x < (int) m_position.x) {
+        m_position.x += -(m_move_speed * dt);
+        m_orientation = e_left;
+      }
+      if(m_goal_point.x > (int) m_position.x) {
+        m_position.x += m_move_speed * dt;
+        m_orientation = e_right;
+      }
+      if(m_goal_point.y < (int) m_position.y)
+        m_position.y += -(m_move_speed * dt);
+      if(m_goal_point.y > (int) m_position.y)
+        m_position.y += m_move_speed * dt;*/
 
-      if((sf::Vector2i)m_position == m_goal_point)
-        m_state = e_idle;
+      //Nouveau système de déplacement un peu plus naturel
+      sf::Vector2f direction = sf::Vector2f(0, 0);
+
+      if(m_goal_point.x < (int) m_position.x)
+        direction.x += -1;
+
+      if(m_goal_point.x > (int) m_position.x)
+        direction.x += 1;
+
+      if(m_goal_point.y < (int) m_position.y)
+        direction.y += -1;
+
+      if(m_goal_point.y > (int) m_position.y)
+        direction.y += 1;
+
+
+      if (rand()%20 == 0){
+        if (rand()%10 == 0) m_stop.x = 1 - m_stop.x;
+        if (rand()%10 == 0) m_stop.y = 1 - m_stop.y;
+      }
+
+      if (direction.x == 1)
+        m_orientation = e_right;
+      if (direction.x == -1)
+        m_orientation = e_left;
+
+      m_position.x += (m_stop.x * direction.x * m_move_speed * dt);
+      m_position.y += (m_stop.y * direction.y * m_move_speed * dt);
 
       if (m_position != m_sprite.getPosition())
       {
@@ -112,7 +147,23 @@ void CPNJ::update(float dt)
         }
       }
       else
+      {
+        if (m_orientation == e_right)
+        {
+          m_animation[e_walk_right].restart();
+          m_sprite.setTextureRect(m_animation[e_walk_right].getCurrentFrame());
+        }
+        else if (m_orientation == e_left)
+        {
+          m_animation[e_walk_left].restart();
+          m_sprite.setTextureRect(m_animation[e_walk_left].getCurrentFrame());
+        }
+      }
+
+
+      if((sf::Vector2i)m_position == m_goal_point){
         m_state = e_idle;
+      }
     }
     break;
 
