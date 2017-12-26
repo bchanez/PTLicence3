@@ -94,7 +94,7 @@ void CPNJ::setTexture(void)
     { //Pâle
       newColor = sf::Color(254, 230, 215);
 
-      switch(rand()%4){
+      switch(rand()%5){
         case 0 :
         {
           hairColor = sf::Color(140, 80, 60); //Chatain
@@ -102,7 +102,7 @@ void CPNJ::setTexture(void)
         }
         case 1 :
         {
-          hairColor = sf::Color(200, 150, 100); //Roux
+          hairColor = sf::Color(200, 110, 50); //Roux
           break;
         }
         case 2 :
@@ -115,6 +115,11 @@ void CPNJ::setTexture(void)
           hairColor = sf::Color(50, 50, 50); //Noir
           break;
         }
+        case 4 :
+        {
+          hairColor = sf::Color(210, 160, 110); //Blond
+          break;
+        }
         default : break;
       }
       break;
@@ -122,8 +127,8 @@ void CPNJ::setTexture(void)
     default : break;
   }
 
-  for (int y = 0; y < i_Body.getSize().y; y++){
-    for (int x = 0; x < i_Body.getSize().x; x++){
+  for (int y = 0; y < (int)i_Body.getSize().y; y++){
+    for (int x = 0; x < (int)i_Body.getSize().x; x++){
       if (i_Body.getPixel(x, y).a > 10){
         i_Body.setPixel(x, y, newColor);
       }
@@ -149,8 +154,8 @@ void CPNJ::setTexture(void)
 
 
 
-  for (int y = 0; y < i_Hair.getSize().y; y++){
-    for (int x = 0; x < i_Hair.getSize().x; x++){
+  for (int y = 0; y < (int)i_Hair.getSize().y; y++){
+    for (int x = 0; x < (int)i_Hair.getSize().x; x++){
       if (i_Hair.getPixel(x, y).a > 10){
         i_Hair.setPixel(x, y, hairColor);
       }
