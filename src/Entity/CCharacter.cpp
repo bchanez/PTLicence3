@@ -30,8 +30,14 @@ void CCharacter::setTexture(void)
   sf::Sprite spr;
   spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Characters));
   m_prerender.draw(spr);
-  spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Hair_5));
+
+  sf::Image i_Hair = CResourceHolder::get().image(EImage_Name::e_Hair_5);
+  //i_Hair.createMaskFromColor(sf::Color(255 ,255 , 100));
+  sf::Texture t_Hair;
+  t_Hair.loadFromImage(i_Hair);
+  spr.setTexture(t_Hair);
   m_prerender.draw(spr);
+  
   spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Pants_1));
   m_prerender.draw(spr);
   spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_TShirt_1));

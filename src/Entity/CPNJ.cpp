@@ -31,7 +31,41 @@ void CPNJ::setTexture(void)
   sf::Sprite spr;
   spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Characters));
   m_prerender.draw(spr);
-  spr.setTexture(CResourceHolder::get().texture((ETexture_Name)(CRandom::intInRange(5, 12))));
+
+  sf::Image i_Hair = CResourceHolder::get().image((EImage_Name)(CRandom::intInRange(0, 7)));
+
+  sf::Color newColor;
+
+  switch(rand()%3){
+    case 0 :
+    {
+      newColor = sf::Color(0, 0, 0);
+      break;
+    }
+    case 1 :
+    {
+      newColor = sf::Color(10, 25, 20);
+      break;
+    }
+    case 2 :
+    {
+      newColor = sf::Color(50, 10, 10);
+      break;
+    }
+  }
+
+  for (int y = 0; y < i_Hair.getSize().y; y++){
+    for (int x = 0; x < i_Hair.getSize().x; x++){
+      if (i_Hair.getPixel(x, y).a > 10){
+        i_Hair.setPixel(x, y, i_Hair.getPixel(x, y) + newColor);
+      }
+    }
+  }
+
+  sf::Texture t_Hair;
+  t_Hair.loadFromImage(i_Hair);
+
+  spr.setTexture(t_Hair);
   m_prerender.draw(spr);
 
   m_prerender.display();
