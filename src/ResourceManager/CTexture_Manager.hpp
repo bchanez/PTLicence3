@@ -16,12 +16,6 @@ enum class ETexture_Name
 	//buttonTest
 	e_ButtonTest,
 
-	// character
-	e_Characters,
-
-	e_TShirt_1,
-	e_Pants_1,
-
 	// events
 	e_Pub,
 

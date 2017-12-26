@@ -28,7 +28,16 @@ void CCharacter::setTexture(void)
   m_prerender.clear(sf::Color::Transparent);
 
   sf::Sprite spr;
-  spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Characters));
+  sf::Image i_Body = CResourceHolder::get().image(EImage_Name::e_Body_White);
+  sf::Texture t_Body;
+  t_Body.loadFromImage(i_Body);
+  spr.setTexture(t_Body);
+  m_prerender.draw(spr);
+
+  //Details
+  i_Body = CResourceHolder::get().image(EImage_Name::e_Body_Details);
+  t_Body.loadFromImage(i_Body);
+  spr.setTexture(t_Body);
   m_prerender.draw(spr);
 
   sf::Image i_Hair = CResourceHolder::get().image(EImage_Name::e_Hair_5);
@@ -37,11 +46,11 @@ void CCharacter::setTexture(void)
   t_Hair.loadFromImage(i_Hair);
   spr.setTexture(t_Hair);
   m_prerender.draw(spr);
-  
-  spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Pants_1));
+
+  /*spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Pants_1));
   m_prerender.draw(spr);
   spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_TShirt_1));
-  m_prerender.draw(spr);
+  m_prerender.draw(spr);*/
 
   m_prerender.display();
 

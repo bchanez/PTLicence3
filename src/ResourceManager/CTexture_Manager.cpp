@@ -13,12 +13,6 @@
 	// button
 	addResource(ETexture_Name::e_ButtonTest, "rsc/graphics/buttonTest.jpg");
 
-
-	// character
-	addResource(ETexture_Name::e_Characters, "rsc/graphics/potatoman.png");
-	addResource(ETexture_Name::e_TShirt_1, "rsc/graphics/tshirt_1.png");
-	addResource(ETexture_Name::e_Pants_1, "rsc/graphics/pants_1.png");
-
 	//events
 	addResource(ETexture_Name::e_Pub, "rsc/graphics/pub.png");
 

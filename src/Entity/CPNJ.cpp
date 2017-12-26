@@ -29,35 +29,130 @@ void CPNJ::setTexture(void)
   m_prerender.clear(sf::Color::Transparent);
 
   sf::Sprite spr;
-  spr.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Characters));
-  m_prerender.draw(spr);
+  //Body
+  sf::Image i_Body = CResourceHolder::get().image(EImage_Name::e_Body_White);
+  sf::Color newColor, hairColor;
 
-  sf::Image i_Hair = CResourceHolder::get().image((EImage_Name)(CRandom::intInRange(0, 7)));
-
-  sf::Color newColor;
-
-  switch(rand()%3){
+  switch(rand()%4){
     case 0 :
-    {
-      newColor = sf::Color(0, 0, 0);
+    { //Normale
+      newColor = sf::Color(254, 211, 186);
+
+      switch(rand()%4){
+        case 0 :
+        {
+          hairColor = sf::Color(210, 160, 110); //Blond
+          break;
+        }
+        case 1 :
+        {
+          hairColor = sf::Color(50, 50, 50);  //Noir
+          break;
+        }
+        case 2 :
+        {
+          hairColor = sf::Color(140, 80, 60); //Chatain
+          break;
+        }
+        case 3 :
+        {
+          hairColor = sf::Color(80, 40, 20); //Brun
+          break;
+        }
+        default : break;
+      }
+
       break;
     }
     case 1 :
-    {
-      newColor = sf::Color(10, 25, 20);
+    { //Jaune
+      newColor = sf::Color(254, 235, 190);
+      hairColor = sf::Color(50, 50, 50);  //Noir
       break;
     }
     case 2 :
-    {
-      newColor = sf::Color(50, 10, 10);
+    { //Noire
+      newColor = sf::Color(100, 80, 50);
+
+      switch(rand()%2){
+        case 0 :
+        {
+          hairColor = sf::Color(50, 50, 50);  //Noir
+          break;
+        }
+        case 1 :
+        {
+          hairColor = sf::Color(80, 40, 20); //Brun
+          break;
+        }
+        default : break;
+      }
+
       break;
     }
+    case 3 :
+    { //Pâle
+      newColor = sf::Color(254, 230, 215);
+
+      switch(rand()%4){
+        case 0 :
+        {
+          hairColor = sf::Color(140, 80, 60); //Chatain
+          break;
+        }
+        case 1 :
+        {
+          hairColor = sf::Color(200, 150, 100); //Roux
+          break;
+        }
+        case 2 :
+        {
+          hairColor = sf::Color(100, 40, 20); //Brun
+          break;
+        }
+        case 3 :
+        {
+          hairColor = sf::Color(50, 50, 50); //Noir
+          break;
+        }
+        default : break;
+      }
+      break;
+    }
+    default : break;
   }
+
+  for (int y = 0; y < i_Body.getSize().y; y++){
+    for (int x = 0; x < i_Body.getSize().x; x++){
+      if (i_Body.getPixel(x, y).a > 10){
+        i_Body.setPixel(x, y, newColor);
+      }
+    }
+  }
+
+  sf::Texture t_Body;
+  t_Body.loadFromImage(i_Body);
+
+  spr.setTexture(t_Body);
+  m_prerender.draw(spr);
+
+  //Details
+  i_Body = CResourceHolder::get().image(EImage_Name::e_Body_Details);
+  t_Body.loadFromImage(i_Body);
+  spr.setTexture(t_Body);
+  m_prerender.draw(spr);
+
+
+  //Hair
+  size_t hair_nb = CRandom::intInRange(2, 9);
+  sf::Image i_Hair = CResourceHolder::get().image((EImage_Name)hair_nb);
+
+
 
   for (int y = 0; y < i_Hair.getSize().y; y++){
     for (int x = 0; x < i_Hair.getSize().x; x++){
       if (i_Hair.getPixel(x, y).a > 10){
-        i_Hair.setPixel(x, y, i_Hair.getPixel(x, y) + newColor);
+        i_Hair.setPixel(x, y, hairColor);
       }
     }
   }
@@ -67,6 +162,14 @@ void CPNJ::setTexture(void)
 
   spr.setTexture(t_Hair);
   m_prerender.draw(spr);
+
+  //Details
+  i_Hair = CResourceHolder::get().image((EImage_Name)(hair_nb+8));
+  t_Hair.loadFromImage(i_Hair);
+  spr.setTexture(t_Hair);
+  m_prerender.draw(spr);
+
+  //Clothes
 
   m_prerender.display();
 
