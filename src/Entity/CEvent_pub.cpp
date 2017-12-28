@@ -37,6 +37,11 @@ void CEvent_pub::setAnimation(void)
   }
 }
 
+void CEvent_pub::input(sf::Event * event)
+{
+  
+}
+
 void CEvent_pub::update(float dt)
 {
   (void)dt;

@@ -14,6 +14,7 @@ class CEvent_concert: public CEvent
 
     void setTexture(void) override;
     void setAnimation(void) override;
+    void input(sf::Event * event) override;
     void update(float dt) override;
 
   private:

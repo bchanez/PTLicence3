@@ -17,7 +17,7 @@ class CActor : public CEntity
 
     void setTexture(void);
     void setAnimation(void) override;
-    void input(sf::Event * event);
+    void input(sf::Event * event) override;
     void update(float dt) override;
 
   private:

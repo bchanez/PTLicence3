@@ -13,11 +13,16 @@
 // donne la texture a l'evenemnt
 void CEvent_concert::setTexture(void)
 {
-  
+
 }
 
 // definie les animations de l'evenement
 void CEvent_concert::setAnimation(void)
+{
+
+}
+
+void CEvent_concert::input(sf::Event * event)
 {
 
 }

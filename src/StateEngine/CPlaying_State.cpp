@@ -22,7 +22,7 @@ namespace State
 
 		// centre la vue sur la position du personnage
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
-	  CDisplay::getView()->setCenter(dynamic_cast<CCharacter *>(m_listEntite[m_indiceCharacter].get())->getPosition());
+	  CDisplay::getView()->setCenter(m_listEntite[m_indiceCharacter].get()->getPosition());
 	  CDisplay::getWindow()->setView(* CDisplay::getView());
 	}
 
@@ -34,14 +34,14 @@ namespace State
 
 		// ajout du joueur
 		m_indiceCharacter = 0;
-		m_listEntite.push_back(std::make_unique<CCharacter>());
-		m_listEntite[m_indiceCharacter].get()->setPosition(sf::Vector2f((float)(rand()%1000), (float)(rand()%1000)));
+		m_listEntite.push_back(std::make_unique<CActor>(true));
+		m_listEntite[m_indiceCharacter].get()->setPosition(sf::Vector2f(CRandom::floatInRange(100.f, 1820.f), CRandom::floatInRange(100.f, 980.f)));
 
 		// ajout des PNJs
 		int indiceDecalage = m_listEntite.size();
 		for(int i = indiceDecalage; i < nombre_pnj + indiceDecalage; i++)
 		{
-			m_listEntite.push_back(std::make_unique<CPNJ>());
+			m_listEntite.push_back(std::make_unique<CActor>(false));
 			m_listEntite[i].get()->setPosition(sf::Vector2f(CRandom::floatInRange(100.f, 1820.f), CRandom::floatInRange(100.f, 980.f)));
 		}
 
@@ -51,7 +51,7 @@ namespace State
 
 		// centre la vue sur la position du personnage
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
-		CDisplay::getView()->setCenter(dynamic_cast<CCharacter *>(m_listEntite[m_indiceCharacter].get())->getPosition());
+		CDisplay::getView()->setCenter(m_listEntite[m_indiceCharacter].get()->getPosition());
 		CDisplay::getWindow()->setView(* CDisplay::getView());
 	}
 
@@ -66,8 +66,9 @@ namespace State
 			if ((* event).key.code == sf::Keyboard::Escape)
 				m_key.escape = false;
 
-		// met a jour les events pour le personnage
-		dynamic_cast<CCharacter *>(m_listEntite[m_indiceCharacter].get())->input(&(* event));
+		// met a jour les events
+		for (unsigned int i = 0; i < m_listEntite.size(); ++i)
+			m_listEntite[i]->input(&(* event));
 	}
 
 	void CPlaying::update(float dt)

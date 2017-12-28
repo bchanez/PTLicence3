@@ -7,8 +7,7 @@
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/DEBUG.hpp"
 #include "../Entity/CMap.hpp"
-#include "../Entity/CPNJ.hpp"
-#include "../Entity/CCharacter.hpp"
+#include "../Entity/CActor.hpp"
 #include "../Entity/CEvent_pub.hpp"
 
 namespace State
