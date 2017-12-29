@@ -31,5 +31,4 @@ class CActor : public CEntity
     unsigned int m_nb_animation = 2;
 
     sf::Vector2i m_goal_point;
-    sf::Vector2f m_stop;
 };

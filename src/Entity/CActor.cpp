@@ -14,7 +14,6 @@
   m_orientation = e_right;
 
   m_goal_point = sf::Vector2i(0, 0);
-  m_stop = sf::Vector2f(1, 1);
 
   setTexture();
   setAnimation();
@@ -245,7 +244,46 @@ void CActor::input(sf::Event * event)
   }
   else
   {
+    m_key.left = m_key.right = m_key.up = m_key.down = m_key.shift = false;
 
+    if (m_goal_point != m_position) // si point de destination
+    {
+      if(m_goal_point.x < (int) m_position.x)
+        m_key.left = CRandom::intInRange(0, 100) < 75;
+      if(m_goal_point.x > (int) m_position.x)
+        m_key.right = CRandom::intInRange(0, 100) < 75;
+      if(m_goal_point.y < (int) m_position.y)
+        m_key.up = CRandom::intInRange(0, 100) < 75;
+      if(m_goal_point.y > (int) m_position.y)
+        m_key.down = CRandom::intInRange(0, 100) < 75;
+    }
+    else // si pas de point de destination
+    {
+      switch(CRandom::intInRange(0, 500))
+      {
+        case 0 : // gauche
+        {
+          m_key.left = true;
+          break;
+        }
+        case 1 : // haut
+        {
+          m_key.up = true;
+          break;
+        }
+        case 2 : // droite
+        {
+          m_key.right = true;
+          break;
+        }
+        case 3 : // bas
+        {
+          m_key.down = true;
+          break;
+        }
+        default: break;
+      }
+    }
   }
 }
 
@@ -274,6 +312,11 @@ void CActor::update(float dt)
         m_animation[e_walk_left].restart();
         m_sprite.setTextureRect(m_animation[e_walk_left].getCurrentFrame());
       }
+
+      if (!m_isCharacter)
+        if (CRandom::intInRange(0, 1000) == 0)
+          m_goal_point = sf::Vector2i(CRandom::intInRange(100, 1820), CRandom::intInRange(100, 980));
+
     }
     break;
 
@@ -297,7 +340,7 @@ void CActor::update(float dt)
           m_state = e_run;
 
 
-      if (m_position != m_sprite.getPosition())
+      if (m_position != (sf::Vector2i) m_sprite.getPosition())
       {
         // mise a jour de la position
         m_sprite.setPosition(m_position);
