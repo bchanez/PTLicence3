@@ -246,7 +246,7 @@ void CActor::input(sf::Event * event)
   {
     m_key.left = m_key.right = m_key.up = m_key.down = m_key.shift = false;
 
-    if (m_goal_point != m_position) // si point de destination
+    if (m_goal_point.x != m_position.x || m_goal_point.y != m_position.y) // si point de destination
     {
       if(m_goal_point.x < (int) m_position.x)
         m_key.left = CRandom::intInRange(0, 100) < 75;
@@ -340,7 +340,8 @@ void CActor::update(float dt)
           m_state = e_run;
 
 
-      if (m_position != (sf::Vector2i) m_sprite.getPosition())
+      //if (m_position != (sf::Vector2i) m_sprite.getPosition())
+      if (m_goal_point.x != m_position.x || m_goal_point.y != m_position.y)
       {
         // mise a jour de la position
         m_sprite.setPosition(m_position);
