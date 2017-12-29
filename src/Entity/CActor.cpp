@@ -4,6 +4,8 @@
 {
   LOG("CActor Constructor\n");
 
+  CRandom::init();
+
   m_isCharacter = isCharacter;
 
   m_key.left = m_key.right = m_key.up = m_key.down = m_key.shift = false;
@@ -200,7 +202,7 @@ void CActor::setAnimation(void)
 
 void CActor::input(sf::Event * event)
 {
-  if (m_isCharacter)
+  if (m_isCharacter) // character
   {
     if((* event).type == sf::Event::KeyPressed)
     {
@@ -242,24 +244,28 @@ void CActor::input(sf::Event * event)
         m_key.shift = false;
     }
   }
-  else
+  else if (!m_isCharacter) // pnj
   {
     m_key.left = m_key.right = m_key.up = m_key.down = m_key.shift = false;
 
+<<<<<<< HEAD
     if (m_goal_point.x != m_position.x || m_goal_point.y != m_position.y) // si point de destination
+=======
+    if ((m_goal_point.x != (int) m_position.x || m_goal_point.y != (int) m_position.y) && m_goal_point != sf::Vector2i(0, 0)) // si point de destination
+>>>>>>> fbdc34949c70dee24f53773047139f5f5c64e238
     {
       if(m_goal_point.x < (int) m_position.x)
-        m_key.left = CRandom::intInRange(0, 100) < 75;
+        m_key.left = CRandom::intInRange(0, 20) != 0;
       if(m_goal_point.x > (int) m_position.x)
-        m_key.right = CRandom::intInRange(0, 100) < 75;
+        m_key.right = CRandom::intInRange(0, 20) != 0;
       if(m_goal_point.y < (int) m_position.y)
-        m_key.up = CRandom::intInRange(0, 100) < 75;
+        m_key.up = CRandom::intInRange(0, 20) != 0;
       if(m_goal_point.y > (int) m_position.y)
-        m_key.down = CRandom::intInRange(0, 100) < 75;
+        m_key.down = CRandom::intInRange(0, 20) != 0;
     }
     else // si pas de point de destination
     {
-      switch(CRandom::intInRange(0, 500))
+      switch(CRandom::intInRange(0, 100))
       {
         case 0 : // gauche
         {
@@ -340,8 +346,12 @@ void CActor::update(float dt)
           m_state = e_run;
 
 
+<<<<<<< HEAD
       //if (m_position != (sf::Vector2i) m_sprite.getPosition())
       if (m_goal_point.x != m_position.x || m_goal_point.y != m_position.y)
+=======
+      if (m_position != m_sprite.getPosition())
+>>>>>>> fbdc34949c70dee24f53773047139f5f5c64e238
       {
         // mise a jour de la position
         m_sprite.setPosition(m_position);
