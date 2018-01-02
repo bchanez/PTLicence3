@@ -12,6 +12,15 @@
   LOG("CMap Destructor\n");
 }
 
+void CMap::genHole(int i, int j, std::string map_to_write[SIZE_MAP_X][SIZE_MAP_Y])
+{
+  map_to_write[i][j] = "5,2";
+  map_to_write[i][j+1] = "3,2";
+
+  map_to_write[i+1][j] = "5,0";
+  map_to_write[i+1][j+1] = "3,0";
+}
+
 void CMap::genMap(void)
 {
   //Codes
@@ -28,15 +37,18 @@ void CMap::genMap(void)
   //Trou BG 5.0
   //Trou HD 3.3
   //Trou HG 5.3
+  //Vide x,x
 
   //Règles:
-  //nB Trous >= 1 && < 3
+  //nB Trous >= 1 && <= 3
   //nB Sorties = 4 (une par côté)
   //nB event => A decider
 
-  std::string map_to_write[21][24];
-  for (size_t i = 0; i < 21; i++) {
-    for (size_t j = 0; j < 24; j++) {
+  int nb_trous = 10;
+
+  std::string map_to_write[SIZE_MAP_X][SIZE_MAP_Y];
+  for (size_t i = 0; i < SIZE_MAP_X; i++) {
+    for (size_t j = 0; j < SIZE_MAP_Y; j++) {
       map_to_write[i][j] = "x,x";
     }
   }
@@ -45,22 +57,28 @@ void CMap::genMap(void)
 
   //Sorties
   int exit_up, exit_down, exit_right, exit_left;
-  exit_up = CRandom::intInRange(0, 20);
-  exit_right = CRandom::intInRange(0, 23);
-  exit_down = CRandom::intInRange(0, 20);
-  exit_left = CRandom::intInRange(0, 23);
+  exit_up = CRandom::intInRange(0, SIZE_MAP_X);
+  exit_right = CRandom::intInRange(0, SIZE_MAP_Y);
+  exit_down = CRandom::intInRange(0, SIZE_MAP_X);
+  exit_left = CRandom::intInRange(0, SIZE_MAP_Y);
   map_to_write[exit_up][0] = "1,1";
-  map_to_write[exit_down][23] = "1,1";
+  map_to_write[exit_down][SIZE_MAP_Y-1] = "1,1";
   map_to_write[0][exit_right] = "1,1";
-  map_to_write[20][exit_left] = "1,1";
+  map_to_write[SIZE_MAP_X-1][exit_left] = "1,1";
 
   std::string line = "";
   outfile << "tiles.png" << std::endl;
 
-  for (size_t i = 0; i < 21; i++) {
+  map_to_write[0][0] = "0,0";
+  map_to_write[SIZE_MAP_X-1][0] = "2,0";
+  map_to_write[0][SIZE_MAP_Y-1] = "0,2";
+  map_to_write[SIZE_MAP_X-1][SIZE_MAP_Y-1]= "2,2";
+
+
+  for (size_t i = 0; i < SIZE_MAP_X; i++) {
     line = "";
 
-    for (size_t j = 0; j < 24; j++) {
+    for (size_t j = 0; j < SIZE_MAP_Y; j++) {
       if(map_to_write[i][j] == "x,x"){
         if(i == 0){
           //Bordure gauche
@@ -74,12 +92,12 @@ void CMap::genMap(void)
 
           //Une sortie
         }
-        else if(i == 20){
+        else if(i == SIZE_MAP_X-1){
           //Bordure droite
 
           map_to_write[i][j] = "1,2";
 
-        }else if(j == 23){
+        }else if(j == SIZE_MAP_Y-1){
           //Bordure bas
 
           map_to_write[i][j] = "2,1";
@@ -91,17 +109,29 @@ void CMap::genMap(void)
 
           map_to_write[i][j] = "1,1";
 
-          //nbTrous
+          if(i > 0 && i < SIZE_MAP_X -1 && j >   map_to_write[1][0]= "0,1";  map_to_write[1][0]= "0,1";0 && j < SIZE_MAP_Y -1)
+          {
+            //Holes
+
+            //First point of the holes
+            if (nb_trous > 0 && i < SIZE_MAP_X - 3 && j < SIZE_MAP_Y -3 && i > 3 && j > 3)
+            {
+              if(CRandom::intInRange(0, 150) == 1)
+              {
+                CMap::genHole(i, j, map_to_write);
+                nb_trous -= 1;
+              }
+            }
+          }
         }
+
+
       }
-      if(j != 23){
+      if(j != SIZE_MAP_X-1){
         line = line + map_to_write[i][j] + " ";
       }else{
         line = line + map_to_write[i][j];
       }
-
-
-
     }
 
     outfile << line << std::endl;
@@ -123,7 +153,7 @@ void CMap::setTexture(void)
   sf::Texture tileTexture;  //Texture of the tile
   sf::Sprite tileSprite;    //Sprite of the tile
 
-  sf::Vector2i map[SIZE_MAP_X][SIZE_MAP_Y]; //Size of the map (Here 100 x 100)
+  sf::Vector2i map[SIZE_MAP_X][SIZE_MAP_Y]; //Size of the map
   sf::Vector2i loadCounter = sf::Vector2i(0,-1); //loadCounter for the map
 
   int lastx = 0;
@@ -170,7 +200,16 @@ void CMap::setTexture(void)
               tileSprite.setPosition(i*SIZE_TILE, j*SIZE_TILE);
               tileSprite.setTextureRect(sf::IntRect(map[i][j].x * SIZE_TILE, map[i][j].y * SIZE_TILE, SIZE_TILE, SIZE_TILE));
 
+
+
               m_prerender.draw(tileSprite);
+
+              if(CRandom::intInRange(0, 30) == 1 && (map[i][j].x == 1 && map[i][j].y == 1))
+              {
+                tileSprite.setTextureRect(sf::IntRect(4 * SIZE_TILE, 1 * SIZE_TILE, SIZE_TILE, SIZE_TILE));
+                m_prerender.draw(tileSprite);
+              }
+
 
           }
       }
