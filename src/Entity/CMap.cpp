@@ -109,7 +109,7 @@ void CMap::genMap(void)
 
           map_to_write[i][j] = "1,1";
 
-          if(i > 0 && i < SIZE_MAP_X -1 && j >   map_to_write[1][0]= "0,1";  map_to_write[1][0]= "0,1";0 && j < SIZE_MAP_Y -1)
+          if(i > 0 && i < SIZE_MAP_X -1 && j > 0 && j < SIZE_MAP_Y - 1)
           {
             //Holes
 
