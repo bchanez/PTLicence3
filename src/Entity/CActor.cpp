@@ -219,7 +219,7 @@ void CActor::input(bool left, bool right, bool up, bool down, bool shift)
       if(m_goal_point.y > (int) m_position.y)
         m_key.down = CRandom::intInRange(0, 20) != 0;
     }
-  /*  else // si pas de point de destination
+    else // si pas de point de destination
     {
       switch(CRandom::intInRange(0, 100))
       {
@@ -245,7 +245,7 @@ void CActor::input(bool left, bool right, bool up, bool down, bool shift)
         }
         default: break;
       }
-    }*/
+    }
   }
 }
 
