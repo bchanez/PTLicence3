@@ -4,8 +4,6 @@
 {
   LOG("CActor Constructor\n");
 
-  CRandom::init();
-
   m_isCharacter = isCharacter;
 
   m_key.left = m_key.right = m_key.up = m_key.down = m_key.shift = false;
@@ -200,49 +198,11 @@ void CActor::setAnimation(void)
   }
 }
 
-void CActor::input(sf::Event * event)
+void CActor::input(bool left, bool right, bool up, bool down, bool shift)
 {
   if (m_isCharacter) // character
   {
-    if((* event).type == sf::Event::KeyPressed)
-    {
-      if ((* event).key.code == sf::Keyboard::Z
-        || (* event).key.code == sf::Keyboard::W)
-        m_key.up = true;
-
-      if ((* event).key.code == sf::Keyboard::Q
-        || (* event).key.code == sf::Keyboard::A)
-        m_key.left = true;
-
-      if ((* event).key.code == sf::Keyboard::S)
-        m_key.down = true;
-
-      if ((* event).key.code == sf::Keyboard::D)
-        m_key.right = true;
-
-      if ((* event).key.code == sf::Keyboard::LShift)
-        m_key.shift = true;
-    }
-
-    if((* event).type == sf::Event::KeyReleased)
-    {
-      if ((* event).key.code == sf::Keyboard::Z
-        || (* event).key.code == sf::Keyboard::W)
-        m_key.up = false;
-
-      if ((* event).key.code == sf::Keyboard::Q
-        || (* event).key.code == sf::Keyboard::A)
-        m_key.left = false;
-
-      if ((* event).key.code == sf::Keyboard::S)
-        m_key.down = false;
-
-      if ((* event).key.code == sf::Keyboard::D)
-        m_key.right = false;
-
-      if ((* event).key.code == sf::Keyboard::LShift)
-        m_key.shift = false;
-    }
+    m_key.left = left; m_key.right = right; m_key.up = up ; m_key.down = down; m_key.shift = shift;
   }
   else if (!m_isCharacter) // pnj
   {
@@ -259,7 +219,7 @@ void CActor::input(sf::Event * event)
       if(m_goal_point.y > (int) m_position.y)
         m_key.down = CRandom::intInRange(0, 20) != 0;
     }
-    else // si pas de point de destination
+  /*  else // si pas de point de destination
     {
       switch(CRandom::intInRange(0, 100))
       {
@@ -285,7 +245,7 @@ void CActor::input(sf::Event * event)
         }
         default: break;
       }
-    }
+    }*/
   }
 }
 
@@ -319,8 +279,8 @@ void CActor::update(float dt)
         if (CRandom::intInRange(0, 1000) == 0)
           m_goal_point = sf::Vector2i(CRandom::intInRange(100, 1820), CRandom::intInRange(100, 980));
 
+      break;
     }
-    break;
 
     case e_walk :
     {
@@ -335,7 +295,7 @@ void CActor::update(float dt)
       if(m_key.up) m_position.y += -(m_move_speed * dt);
       if(m_key.down) m_position.y += m_move_speed * dt;
 
-      if(!m_key.left && !m_key.right && !m_key.up  && !m_key.down)
+      if(!m_key.left && !m_key.right && !m_key.up && !m_key.down)
         m_state = e_idle;
       else
         if(m_key.shift)
@@ -368,8 +328,8 @@ void CActor::update(float dt)
         CDisplay::getView()->setCenter(m_position);
         CDisplay::getWindow()->setView(* CDisplay::getView());
       }
+      break;
     }
-    break;
 
     case e_run :
     {
@@ -416,39 +376,39 @@ void CActor::update(float dt)
         CDisplay::getView()->setCenter(m_position);
         CDisplay::getWindow()->setView(* CDisplay::getView());
       }
+      break;
     }
-    break;
 
     case e_action :
     {
 
+      break;
     }
-    break;
 
     case e_wander :
     {
 
+      break;
     }
-    break;
 
     case e_question :
     {
 
+      break;
     }
-    break;
 
     case e_dead :
     {
 
+      break;
     }
-    break;
 
     case e_disappear :
     {
 
+      break;
     }
-    break;
 
-    default : {} break;
+    default : break;
   }
 }

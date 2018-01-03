@@ -21,9 +21,12 @@ class CEntity : public CDrawable
     virtual void setAnimation(void) = 0;
 
     virtual void update(float dt) = 0;
-    virtual void input(sf::Event * event) = 0;
+    virtual void input(bool left, bool right, bool up, bool down, bool shift) = 0;
 
   protected:
+
+    struct Key { bool left, right, up, down, shift; };
+    Key m_key;
 
     sf::Vector2f m_position;
     unsigned int m_move_speed;

@@ -22,9 +22,12 @@ namespace State
 
   void CIntro::input(sf::Event * event)
   {
-    // event de la scene
-    if((* event).type == sf::Event::KeyPressed || (* event).type == sf::Event::MouseButtonPressed)
-      m_key = true;
+    while (CDisplay::getWindow()->pollEvent(* event))
+    {
+      // event de la scene
+      if((* event).type == sf::Event::KeyPressed || (* event).type == sf::Event::MouseButtonPressed)
+        m_key = true;
+    }
   }
 
   void CIntro::update(float dt)

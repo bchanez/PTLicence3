@@ -22,7 +22,7 @@ void CEvent_concert::setAnimation(void)
 
 }
 
-void CEvent_concert::input(sf::Event * event)
+void CEvent_concert::input(bool left, bool right, bool up, bool down, bool shift)
 {
 
 }

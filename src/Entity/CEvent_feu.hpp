@@ -14,7 +14,7 @@ class CEvent_feu: public CEvent
 
     void setTexture(void) override;
     void setAnimation(void) override;
-    void input(sf::Event * event) override;
+    void input(bool left, bool right, bool up, bool down, bool shift) override;
     void update(float dt) override;
 
   private:

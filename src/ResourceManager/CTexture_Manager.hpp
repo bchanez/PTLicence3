@@ -13,8 +13,11 @@ enum class ETexture_Name
 	e_Configure,
 	e_Pause,
 
-	//buttonTest
+	//button
 	e_ButtonTest,
+
+	//input
+	e_InputTest,
 
 	// events
 	e_Pub,

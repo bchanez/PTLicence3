@@ -8,10 +8,13 @@
 	addResource(ETexture_Name::e_Intro, "rsc/graphics/intro.png");
 	addResource(ETexture_Name::e_Menu, "rsc/graphics/menu.png");
 	addResource(ETexture_Name::e_Configure, "rsc/graphics/configure.png");
-		addResource(ETexture_Name::e_Pause, "rsc/graphics/pause.png");
+	addResource(ETexture_Name::e_Pause, "rsc/graphics/pause.png");
 
 	// button
 	addResource(ETexture_Name::e_ButtonTest, "rsc/graphics/buttonTest.jpg");
+
+	// input
+	addResource(ETexture_Name::e_InputTest, "rsc/graphics/inputfield.png");
 
 	//events
 	addResource(ETexture_Name::e_Pub, "rsc/graphics/pub.png");

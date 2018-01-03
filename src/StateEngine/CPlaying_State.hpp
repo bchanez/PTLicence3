@@ -14,7 +14,7 @@ namespace State
 {
 	class CPlaying : public CGame_State
 	{
-			struct Key { bool escape; };
+			struct Key { bool left, right, up, down, shift, escape; };
 
 		public:
 			explicit CPlaying(CApplication& application);

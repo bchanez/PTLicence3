@@ -4,6 +4,7 @@
 #include "../CApplication.hpp"
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/CButton.hpp"
+#include "../Tools/CInput.hpp"
 #include "../Tools/DEBUG.hpp"
 
 namespace State
@@ -26,7 +27,10 @@ namespace State
 
 			sf::Sprite m_configure;
 
-			enum EButton {e_jouer, e_retour };
+			enum EButton {e_jouer, e_retour};
 			std::vector<std::unique_ptr<CButton>> m_listButton;
+
+			enum EInput {e_nbPNJ};
+			std::vector<std::unique_ptr<CInput>> m_listInput;
 	};
 }

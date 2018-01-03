@@ -37,9 +37,9 @@ void CEvent_pub::setAnimation(void)
   }
 }
 
-void CEvent_pub::input(sf::Event * event)
+void CEvent_pub::input(bool left, bool right, bool up, bool down, bool shift)
 {
-  
+
 }
 
 void CEvent_pub::update(float dt)

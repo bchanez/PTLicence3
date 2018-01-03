@@ -22,9 +22,9 @@ void CEvent_tir::setAnimation(void)
 
 }
 
-void CEvent_tir::input(sf::Event * event)
+void CEvent_tir::input(bool left, bool right, bool up, bool down, bool shift)
 {
-  
+
 }
 
 void CEvent_tir::update(float dt)

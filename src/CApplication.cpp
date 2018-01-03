@@ -29,8 +29,7 @@ void CApplication::runMainLoop(void)
 
 		CDisplay::clear();
 
-		while (CDisplay::getWindow()->pollEvent(event))
-			m_state[m_currentScene]->input(& event);
+		m_state[m_currentScene]->input(& event);
 		m_state[m_currentScene]->update(dt);
 		m_state[m_currentScene]->draw();
 

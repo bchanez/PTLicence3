@@ -22,7 +22,7 @@ void CEvent_feu::setAnimation(void)
 
 }
 
-void CEvent_feu::input(sf::Event * event)
+void CEvent_feu::input(bool left, bool right, bool up, bool down, bool shift)
 {
 
 }

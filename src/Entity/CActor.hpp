@@ -8,8 +8,6 @@
 
 class CActor : public CEntity
 {
-    struct Key { bool left, right, up, down, shift; };
-
   public:
 
     explicit CActor(bool isCharacter);
@@ -17,14 +15,13 @@ class CActor : public CEntity
 
     void setTexture(void);
     void setAnimation(void) override;
-    void input(sf::Event * event) override;
+    void input(bool left, bool right, bool up, bool down, bool shift);
     void update(float dt) override;
 
   private:
 
     bool m_isCharacter;
 
-    Key m_key;
     enum Estate {e_idle, e_walk, e_run, e_action, e_dead, e_wander, e_question, e_disappear};
 
     enum EAnimation {e_walk_right, e_walk_left};

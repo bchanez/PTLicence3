@@ -57,18 +57,61 @@ namespace State
 
 	void CPlaying::input(sf::Event * event)
 	{
-		// event de la scene
-    if((* event).type == sf::Event::KeyPressed)
-      if((* event).key.code == sf::Keyboard::Escape)
-				m_key.escape = true;
+		while (CDisplay::getWindow()->pollEvent(* event))
+    {
+			// event de la scene
+	    if((* event).type == sf::Event::KeyPressed)
+			{
+				if ((* event).key.code == sf::Keyboard::Z
+					|| (* event).key.code == sf::Keyboard::W)
+					m_key.up = true;
 
-		if((* event).type == sf::Event::KeyReleased)
-			if ((* event).key.code == sf::Keyboard::Escape)
-				m_key.escape = false;
+				if ((* event).key.code == sf::Keyboard::Q
+					|| (* event).key.code == sf::Keyboard::A)
+					m_key.left = true;
+
+				if ((* event).key.code == sf::Keyboard::S)
+					m_key.down = true;
+
+				if ((* event).key.code == sf::Keyboard::D)
+					m_key.right = true;
+
+				if ((* event).key.code == sf::Keyboard::LShift)
+					m_key.shift = true;
+
+				if((* event).key.code == sf::Keyboard::Escape)
+					m_key.escape = true;
+			}
+
+
+			if((* event).type == sf::Event::KeyReleased)
+			{
+				if ((* event).key.code == sf::Keyboard::Z
+					|| (* event).key.code == sf::Keyboard::W)
+					m_key.up = false;
+
+				if ((* event).key.code == sf::Keyboard::Q
+					|| (* event).key.code == sf::Keyboard::A)
+					m_key.left = false;
+
+				if ((* event).key.code == sf::Keyboard::S)
+					m_key.down = false;
+
+				if ((* event).key.code == sf::Keyboard::D)
+					m_key.right = false;
+
+				if ((* event).key.code == sf::Keyboard::LShift)
+					m_key.shift = false;
+
+				if ((* event).key.code == sf::Keyboard::Escape)
+					m_key.escape = false;
+			}
+		}
 
 		// met a jour les events
 		for (unsigned int i = 0; i < m_listEntite.size(); ++i)
-			m_listEntite[i]->input(&(* event));
+			m_listEntite[i]->input(m_key.left, m_key.right, m_key.up, m_key.down, m_key.shift);
+
 	}
 
 	void CPlaying::update(float dt)
