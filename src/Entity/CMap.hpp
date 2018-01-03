@@ -22,7 +22,10 @@ class CMap : public CDrawable
 
 		void setTexture(void);
 		void genMap(void);
-		void genHole(int x, int y, std::string map_to_write[SIZE_MAP_X][SIZE_MAP_Y]);
+		void genHole(int x, int y);
+
+		std::string game_map[SIZE_MAP_X][SIZE_MAP_Y];
+		sf::Vector2i map[SIZE_MAP_X][SIZE_MAP_Y];
 
 	protected:
 
