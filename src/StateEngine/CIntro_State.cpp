@@ -7,7 +7,7 @@ namespace State
   {
     LOG("CIntro Constructor\n");
 
-    m_intro.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Intro));
+    m_intro.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Titlescreen));
   }
 
   /*virtual*/ CIntro::~CIntro()
