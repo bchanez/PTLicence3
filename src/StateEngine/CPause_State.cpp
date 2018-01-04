@@ -11,10 +11,10 @@ namespace State
     m_pause.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Pause));
 
     // bouton retour
-    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_ButtonTest), sf::Vector2f(200,200), sf::Vector2f(500,166)));
+    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_Jouer), sf::Vector2f(200,200), sf::Vector2f(200,80)));
 
     // bouton quitter
-    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_ButtonTest), sf::Vector2f(200,400), sf::Vector2f(500,166)));
+    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_Quitter), sf::Vector2f(200,400), sf::Vector2f(200,80)));
 
   }
 

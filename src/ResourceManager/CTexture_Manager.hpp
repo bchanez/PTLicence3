@@ -14,7 +14,8 @@ enum class ETexture_Name
 	e_Pause,
 
 	//button
-	e_ButtonTest,
+	e_Jouer,
+	e_Quitter,
 
 	//input
 	e_InputTest,

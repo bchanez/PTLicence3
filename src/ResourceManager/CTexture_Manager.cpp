@@ -11,7 +11,8 @@
 	addResource(ETexture_Name::e_Pause, "rsc/graphics/pause.png");
 
 	// button
-	addResource(ETexture_Name::e_ButtonTest, "rsc/graphics/buttonTest.jpg");
+	addResource(ETexture_Name::e_Jouer, "rsc/graphics/jouer.png");
+	addResource(ETexture_Name::e_Quitter, "rsc/graphics/quitter.png");
 
 	// input
 	addResource(ETexture_Name::e_InputTest, "rsc/graphics/inputfield.png");

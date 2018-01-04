@@ -11,10 +11,10 @@ namespace State
     m_configure.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Configure));
 
     // bouton retour
-    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_ButtonTest), sf::Vector2f(200,200), sf::Vector2f(500,166)));
+    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_Jouer), sf::Vector2f(200,200), sf::Vector2f(200,80)));
 
     // bouton jouer
-    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_ButtonTest), sf::Vector2f(200,400), sf::Vector2f(500,166)));
+    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_Quitter), sf::Vector2f(200,400), sf::Vector2f(200,80)));
 
     // champs input nombre de pnj
     m_listInput.push_back(std::make_unique<CInput>(& CResourceHolder::get().texture(ETexture_Name::e_InputTest), sf::Vector2f(500,300), sf::Vector2f(500,166)));
