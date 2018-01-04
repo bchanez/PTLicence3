@@ -4,6 +4,7 @@
 #include "../CApplication.hpp"
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/DEBUG.hpp"
+#include "../Tools/CAnimation.hpp"
 
 namespace State
 {
@@ -22,5 +23,6 @@ namespace State
 			bool m_key;
 
 			sf::Sprite m_intro;
+			CAnimation m_animation;
 	};
 }

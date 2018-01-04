@@ -8,6 +8,9 @@ namespace State
     LOG("CIntro Constructor\n");
 
     m_intro.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Titlescreen));
+
+    for (int i = 0; i < 3 ; ++i)
+      m_animation.addFrame(sf::IntRect(i * 1920, 0, 1920, 1080), 0.5f);
   }
 
   /*virtual*/ CIntro::~CIntro()
@@ -33,6 +36,8 @@ namespace State
   void CIntro::update(float dt)
   {
     (void)dt;
+
+    m_intro.setTextureRect(m_animation.getFrame());
 
     if (m_key)
     {
