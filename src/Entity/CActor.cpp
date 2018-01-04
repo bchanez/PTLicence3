@@ -6,12 +6,7 @@
 
   m_isCharacter = isCharacter;
 
-  m_key.left = m_key.right = m_key.up = m_key.down = m_key.shift = false;
-
   m_sprite.setOrigin(sf::Vector2f(20, 30));
-
-  m_state = e_idle;
-  m_orientation = e_right;
 
   m_goal_point = sf::Vector2i(0, 0);
 

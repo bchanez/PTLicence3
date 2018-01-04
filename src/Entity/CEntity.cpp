@@ -4,8 +4,13 @@
 {
   LOG("CEntity Constructor\n");
 
+  m_key.left = m_key.right = m_key.up = m_key.down = m_key.shift = false;
+
   m_position = sf::Vector2f(0.f, 0.f);
   m_sprite.setPosition(m_position);
+
+  m_state = e_idle;
+  m_orientation = e_right;
 }
 
 /*virtual*/ CEntity::~CEntity(void)

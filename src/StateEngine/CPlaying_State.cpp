@@ -18,7 +18,7 @@ namespace State
 
 	void CPlaying::init(void)
 	{
-		m_key.escape = false;
+		 m_key.left = m_key.right = m_key.up = m_key.down = m_key.shift = m_key.escape = false;
 
 		// centre la vue sur la position du personnage
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
@@ -28,7 +28,7 @@ namespace State
 
 	void CPlaying::newGame(int nombre_pnj)
 	{
-		m_key.escape = false;
+		m_key.left = m_key.right = m_key.up = m_key.down = m_key.shift = m_key.escape = false;
 
 		m_listEntite.clear();
 

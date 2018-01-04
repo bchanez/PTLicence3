@@ -31,7 +31,7 @@ class CEntity : public CDrawable
     sf::Vector2f m_position;
     unsigned int m_move_speed;
 
-    enum Estate {};
+    enum Estate {e_idle};
     unsigned int m_state;
 
     enum Eorientation {e_right, e_left};

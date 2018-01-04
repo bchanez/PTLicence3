@@ -24,7 +24,7 @@ void CEvent_tir::setAnimation(void)
 
 void CEvent_tir::input(bool left, bool right, bool up, bool down, bool shift)
 {
-
+  m_key.left = left; m_key.right = right; m_key.up = up ; m_key.down = down; m_key.shift = shift;
 }
 
 void CEvent_tir::update(float dt)
