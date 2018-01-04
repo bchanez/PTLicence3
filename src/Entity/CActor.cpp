@@ -9,6 +9,7 @@
   m_sprite.setOrigin(sf::Vector2f(20, 30));
 
   m_goal_point = sf::Vector2i(0, 0);
+  m_stop = sf::Vector2f(0, 0);
 
   setTexture();
   setAnimation();
@@ -205,14 +206,29 @@ void CActor::input(bool left, bool right, bool up, bool down, bool shift)
 
     if ((m_goal_point.x != (int) m_position.x || m_goal_point.y != (int) m_position.y) && m_goal_point != sf::Vector2i(0, 0)) // si point de destination
     {
-      if(m_goal_point.x < (int) m_position.x)
-        m_key.left = CRandom::intInRange(0, 20) != 0;
-      if(m_goal_point.x > (int) m_position.x)
-        m_key.right = CRandom::intInRange(0, 20) != 0;
-      if(m_goal_point.y < (int) m_position.y)
-        m_key.up = CRandom::intInRange(0, 20) != 0;
-      if(m_goal_point.y > (int) m_position.y)
-        m_key.down = CRandom::intInRange(0, 20) != 0;
+      m_key.left = (m_goal_point.x < (int) m_position.x);
+      m_key.right = (m_goal_point.x > (int) m_position.x);
+      m_key.up = (m_goal_point.y < (int) m_position.y);
+      m_key.down = (m_goal_point.y > (int) m_position.y);
+
+      if (CRandom::intInRange(0, 10) == 0){
+        if (CRandom::intInRange(0, 20) == 0){
+          m_stop.x = 1 - m_stop.x;
+        }
+        if (CRandom::intInRange(0, 20) == 0){
+          m_stop.y = 1 - m_stop.y;
+        }
+      }
+
+      if(m_stop.x)
+        m_key.left = false;
+      if(m_stop.x)
+        m_key.right = false;
+      if(m_stop.y)
+        m_key.up = false;
+      if(m_stop.y)
+        m_key.down = false;
+
     }
     else // si pas de point de destination
     {

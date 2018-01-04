@@ -27,5 +27,7 @@ class CActor : public CEntity
     enum EAnimation {e_walk_right, e_walk_left};
     unsigned int m_nb_animation = 2;
 
+    sf::Vector2f m_stop;
+
     sf::Vector2i m_goal_point;
 };
