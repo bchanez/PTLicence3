@@ -71,10 +71,10 @@ namespace State
     if (m_key.escape || m_listButton[e_quitter]->action())
       CDisplay::getWindow()->close();
 
-    if (m_listButton[e_configure]->action())
+    if (m_listButton[e_jouer]->action())
     {
-      m_application->initConfigureState();
-      m_application->changeState(EState::e_configure);
+      m_application->initPlayingStateNewGame(100);
+      m_application->changeState(EState::e_playing);
     }
   }
 

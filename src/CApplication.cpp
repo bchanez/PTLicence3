@@ -7,7 +7,6 @@
 
 	m_state.insert(std::make_pair(EState::e_intro, std::make_unique<State::CIntro>(*this)));
 	m_state.insert(std::make_pair(EState::e_menu, std::make_unique<State::CMenu>(*this)));
-	m_state.insert(std::make_pair(EState::e_configure, std::make_unique<State::CConfigure>(*this)));
 	m_state.insert(std::make_pair(EState::e_playing, std::make_unique<State::CPlaying>(*this)));
 	m_state.insert(std::make_pair(EState::e_pause, std::make_unique<State::CPause>(*this)));
 
@@ -45,11 +44,6 @@ void CApplication::initIntroState(void)
 void CApplication::initMenuState(void)
 {
 	dynamic_cast<State::CMenu *>(m_state[EState::e_menu].get())->init();
-}
-
-void CApplication::initConfigureState(void)
-{
-	dynamic_cast<State::CConfigure *>(m_state[EState::e_configure].get())->init();
 }
 
 void CApplication::initPlayingStateNewGame(int nombre_pnj)
