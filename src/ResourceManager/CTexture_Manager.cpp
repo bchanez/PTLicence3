@@ -7,7 +7,6 @@
 	// stats
 	addResource(ETexture_Name::e_Titlescreen, "rsc/graphics/titlescreen.png");
 	addResource(ETexture_Name::e_Menu, "rsc/graphics/menu.png");
-	addResource(ETexture_Name::e_Configure, "rsc/graphics/configure.png");
 	addResource(ETexture_Name::e_Pause, "rsc/graphics/pause.png");
 
 	// button

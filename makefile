@@ -1,4 +1,5 @@
 EXENAME := app
+ARG :=
 
 DIRECSRC := ./src
 DIRECBIN := ./bin
@@ -7,7 +8,7 @@ DIRECOBJ := ./obj
 CC := g++ -std=c++14 -g#-O3 -s
 CFLAGS := -Wall -Wextra
 
-LIBS := -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+LIBS := -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
 INCLUDES :=
 
 SRC := $(shell find $(DIRECSRC) -name '*.cpp')
@@ -37,4 +38,4 @@ clean:
 
 execute:
 	@echo "** start the game.."
-	$(DIRECBIN)/$(EXENAME)
+	$(DIRECBIN)/$(EXENAME) $(ARG)

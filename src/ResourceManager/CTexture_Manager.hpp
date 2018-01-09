@@ -10,7 +10,6 @@ enum class ETexture_Name
 	//stats
 	e_Titlescreen,
 	e_Menu,
-	e_Configure,
 	e_Pause,
 
 	//button
