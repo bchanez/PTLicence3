@@ -9,6 +9,7 @@
 #include "../Entity/CMap.hpp"
 #include "../Entity/CActor.hpp"
 #include "../Entity/CEvent_pub.hpp"
+#include "CDonnees.hpp"
 
 class CServeur
 {
@@ -49,10 +50,11 @@ class CServeur
 
     //donnees
     sf::Packet packet;
+    std::vector<struct DonneesInit> m_DonneesInit;
+    std::vector<struct Donnees> m_Donnees;
 
     // variable for game
     CMap m_map;
-
     std::vector<std::unique_ptr<CEntity>> m_listEntite; // joueur, pnj, evenement
 
 };

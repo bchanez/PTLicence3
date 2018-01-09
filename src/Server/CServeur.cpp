@@ -52,8 +52,15 @@ void CServeur::connection(void)
               sf::TcpSocket& client = **it;
               if (selector.isReady(client))
               {
-                  sf::Packet packet;
-                  while (client.send(packet) != sf::Socket::Done);
+                  sf::Packet packetInitGame;
+
+                  packetInitGame << (sf:: Uint16) m_listClient.size();
+                  for(unsigned int i = 0; i < m_DonneesInit.size(); ++i)
+                    packetInitGame << m_DonneesInit[i];
+
+                  while (client.send(packetInitGame) != sf::Socket::Done);
+
+                  clients.erase(it);
               }
           }
       }
@@ -63,7 +70,7 @@ void CServeur::connection(void)
 // UDP
 void CServeur::sendUDP(void)
 {
-  for (int i = 0; i < m_listClient.size(); ++i)
+  for (unsigned int i = 0; i < m_listClient.size(); ++i)
   {
     udpSocket.send(packet, m_listClient[i].adresse, m_listClient[i].port);
   }
@@ -71,7 +78,7 @@ void CServeur::sendUDP(void)
 
 void CServeur::receiveUDP(void)
 {
-  for (int i = 0; i < m_listClient.size(); ++i)
+  for (unsigned int i = 0; i < m_listClient.size(); ++i)
   {
     udpSocket.receive(packet, m_listClient[i].adresse, m_listClient[i].port);
   }
@@ -90,8 +97,8 @@ void CServeur::initGame(int taille_carree_map, int nombre_pnj, int nombre_evenem
   }
 
   // ajout des evenement
-  int indiceDecalage = m_listEntite.size();
-  for(int i = indiceDecalage; i < nombre_evenement + indiceDecalage; ++i)
+  unsigned int indiceDecalage = m_listEntite.size();
+  for(unsigned int i = indiceDecalage; i < nombre_evenement + indiceDecalage; ++i)
   {
     m_listEntite.push_back(std::make_unique<CEvent_pub>());
     m_listEntite[i].get()->setPosition(sf::Vector2f(CRandom::floatInRange(0.f, taille_carree_map * 40.f), CRandom::floatInRange(0.f, taille_carree_map * 40.f)));

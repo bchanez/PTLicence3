@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 	bool choice = false;
 
   for (int i= 1; i < argc; ++i)
-		for(int j = 0; j< strlen(argv[i]); ++j)
+		for(unsigned int j = 0; j< strlen(argv[i]); ++j)
       switch(argv[i][j])
 			{
 				case 'r':
