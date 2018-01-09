@@ -3,12 +3,14 @@
 #include <memory>
 #include <vector>
 #include "CGame_State.hpp"
+#include <SFML/Network.hpp>
 #include "../CApplication.hpp"
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/DEBUG.hpp"
 #include "../Entity/CMap.hpp"
 #include "../Entity/CActor.hpp"
 #include "../Entity/CEvent_pub.hpp"
+#include "../Server/CDonnees.hpp"
 
 namespace State
 {
@@ -28,6 +30,9 @@ namespace State
 			void draw() override;
 
 		private:
+
+			sf::TcpSocket server;
+
 			Key m_key;
 
 			void quickSort(std::vector<std::unique_ptr<CEntity>>& tableau, int debut, int fin);

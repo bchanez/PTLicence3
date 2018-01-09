@@ -4,7 +4,7 @@
 {
   LOG("CServeur constructor");
 
-  listenerSocket.listen(55001);
+  listenerSocket.listen(12345);
   listenerSocket.setBlocking(false);
   selector.add(listenerSocket);
 
@@ -52,6 +52,15 @@ void CServeur::connection(void)
               sf::TcpSocket& client = **it;
               if (selector.isReady(client))
               {
+                // Receive a message back from the client
+                std::string str;
+                sf::Packet p;
+
+                client.receive(p);
+                p >> str;
+                std::cout << "The client said: " << str << std::endl;
+
+/*
                   sf::Packet packetInitGame;
 
                   packetInitGame << (sf:: Uint16) m_listClient.size();
@@ -59,8 +68,16 @@ void CServeur::connection(void)
                     packetInitGame << m_DonneesInit[i];
 
                   while (client.send(packetInitGame) != sf::Socket::Done);
-
+*/
+              }
+              if(client.receive(packet) == sf::Socket::Disconnected)
+              {
+                  std::cout<<"Client disconnected"<<std::endl;
+                  selector.remove(client);
+                  client.disconnect();
+                  delete(&client);
                   clients.erase(it);
+                  it--;
               }
           }
       }
@@ -111,9 +128,9 @@ void CServeur::loopGame(void)
   {
     connection();
 
-    receiveUDP();
+  //  receiveUDP();
     updateGame();
-    sendUDP();
+  //  sendUDP();
   }
 }
 

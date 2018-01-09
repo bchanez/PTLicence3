@@ -24,6 +24,21 @@ namespace State
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
 	  CDisplay::getView()->setCenter(m_listEntite[m_indiceCharacter].get()->getPosition());
 	  CDisplay::getWindow()->setView(* CDisplay::getView());
+
+    sf::Socket::Status status = server.connect("127.0.0.1", 12345);
+		if (status != sf::Socket::Done)
+		{
+		    std::cout << "erreur connection \n";
+		}
+
+    server.setBlocking(false);
+
+		// Send an answer to the server
+		std::string message = "Hi, I am a clientbbbbbb";
+    sf::Packet p;
+    p << message;
+		while (server.send(p) != sf::Socket::Done);
+    server.disconnect();
 	}
 
 	void CPlaying::newGame(int nombre_pnj)
