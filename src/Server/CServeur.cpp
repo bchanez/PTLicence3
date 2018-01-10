@@ -4,7 +4,7 @@
 {
   LOG("CServeur constructor");
 
-  listenerSocket.listen(12345);
+  listenerSocket.listen(55001);
   listenerSocket.setBlocking(false);
   selector.add(listenerSocket);
 
@@ -52,23 +52,14 @@ void CServeur::connection(void)
               sf::TcpSocket& client = **it;
               if (selector.isReady(client))
               {
-                // Receive a message back from the client
-                std::string str;
-                sf::Packet p;
-
-                client.receive(p);
-                p >> str;
-                std::cout << "The client said: " << str << std::endl;
-
-/*
                   sf::Packet packetInitGame;
 
                   packetInitGame << (sf:: Uint16) m_listClient.size();
+                  packetInitGame << (sf:: Uint16) m_DonneesInit.size();
                   for(unsigned int i = 0; i < m_DonneesInit.size(); ++i)
                     packetInitGame << m_DonneesInit[i];
 
                   while (client.send(packetInitGame) != sf::Socket::Done);
-*/
               }
               if(client.receive(packet) == sf::Socket::Disconnected)
               {
@@ -111,6 +102,7 @@ void CServeur::initGame(int taille_carree_map, int nombre_pnj, int nombre_evenem
   {
     m_listEntite.push_back(std::make_unique<CActor>(false));
     m_listEntite[i].get()->setPosition(sf::Vector2f(CRandom::floatInRange(0.f, taille_carree_map * 40.f), CRandom::floatInRange(0.f, taille_carree_map * 40.f)));
+    m_DonneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
   }
 
   // ajout des evenement
@@ -119,6 +111,7 @@ void CServeur::initGame(int taille_carree_map, int nombre_pnj, int nombre_evenem
   {
     m_listEntite.push_back(std::make_unique<CEvent_pub>());
     m_listEntite[i].get()->setPosition(sf::Vector2f(CRandom::floatInRange(0.f, taille_carree_map * 40.f), CRandom::floatInRange(0.f, taille_carree_map * 40.f)));
+    m_DonneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
   }
 }
 

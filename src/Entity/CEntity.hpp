@@ -4,6 +4,7 @@
 #include "../Tools/CDrawable.hpp"
 #include "../Tools/CAnimation.hpp"
 #include "../Tools/DEBUG.hpp"
+#include "../Server/CDonnees.hpp"
 
 #define WALK_SPEED 60
 #define RUN_SPEED 120
@@ -23,6 +24,8 @@ class CEntity : public CDrawable
     virtual void update(float dt) = 0;
     virtual void input(bool left, bool right, bool up, bool down, bool shift) = 0;
 
+    struct DonneesInit getDonneesInit(void);
+
   protected:
 
     struct Key { bool left, right, up, down, shift; };
@@ -40,4 +43,7 @@ class CEntity : public CDrawable
     enum EAnimation {};
     unsigned int m_nb_animation;
     std::vector<CAnimation> m_animation;
+
+    struct DonneesInit m_donneesInit;
+    struct Donnees m_donnees;
 };

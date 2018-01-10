@@ -6,11 +6,8 @@
 struct DonneesInit
 {
   std::string classe;
-  sf::Int8 textureCheveux, textureCorps, textureTeeShirt, texturePantalon;
-  sf::Int8 couleurCheveuxR, couleurCheveuxG, couleurCheveuxB,
-          couleurCorpsR, couleurCorpsG, couleurCorpsB,
-          couleurTeeShirtR, couleurTeeShirtG, couleurTeeShirtB,
-          couleurPantalonR, couleurPantalonG, couleurPantalonB;
+  sf:: Uint16 textures[4];
+  sf:: Uint16 textures_color[4][3];
   float positionX, positionY;
 };
 

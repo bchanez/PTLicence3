@@ -23,7 +23,7 @@ namespace State
 			virtual ~CPlaying();
 
 			void init(void);
-			void newGame(int nombre_pnj);
+			void newGame(void);
 
 			void input(sf::Event * event) override;
 			void update(float dt) override;

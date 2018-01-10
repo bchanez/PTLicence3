@@ -1,5 +1,4 @@
 #include "CPlaying_State.hpp"
-#include "iostream"
 
 namespace State
 {
@@ -24,29 +23,56 @@ namespace State
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
 	  CDisplay::getView()->setCenter(m_listEntite[m_indiceCharacter].get()->getPosition());
 	  CDisplay::getWindow()->setView(* CDisplay::getView());
-
-    sf::Socket::Status status = server.connect("127.0.0.1", 12345);
-		if (status != sf::Socket::Done)
-		{
-		    std::cout << "erreur connection \n";
-		}
-
-    server.setBlocking(false);
-
-		// Send an answer to the server
-		std::string message = "Hi, I am a clientbbbbbb";
-    sf::Packet p;
-    p << message;
-		while (server.send(p) != sf::Socket::Done);
-    server.disconnect();
 	}
 
-	void CPlaying::newGame(int nombre_pnj)
+	void CPlaying::newGame(void)
 	{
 		m_key.left = m_key.right = m_key.up = m_key.down = m_key.shift = m_key.escape = false;
 
 		m_listEntite.clear();
 
+		sf::Socket::Status status = server.connect("localhost", 55001);
+		if (status != sf::Socket::Done)
+		{
+		    LOG("erreur connection \n");
+		}
+
+		sf::Packet packetInitGame;
+
+		if (server.receive(packetInitGame) != sf::Socket::Done)
+		{
+			LOG("erreur reception client\n");
+		}
+		else
+		{
+			LOG("reception client OK\n");
+		}
+
+		unsigned int tailleDonnee;
+		struct DonneesInit donneesInit;
+
+		packetInitGame >> m_indiceCharacter;
+		packetInitGame >> tailleDonnee;
+		for(unsigned int i = 0; i < tailleDonnee; ++i)
+		{
+			packetInitGame >> donneesInit;
+			if(donneesInit.classe.compare("CActor") == 0)
+			{
+				m_listEntite.push_back(std::make_unique<CActor>(donneesInit));
+				m_listEntite[m_listEntite.size()-1].get()->setPosition(sf::Vector2f(300, 300));
+			}
+			else if (donneesInit.classe.compare("CEvent_pub") == 0)
+			{
+				m_listEntite.push_back(std::make_unique<CEvent_pub>());
+				m_listEntite[m_listEntite.size()-1].get()->setPosition(sf::Vector2f(300, 300));
+			}
+		}
+
+		 dynamic_cast<CActor *>(m_listEntite[m_indiceCharacter].get())->setIsCharacter(true);
+
+    server.disconnect();
+
+/*
 		// ajout du joueur
 		m_indiceCharacter = 0;
 		m_listEntite.push_back(std::make_unique<CActor>(true));
@@ -63,6 +89,7 @@ namespace State
 		// ajout des evenement
 		m_listEntite.push_back(std::make_unique<CEvent_pub>());
 		m_listEntite[m_listEntite.size()-1].get()->setPosition(sf::Vector2f(300, 300));
+*/
 
 		// centre la vue sur la position du personnage
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);

@@ -2,27 +2,29 @@
 
 sf::Packet& operator <<(sf::Packet& packet, const DonneesInit& d)
 {
-    return packet <<
-      d.classe <<
-      d.textureCheveux << d.textureCorps << d.textureTeeShirt << d.texturePantalon <<
-      d.couleurCheveuxR << d.couleurCheveuxG << d.couleurCheveuxB <<
-      d.couleurCorpsR << d.couleurCorpsG << d.couleurCorpsB <<
-      d.couleurTeeShirtR << d.couleurTeeShirtG << d.couleurTeeShirtB <<
-      d.couleurPantalonR << d.couleurPantalonG << d.couleurPantalonB <<
-      d.positionX << d.positionY;
+  packet << d.classe;
+  for (int i = 0; i < 4; ++i)
+    packet << d.textures[i];
+  for (int i = 0; i < 4; ++i)
+    for (int j = 0; j < 3; ++j)
+      packet << d.textures_color[i][j];
+  packet << d.positionX << d.positionY;
+
+  return packet;
 }
 
 
 sf::Packet& operator >>(sf::Packet& packet, DonneesInit& d)
 {
-  return packet >>
-    d.classe >>
-    d.textureCheveux >> d.textureCorps >> d.textureTeeShirt >> d.texturePantalon >>
-    d.couleurCheveuxR >> d.couleurCheveuxG >> d.couleurCheveuxB >>
-    d.couleurCorpsR >> d.couleurCorpsG >> d.couleurCorpsB >>
-    d.couleurTeeShirtR >> d.couleurTeeShirtG >> d.couleurTeeShirtB >>
-    d.couleurPantalonR >> d.couleurPantalonG >> d.couleurPantalonB >>
-    d.positionX >> d.positionY;
+  packet >> d.classe;
+  for (int i = 0; i < 4; ++i)
+    packet >> d.textures[i];
+  for (int i = 0; i < 4; ++i)
+    for (int j = 0; j < 3; ++j)
+      packet >> d.textures_color[i][j];
+  packet >> d.positionX >> d.positionY;
+
+  return packet;
 }
 
 sf::Packet& operator <<(sf::Packet& packet, const Donnees& d)
