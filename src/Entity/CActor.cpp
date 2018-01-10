@@ -11,7 +11,9 @@
   m_goal_point = sf::Vector2i(0, 0);
   m_stop = sf::Vector2f(0, 0);
 
-  m_death_timer = 0.f;
+  m_timer = 0.f;
+
+  m_slow = false;
 
   setTexture();
   setAnimation();
@@ -23,6 +25,8 @@
 
   m_isCharacter = false;
 
+  m_timer = 0.f;
+  m_slow = false;
 
   m_sprite.setOrigin(sf::Vector2f(20, 30));
   m_position = sf::Vector2f(donnees.positionX, donnees.positionY);
@@ -406,11 +410,12 @@ void CActor::update(float dt)
     {
       if(m_key.left || m_key.right || m_key.up || m_key.down)
       {
-        if (!m_key.shift)
+        if (!m_key.shift || m_slow)
           m_state = e_walk;
         else
           m_state = e_run;
       }
+
 
       // mise a jour de l'animation
       if (m_orientation == e_right)
@@ -433,7 +438,12 @@ void CActor::update(float dt)
 
     case e_walk :
     {
-      m_move_speed = WALK_SPEED;
+      if (!m_slow)
+        m_move_speed = WALK_SPEED;
+      else
+        m_move_speed = WALK_SPEED/2;
+
+        
       if(m_key.left) m_position.x += -(m_move_speed * dt);
       if(m_key.right) m_position.x += m_move_speed * dt;
       if(!(m_key.right && m_key.left))
@@ -449,6 +459,7 @@ void CActor::update(float dt)
       else
         if(m_key.shift)
           m_state = e_run;
+
 
 
       if (m_position != m_sprite.getPosition())
@@ -477,6 +488,19 @@ void CActor::update(float dt)
         CDisplay::getView()->setCenter(m_position);
         CDisplay::getWindow()->setView(* CDisplay::getView());
       }
+
+
+      if (m_slow)
+      {
+        m_timer += dt;
+
+        if (m_timer > 2)
+        {
+          m_slow = false;
+          m_timer = 0.f;
+        }
+      }
+
       break;
     }
 
@@ -536,13 +560,8 @@ void CActor::update(float dt)
 
     case e_attack :
     {
-      m_death_timer += dt;
-
-      if (m_death_timer > 2)
-      {
-        m_state = e_idle;
-        m_death_timer = 0.f;
-      }
+      m_slow = true;
+      m_state = e_idle;
 
       break;
     }
@@ -561,9 +580,9 @@ void CActor::update(float dt)
 
     case e_dead :
     {
-      m_death_timer += dt;
+      m_timer += dt;
 
-      if (m_death_timer > 2)
+      if (m_timer > 2)
       {
         m_state = e_disappear;
       }
