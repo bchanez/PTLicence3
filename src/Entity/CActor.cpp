@@ -15,6 +15,87 @@
   setAnimation();
 }
 
+/*explicit*/ CActor::CActor(bool isCharacter, struct DonneesInit donnees)
+{
+  LOG("CActor Constructor\n");
+
+  m_isCharacter = isCharacter;
+
+  m_sprite.setOrigin(sf::Vector2f(donnees.positionX, donnees.positionY));
+
+  m_goal_point = sf::Vector2i(0, 0);
+  m_stop = sf::Vector2f(0, 0);
+
+  //Texture
+  m_prerender.create(160, 80);
+
+  m_prerender.clear(sf::Color::Transparent);
+
+  sf::Sprite spr;
+  //Body
+  sf::Image i_Body = CResourceHolder::get().image(EImage_Name::e_Body_White);
+  sf::Color newColor, hairColor;
+
+  newColor = sf::Color(donnees.couleurCorpsR, donnees.couleurCorpsG, donnees.couleurCorpsB);
+  hairColor = sf::Color(donnees.couleurCheveuxR, donnees.couleurCheveuxG, donnees.couleurCheveuxB);
+
+  for (int y = 0; y < (int)i_Body.getSize().y; y++){
+    for (int x = 0; x < (int)i_Body.getSize().x; x++){
+      if (i_Body.getPixel(x, y).a > 10){
+        i_Body.setPixel(x, y, newColor);
+      }
+    }
+  }
+
+  sf::Texture t_Body;
+  t_Body.loadFromImage(i_Body);
+
+  spr.setTexture(t_Body);
+  m_prerender.draw(spr);
+
+  //Details
+  i_Body = CResourceHolder::get().image(EImage_Name::e_Body_Details);
+  t_Body.loadFromImage(i_Body);
+  spr.setTexture(t_Body);
+  m_prerender.draw(spr);
+
+
+  //Hair
+  size_t hair_nb = donnees.textureCheveux;
+  sf::Image i_Hair = CResourceHolder::get().image((EImage_Name)hair_nb);
+
+
+
+  for (int y = 0; y < (int)i_Hair.getSize().y; y++){
+    for (int x = 0; x < (int)i_Hair.getSize().x; x++){
+      if (i_Hair.getPixel(x, y).a > 10){
+        i_Hair.setPixel(x, y, hairColor);
+      }
+    }
+  }
+
+  sf::Texture t_Hair;
+  t_Hair.loadFromImage(i_Hair);
+
+  spr.setTexture(t_Hair);
+  m_prerender.draw(spr);
+
+  //Details
+  i_Hair = CResourceHolder::get().image((EImage_Name)(hair_nb+8));
+  t_Hair.loadFromImage(i_Hair);
+  spr.setTexture(t_Hair);
+  m_prerender.draw(spr);
+
+  //Clothes
+
+  m_prerender.display();
+
+  m_sprite.setTexture(m_prerender.getTexture());
+
+  setAnimation();
+}
+
+
 /*virtual*/ CActor::~CActor(void)
 {
   LOG("CActor Destructor\n");
@@ -23,6 +104,16 @@
 // donne la texture au personnage
 void CActor::setTexture(void)
 {
+
+  for (size_t i = 0; i < 4; i++){
+    m_textures[i] = NULL;
+
+    for (size_t j = 0; j < 3; j++){
+      m_textures_color[i][j] = 0;
+    }
+
+  }
+
   m_prerender.create(160, 80);
 
   m_prerender.clear(sf::Color::Transparent);
@@ -36,26 +127,42 @@ void CActor::setTexture(void)
     case 0 :
     { //Normale
       newColor = sf::Color(254, 211, 186);
+      m_textures[1] = 0;
+      m_textures_color[1][0] = 254;
+      m_textures_color[1][1] = 211;
+      m_textures_color[1][2] = 186;
 
       switch(CRandom::intInRange(0,4)){
         case 0 :
         {
           hairColor = sf::Color(210, 160, 110); //Blond
+          m_textures_color[0][0] = 210;
+          m_textures_color[0][1] = 160;
+          m_textures_color[0][2] = 110;
           break;
         }
         case 1 :
         {
           hairColor = sf::Color(50, 50, 50);  //Noir
+          m_textures_color[0][0] = 50;
+          m_textures_color[0][1] = 50;
+          m_textures_color[0][2] = 50;
           break;
         }
         case 2 :
         {
           hairColor = sf::Color(140, 80, 60); //Chatain
+          m_textures_color[0][0] = 140;
+          m_textures_color[0][1] = 80;
+          m_textures_color[0][2] = 60;
           break;
         }
         case 3 :
         {
           hairColor = sf::Color(80, 40, 20); //Brun
+          m_textures_color[0][0] = 80;
+          m_textures_color[0][1] = 40;
+          m_textures_color[0][2] = 20;
           break;
         }
         default : break;
@@ -66,22 +173,40 @@ void CActor::setTexture(void)
     case 1 :
     { //Jaune
       newColor = sf::Color(254, 235, 190);
+      m_textures[1] = 0;
+      m_textures_color[1][0] = 254;
+      m_textures_color[1][1] = 235;
+      m_textures_color[1][2] = 190;
+
       hairColor = sf::Color(50, 50, 50);  //Noir
+      m_textures_color[0][0] = 50;
+      m_textures_color[0][1] = 50;
+      m_textures_color[0][2] = 50;
       break;
     }
     case 2 :
     { //Noire
       newColor = sf::Color(100, 80, 50);
+      m_textures[1] = 0;
+      m_textures_color[1][0] = 100;
+      m_textures_color[1][1] = 80;
+      m_textures_color[1][2] = 50;
 
       switch(CRandom::intInRange(0,1)){
         case 0 :
         {
           hairColor = sf::Color(50, 50, 50);  //Noir
+          m_textures_color[0][0] = 50;
+          m_textures_color[0][1] = 50;
+          m_textures_color[0][2] = 50;
           break;
         }
         case 1 :
         {
           hairColor = sf::Color(80, 40, 20); //Brun
+          m_textures_color[0][0] = 80;
+          m_textures_color[0][1] = 40;
+          m_textures_color[0][2] = 20;
           break;
         }
         default : break;
@@ -92,26 +217,42 @@ void CActor::setTexture(void)
     case 3 :
     { //Pâle
       newColor = sf::Color(254, 230, 215);
+      m_textures[1] = 0;
+      m_textures_color[1][0] = 254;
+      m_textures_color[1][1] = 230;
+      m_textures_color[1][2] = 215;
 
       switch(CRandom::intInRange(0,4)){
         case 0 :
         {
           hairColor = sf::Color(140, 80, 60); //Chatain
+          m_textures_color[0][0] = 140;
+          m_textures_color[0][1] = 80;
+          m_textures_color[0][2] = 60;
           break;
         }
         case 1 :
         {
           hairColor = sf::Color(200, 110, 50); //Roux
+          m_textures_color[0][0] = 200;
+          m_textures_color[0][1] = 110;
+          m_textures_color[0][2] = 50;
           break;
         }
         case 2 :
         {
           hairColor = sf::Color(100, 40, 20); //Brun
+          m_textures_color[0][0] = 100;
+          m_textures_color[0][1] = 40;
+          m_textures_color[0][2] = 20;
           break;
         }
         case 3 :
         {
           hairColor = sf::Color(50, 50, 50); //Noir
+          m_textures_color[0][0] = 50;
+          m_textures_color[0][1] = 50;
+          m_textures_color[0][2] = 50;
           break;
         }
         case 4 :
@@ -149,6 +290,7 @@ void CActor::setTexture(void)
 
   //Hair
   size_t hair_nb = CRandom::intInRange(2, 9);
+  m_textures[0] = hair_nb;
   sf::Image i_Hair = CResourceHolder::get().image((EImage_Name)hair_nb);
 
 

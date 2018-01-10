@@ -9,8 +9,8 @@ namespace State
 
     m_intro.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Titlescreen));
 
-    for (int i = 0; i < 3 ; ++i)
-      m_animation.addFrame(sf::IntRect(i * 1920, 0, 1920, 1080), 0.5f);
+    for (int i = 0; i < 4 ; ++i)
+      m_animation.addFrame(sf::IntRect(i * 1920, 0, 1920, 1080), 0.1f);
   }
 
   /*virtual*/ CIntro::~CIntro()

@@ -6,7 +6,7 @@
 struct DonneesInit
 {
   std::string classe;
-  std::string textureCheveux, textureCorps, textureTeeShirt, texturePantalon;
+  sf::Int8 textureCheveux, textureCorps, textureTeeShirt, texturePantalon;
   sf::Int8 couleurCheveuxR, couleurCheveuxG, couleurCheveuxB,
           couleurCorpsR, couleurCorpsG, couleurCorpsB,
           couleurTeeShirtR, couleurTeeShirtG, couleurTeeShirtB,
