@@ -17,7 +17,7 @@
   for (unsigned int i = 0; i < 4; ++i)
   {
     m_donneesInit.textures[i] = 0;
-    for (unsigned int j = 0; j < 3; j)
+    for (unsigned int j = 0; j < 3; ++j)
     {
       m_donneesInit.textures_color[i][j] = 0;
     }

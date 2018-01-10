@@ -4,6 +4,8 @@
 {
   LOG("CActor Constructor\n");
 
+  m_donneesInit.classe = "CActor";
+
   m_isCharacter = isCharacter;
 
   m_sprite.setOrigin(sf::Vector2f(20, 30));
@@ -21,7 +23,9 @@
 
   m_isCharacter = false;
 
-  m_sprite.setOrigin(sf::Vector2f(donnees.positionX, donnees.positionY));
+  m_sprite.setOrigin(sf::Vector2f(20.f, 30.f));
+  
+  m_position = sf::Vector2f(donnees.positionX, donnees.positionY);
 
   m_goal_point = sf::Vector2i(0, 0);
   m_stop = sf::Vector2f(0, 0);
@@ -38,6 +42,8 @@
 
   newColor = sf::Color(donnees.textures_color[1][0], donnees.textures_color[1][1], donnees.textures_color[1][2]);
   hairColor = sf::Color(donnees.textures_color[2][0], donnees.textures_color[2][1], donnees.textures_color[2][2]);
+
+  //newColor = sf::Color(200,200,200);
 
   for (int y = 0; y < (int)i_Body.getSize().y; y++){
     for (int x = 0; x < (int)i_Body.getSize().x; x++){

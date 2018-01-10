@@ -52,9 +52,11 @@ void CServeur::connection(void)
               sf::TcpSocket& client = **it;
               if (selector.isReady(client))
               {
-                  sf::Packet packetInitGame;
+                  sf::Packet p;
+                  client.receive(p);
 
-                  packetInitGame << (sf:: Uint16) m_listClient.size();
+                  sf::Packet packetInitGame;
+                  packetInitGame << (sf:: Uint16) (m_listClient.size() - 1);
                   packetInitGame << (sf:: Uint16) m_DonneesInit.size();
                   for(unsigned int i = 0; i < m_DonneesInit.size(); ++i)
                     packetInitGame << m_DonneesInit[i];

@@ -40,7 +40,7 @@ public:
 
 	void initIntroState(void);
 	void initMenuState(void);
-	void initPlayingStateNewGame(int nombre_pnj);
+	void initPlayingStateNewGame(void);
 	void initPlayingState(void);
 	void initPauseState(void);
 

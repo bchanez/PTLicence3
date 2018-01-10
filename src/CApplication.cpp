@@ -46,7 +46,7 @@ void CApplication::initMenuState(void)
 	dynamic_cast<State::CMenu *>(m_state[EState::e_menu].get())->init();
 }
 
-void CApplication::initPlayingStateNewGame(int nombre_pnj)
+void CApplication::initPlayingStateNewGame(void)
 {
 	dynamic_cast<State::CPlaying *>(m_state[EState::e_playing].get())->newGame();
 }

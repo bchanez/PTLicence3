@@ -37,6 +37,14 @@ namespace State
 		    LOG("erreur connection \n");
 		}
 
+
+		sf::Packet p;
+		p << "OK";
+
+		if (server.send(p) != sf::Socket::Done)
+			return;
+		std::cout<<"packet send"<<std::endl;
+
 		sf::Packet packetInitGame;
 
 		if (server.receive(packetInitGame) != sf::Socket::Done)
@@ -47,31 +55,26 @@ namespace State
 		{
 			LOG("reception client OK\n");
 		}
+		server.disconnect();
 
-		unsigned int tailleDonnee;
+		sf:: Uint16 tailleDonnee;
 		struct DonneesInit donneesInit;
 
-		packetInitGame >> m_indiceCharacter;
-		packetInitGame >> tailleDonnee;
+		packetInitGame >>  m_indiceCharacter;
+		packetInitGame >>  tailleDonnee;
 		for(unsigned int i = 0; i < tailleDonnee; ++i)
 		{
 			packetInitGame >> donneesInit;
-			if(donneesInit.classe.compare("CActor") == 0)
+			if((donneesInit.classe).compare("CActor") == 0)
 			{
 				m_listEntite.push_back(std::make_unique<CActor>(donneesInit));
-				m_listEntite[m_listEntite.size()-1].get()->setPosition(sf::Vector2f(300, 300));
 			}
-			else if (donneesInit.classe.compare("CEvent_pub") == 0)
+			else if ((donneesInit.classe).compare("CEvent_pub") == 0)
 			{
 				m_listEntite.push_back(std::make_unique<CEvent_pub>());
-				m_listEntite[m_listEntite.size()-1].get()->setPosition(sf::Vector2f(300, 300));
 			}
 		}
-
-		 dynamic_cast<CActor *>(m_listEntite[m_indiceCharacter].get())->setIsCharacter(true);
-
-    server.disconnect();
-
+		dynamic_cast<CActor *>(m_listEntite[m_indiceCharacter].get())->setIsCharacter(true);
 /*
 		// ajout du joueur
 		m_indiceCharacter = 0;

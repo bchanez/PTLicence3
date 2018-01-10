@@ -4,7 +4,23 @@
 {
   LOG("CEvent_pub Constructor\n");
 
+  m_donneesInit.classe = "CEvent_pub";
+
   m_sprite.setOrigin(sf::Vector2f(100, 100));
+
+  m_state = e_idle;
+
+  setTexture();
+  setAnimation();
+}
+
+/*explicit*/ CEvent_pub::CEvent_pub(struct DonneesInit donnees)
+{
+  LOG("CEvent_pub Constructor\n");
+
+  m_sprite.setOrigin(sf::Vector2f(100, 100));
+
+  m_position = sf::Vector2f(donnees.positionX, donnees.positionY);
 
   m_state = e_idle;
 

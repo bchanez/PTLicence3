@@ -10,6 +10,7 @@ class CEvent_pub: public CEvent
   public:
 
     explicit CEvent_pub(void);
+    explicit CEvent_pub(struct DonneesInit donnees);
     virtual ~CEvent_pub(void);
 
     void setTexture(void) override;
