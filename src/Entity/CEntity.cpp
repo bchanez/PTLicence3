@@ -17,7 +17,7 @@
   for (unsigned int i = 0; i < 4; ++i)
   {
     m_donneesInit.textures[i] = 0;
-    for (unsigned int j = 0; j < 3; j)
+    for (unsigned int j = 0; j < 3; ++j)
     {
       m_donneesInit.textures_color[i][j] = 0;
     }
@@ -40,6 +40,16 @@ void CEntity::setPosition(sf::Vector2f pos)
   m_position = pos;
   m_sprite.setPosition(m_position);
   m_donneesInit.positionX = pos.x; m_donneesInit.positionY = pos.y;
+}
+
+int CEntity::getState(void)
+{
+  return m_state;
+}
+
+void CEntity::setState(int state)
+{
+  m_state = state;
 }
 
 struct DonneesInit CEntity::getDonneesInit(void)

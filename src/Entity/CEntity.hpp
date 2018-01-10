@@ -21,6 +21,9 @@ class CEntity : public CDrawable
 
     virtual void setAnimation(void) = 0;
 
+    int getState(void);
+    void setState(int);
+
     virtual void update(float dt) = 0;
     virtual void input(bool left, bool right, bool up, bool down, bool shift) = 0;
 

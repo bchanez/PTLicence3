@@ -11,6 +11,8 @@
   m_goal_point = sf::Vector2i(0, 0);
   m_stop = sf::Vector2f(0, 0);
 
+  m_death_timer = 0.f;
+
   setTexture();
   setAnimation();
 }
@@ -21,7 +23,9 @@
 
   m_isCharacter = false;
 
-  m_sprite.setOrigin(sf::Vector2f(donnees.positionX, donnees.positionY));
+
+  m_sprite.setOrigin(sf::Vector2f(20, 30));
+  m_position = sf::Vector2f(donnees.positionX, donnees.positionY);
 
   m_goal_point = sf::Vector2i(0, 0);
   m_stop = sf::Vector2f(0, 0);
@@ -327,6 +331,7 @@ void CActor::setAnimation(void)
   }
 }
 
+
 void CActor::input(bool left, bool right, bool up, bool down, bool shift)
 {
   if (m_isCharacter) // character
@@ -529,6 +534,19 @@ void CActor::update(float dt)
       break;
     }
 
+    case e_attack :
+    {
+      m_death_timer += dt;
+
+      if (m_death_timer > 2)
+      {
+        m_state = e_idle;
+        m_death_timer = 0.f;
+      }
+
+      break;
+    }
+
     case e_wander :
     {
 
@@ -543,13 +561,19 @@ void CActor::update(float dt)
 
     case e_dead :
     {
+      m_death_timer += dt;
+
+      if (m_death_timer > 2)
+      {
+        m_state = e_disappear;
+      }
 
       break;
     }
 
     case e_disappear :
     {
-
+      //(*m_actors.erase())
       break;
     }
 

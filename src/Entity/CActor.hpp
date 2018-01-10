@@ -5,6 +5,7 @@
 #include "../Tools/DEBUG.hpp"
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/CRandom.hpp"
+#include <vector>
 
 class CActor : public CEntity
 {
@@ -25,10 +26,12 @@ class CActor : public CEntity
 
     bool m_isCharacter;
 
-    enum Estate {e_idle, e_walk, e_run, e_action, e_dead, e_wander, e_question, e_disappear};
+    enum Estate {e_idle, e_walk, e_run, e_action, e_attack, e_dead, e_wander, e_question, e_disappear};
 
     enum EAnimation {e_walk_right, e_walk_left};
     unsigned int m_nb_animation = 2;
+
+    float m_death_timer;
 
     sf::Vector2f m_stop;
     sf::Vector2i m_goal_point;
