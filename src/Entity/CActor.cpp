@@ -36,8 +36,8 @@
   sf::Image i_Body = CResourceHolder::get().image(EImage_Name::e_Body_White);
   sf::Color newColor, hairColor;
 
-  newColor = sf::Color(donnees.couleurCorpsR, donnees.couleurCorpsG, donnees.couleurCorpsB);
-  hairColor = sf::Color(donnees.couleurCheveuxR, donnees.couleurCheveuxG, donnees.couleurCheveuxB);
+  newColor = sf::Color(donnees.textures_color[1][0], donnees.textures_color[1][1], donnees.textures_color[1][2]);
+  hairColor = sf::Color(donnees.textures_color[2][0], donnees.textures_color[2][1], donnees.textures_color[2][2]);
 
   for (int y = 0; y < (int)i_Body.getSize().y; y++){
     for (int x = 0; x < (int)i_Body.getSize().x; x++){
@@ -61,7 +61,7 @@
 
 
   //Hair
-  size_t hair_nb = donnees.textureCheveux;
+  size_t hair_nb = donnees.textures[0];
   sf::Image i_Hair = CResourceHolder::get().image((EImage_Name)hair_nb);
 
 
