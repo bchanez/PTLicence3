@@ -443,7 +443,7 @@ void CActor::update(float dt)
       else
         m_move_speed = WALK_SPEED/2;
 
-        
+
       if(m_key.left) m_position.x += -(m_move_speed * dt);
       if(m_key.right) m_position.x += m_move_speed * dt;
       if(!(m_key.right && m_key.left))
@@ -457,7 +457,7 @@ void CActor::update(float dt)
       if(!m_key.left && !m_key.right && !m_key.up && !m_key.down)
         m_state = e_idle;
       else
-        if(m_key.shift)
+        if(m_key.shift && !m_slow)
           m_state = e_run;
 
 
