@@ -6,11 +6,12 @@
 
 	// stats
 	addResource(ETexture_Name::e_Titlescreen, "rsc/graphics/titlescreen.png");
-	addResource(ETexture_Name::e_Menu, "rsc/graphics/menu.png");
-	addResource(ETexture_Name::e_Pause, "rsc/graphics/pause.png");
+	addResource(ETexture_Name::e_Menu, "rsc/graphics/menu_screen.png");
+	addResource(ETexture_Name::e_Pause, "rsc/graphics/pause_screen.png");
 
 	// button
 	addResource(ETexture_Name::e_Jouer, "rsc/graphics/jouer.png");
+	addResource(ETexture_Name::e_Retour, "rsc/graphics/retour.png");
 	addResource(ETexture_Name::e_Quitter, "rsc/graphics/quitter.png");
 
 	// input
