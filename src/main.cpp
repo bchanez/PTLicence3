@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 	else
 	{
 		CServeur serveur;
-		serveur.initGame(35, 100, 10);
+		serveur.initGame(35, 20, 3);
 		serveur.loopGame();
 	}
 

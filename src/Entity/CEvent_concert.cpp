@@ -22,12 +22,16 @@ void CEvent_concert::setAnimation(void)
 
 }
 
-void CEvent_concert::input(bool left, bool right, bool up, bool down, bool shift)
+void CEvent_concert::input()
 {
-  m_key.left = left; m_key.right = right; m_key.up = up ; m_key.down = down; m_key.shift = shift;
 }
 
 void CEvent_concert::update(float dt)
+{
+  (void)dt;
+}
+
+void CEvent_concert::serverUpdate(float dt)
 {
   (void)dt;
 }

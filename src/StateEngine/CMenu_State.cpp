@@ -73,7 +73,7 @@ namespace State
 
     if (m_listButton[e_jouer]->action())
     {
-      m_application->initPlayingStateNewGame(100);
+      m_application->initPlayingStateNewGame();
       m_application->changeState(EState::e_playing);
     }
   }

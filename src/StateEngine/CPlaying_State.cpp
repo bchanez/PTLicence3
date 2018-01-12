@@ -17,7 +17,7 @@ namespace State
 
 	void CPlaying::init(void)
 	{
-		 m_key.left = m_key.right = m_key.up = m_key.down = m_key.shift = m_key.escape = false;
+		 m_key.escape = false;
 
 		// centre la vue sur la position du personnage
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
@@ -27,51 +27,47 @@ namespace State
 
 	void CPlaying::newGame(void)
 	{
-		m_key.left = m_key.right = m_key.up = m_key.down = m_key.shift = m_key.escape = false;
+		m_key.escape = false;
 
 		m_listEntite.clear();
 
-		// sf::Socket::Status status = server.connect("localhost", 55001);
-		// if (status != sf::Socket::Done)
-		// {
-		//     LOG("erreur connection \n");
-		// }
-    //
-		// sf::Packet packetInitGame;
-    //
-		// if (server.receive(packetInitGame) != sf::Socket::Done)
-		// {
-		// 	LOG("erreur reception client\n");
-		// }
-		// else
-		// {
-		// 	LOG("reception client OK\n");
-		// }
-    //
-		// unsigned int tailleDonnee;
-		// struct DonneesInit donneesInit;
-    //
-		// packetInitGame >> m_indiceCharacter;
-		// packetInitGame >> tailleDonnee;
-		// for(unsigned int i = 0; i < tailleDonnee; ++i)
-		// {
-		// 	packetInitGame >> donneesInit;
-		// 	if(donneesInit.classe.compare("CActor") == 0)
-		// 	{
-		// 		m_listEntite.push_back(std::make_unique<CActor>(donneesInit));
-		// 		m_listEntite[m_listEntite.size()-1].get()->setPosition(sf::Vector2f(300, 300));
-		// 	}
-		// 	else if (donneesInit.classe.compare("CEvent_pub") == 0)
-		// 	{
-		// 		m_listEntite.push_back(std::make_unique<CEvent_pub>());
-		// 		m_listEntite[m_listEntite.size()-1].get()->setPosition(sf::Vector2f(300, 300));
-		// 	}
-		// }
-    //
-		//  dynamic_cast<CActor *>(m_listEntite[m_indiceCharacter].get())->setIsCharacter(true);
-    //
-    // server.disconnect();
+		m_UDPserver.bind(55003);
+		sf::Socket::Status status = m_TCPserver.connect("localhost", 55001);
+		if (status != sf::Socket::Done)
+		{
+		    LOG("erreur connection \n");
+		}
 
+		sf::Packet packetInitGame;
+		if (m_TCPserver.receive(packetInitGame) != sf::Socket::Done)
+		{
+			LOG("erreur reception client tcp\n");
+		}
+		else
+		{
+			LOG("reception client OK tcp\n");
+		}
+		m_TCPserver.disconnect();
+
+		sf:: Uint16 tailleDonnee;
+		struct DonneesInit donneesInit;
+
+		packetInitGame >>  m_indiceCharacter;
+		packetInitGame >>  tailleDonnee;
+		for(unsigned int i = 0; i < tailleDonnee; ++i)
+		{
+			packetInitGame >> donneesInit;
+			if((donneesInit.classe).compare("CActor") == 0)
+			{
+				m_listEntite.push_back(std::make_unique<CActor>(donneesInit));
+			}
+			else if ((donneesInit.classe).compare("CEvent_pub") == 0)
+			{
+				m_listEntite.push_back(std::make_unique<CEvent_pub>(donneesInit));
+			}
+		}
+		dynamic_cast<CActor *>(m_listEntite[m_indiceCharacter].get())->setIsCharacter(true);
+/*
 		// ajout du joueur
 		m_indiceCharacter = 0;
 		m_listEntite.push_back(std::make_unique<CActor>(true));
@@ -98,6 +94,9 @@ namespace State
 
 	void CPlaying::input(sf::Event * event)
 	{
+		struct Donnees donnees = m_donneesSend;
+		donnees.indice = m_indiceCharacter;
+
 		while (CDisplay::getWindow()->pollEvent(* event))
     {
 			// event de la scene
@@ -105,20 +104,20 @@ namespace State
 			{
 				if ((* event).key.code == sf::Keyboard::Z
 					|| (* event).key.code == sf::Keyboard::W)
-					m_key.up = true;
+					donnees.keyUp = true;
 
 				if ((* event).key.code == sf::Keyboard::Q
 					|| (* event).key.code == sf::Keyboard::A)
-					m_key.left = true;
+					donnees.keyLeft = true;
 
 				if ((* event).key.code == sf::Keyboard::S)
-					m_key.down = true;
+					donnees.keyDown = true;
 
 				if ((* event).key.code == sf::Keyboard::D)
-					m_key.right = true;
+					donnees.keyRight = true;
 
 				if ((* event).key.code == sf::Keyboard::LShift)
-					m_key.shift = true;
+					donnees.keyShift = true;
 
 				if((* event).key.code == sf::Keyboard::Escape)
 					m_key.escape = true;
@@ -129,20 +128,20 @@ namespace State
 			{
 				if ((* event).key.code == sf::Keyboard::Z
 					|| (* event).key.code == sf::Keyboard::W)
-					m_key.up = false;
+					donnees.keyUp = false;
 
 				if ((* event).key.code == sf::Keyboard::Q
 					|| (* event).key.code == sf::Keyboard::A)
-					m_key.left = false;
+					donnees.keyLeft = false;
 
 				if ((* event).key.code == sf::Keyboard::S)
-					m_key.down = false;
+					donnees.keyDown = false;
 
 				if ((* event).key.code == sf::Keyboard::D)
-					m_key.right = false;
+					donnees.keyRight = false;
 
 				if ((* event).key.code == sf::Keyboard::LShift)
-					m_key.shift = false;
+					donnees.keyShift = false;
 
 				if ((* event).key.code == sf::Keyboard::Escape)
 					m_key.escape = false;
@@ -155,10 +154,27 @@ namespace State
 
 		}
 
-		// met a jour les events
-		for (unsigned int i = 0; i < m_listEntite.size(); ++i)
-			m_listEntite[i]->input(m_key.left, m_key.right, m_key.up, m_key.down, m_key.shift);
-
+		//envoie les touches du client au serveur
+		if(m_donneesSend != donnees)
+		{
+			sf::Packet packet;
+			m_donneesSend = donnees;
+			std::cout <<
+			m_donneesSend.keyLeft << " " <<
+			m_donneesSend.keyRight << " " <<
+			m_donneesSend.keyUp << " " <<
+			m_donneesSend.keyDown << " " <<
+			m_donneesSend.keyShift << std::endl;
+			packet << m_donneesSend;
+			if(m_UDPserver.send(packet, "localhost", 55002)  == sf::Socket::Done)
+			{
+				std::cout << "envoei info client\n";
+			}
+			else
+			{
+				std::cout << "marche pas\n";
+			}
+		}
 	}
 
 	void CPlaying::update(float dt)
@@ -170,6 +186,39 @@ namespace State
 			m_application->changeState(EState::e_pause);
 			return;
 		}
+
+
+		//recoie les donnees du serveur
+		struct Donnees donnees;
+		sf:: Uint16 tailleDonnee;
+		sf::Packet packet;
+		sf::IpAddress serveur;
+		unsigned short port;
+		if(m_UDPserver.receive(packet, serveur, port) == sf::Socket::Done)
+		{
+			//LOG("reception OK udp\n");
+			packet >> tailleDonnee;
+			for (unsigned int i = 0; i < tailleDonnee; ++i)
+			{
+				packet >> donnees;
+				m_listEntite[donnees.indice]->setDonnees(donnees);
+			}
+		}
+
+		/*
+		char in[128];
+		std::size_t received;
+		sf::IpAddress sender;
+		unsigned short senderPort;
+		if (m_UDPserver.receive(in, sizeof(in), received, sender, senderPort) == sf::Socket::Done)
+		{
+			std::cout << "Message received from " << sender << ": \"" << senderPort << ": \"" << in << "\"" << std::endl;
+		}
+		else
+		{
+			std::cout << "error udp\n";
+		}
+		*/
 
 		// update des entites
 		for (unsigned int i = 0; i < m_listEntite.size(); ++i)
@@ -200,7 +249,9 @@ namespace State
 		}
 
 		// update de la profondeur des Entity
-		quickSort(m_listEntite, 0, (int)m_listEntite.size() - 1);
+		//quickSort(m_listEntite, 0, (int)m_listEntite.size() - 1);
+
+
 	}
 
 	void CPlaying::draw()

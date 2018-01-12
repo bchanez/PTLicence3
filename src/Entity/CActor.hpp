@@ -11,14 +11,17 @@ class CActor : public CEntity
 {
   public:
 
-    explicit CActor(bool isCharacter);
+    explicit CActor(void);
     explicit CActor(struct DonneesInit donnees);
     virtual ~CActor(void);
 
     void setTexture(void);
+    void setTexture(struct DonneesInit donnees);
+
     void setAnimation(void) override;
-    void input(bool left, bool right, bool up, bool down, bool shift);
+    void input(void);
     void update(float dt) override;
+    void serverUpdate(float dt) override; 
 
     void setIsCharacter(bool isCharacter);
 

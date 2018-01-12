@@ -16,7 +16,7 @@ namespace State
 {
 	class CPlaying : public CGame_State
 	{
-			struct Key { bool left, right, up, down, shift, escape; };
+			struct Key { bool escape; };
 
 		public:
 			explicit CPlaying(CApplication& application);
@@ -31,7 +31,9 @@ namespace State
 
 		private:
 
-			sf::TcpSocket server;
+			sf::TcpSocket m_TCPserver;
+			sf::UdpSocket m_UDPserver;
+			struct Donnees m_donneesSend;
 
 			Key m_key;
 
@@ -40,6 +42,6 @@ namespace State
 			CMap m_map;
 
 			std::vector<std::unique_ptr<CEntity>> m_listEntite; // joueur, pnj, evenement
-			int m_indiceCharacter; // variable qui stocke l'indice du character dans le tableau
+			sf:: Uint16 m_indiceCharacter; // variable qui stocke l'indice du character dans le tableau
 	};
 }

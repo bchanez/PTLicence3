@@ -13,7 +13,7 @@ struct DonneesInit
 
 struct Donnees
 {
-  sf::Int8 indice;
+  sf::Uint16 indice;
   float positionX, positionY;
   bool keyLeft, keyRight, keyUp, keyDown, keyShift;
 };
@@ -22,3 +22,4 @@ sf::Packet& operator <<(sf::Packet& packet, const struct DonneesInit& d);
 sf::Packet& operator >>(sf::Packet& packet, struct DonneesInit& d);
 sf::Packet& operator <<(sf::Packet& packet, const struct Donnees& d);
 sf::Packet& operator >>(sf::Packet& packet, struct Donnees& d);
+bool operator != (const struct Donnees& d1, const struct Donnees& d2);
