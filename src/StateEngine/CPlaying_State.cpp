@@ -60,6 +60,7 @@ namespace State
 		for(unsigned int i = 0; i < tailleDonnee; ++i)
 		{
 			packetInitGame >> donneesInit;
+			std::cout << donneesInit.positionX << " " <<  donneesInit.positionY << std::endl;
 			if((donneesInit.classe).compare("CActor") == 0)
 			{
 				m_listEntite.push_back(std::make_unique<CActor>(donneesInit));
