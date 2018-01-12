@@ -401,7 +401,7 @@ void CActor::update(float dt)
           m_state = e_run;
 
 
-      if (sf::Vector2f(m_donnees.positionX, m_donnees.positionY) != m_sprite.getPosition())
+      if (sf::Vector2f(m_donnees.positionX, m_donnees.positionY) != getPosition())
       {
         // mise a jour de la position
         setPosition(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
@@ -461,7 +461,7 @@ void CActor::update(float dt)
         if(!m_donnees.keyShift)
           m_state = e_walk;
 
-      if (sf::Vector2f(m_donnees.positionX, m_donnees.positionY) != m_sprite.getPosition())
+      if (sf::Vector2f(m_donnees.positionX, m_donnees.positionY) != getPosition())
       {
         // mise a jour de la position
         setPosition(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
