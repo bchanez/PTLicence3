@@ -14,6 +14,7 @@ enum class ETexture_Name
 
 	//button
 	e_Jouer,
+	e_Retour,
 	e_Quitter,
 
 	//input

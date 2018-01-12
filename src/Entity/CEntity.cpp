@@ -43,6 +43,16 @@ void CEntity::setPosition(sf::Vector2f pos)
   m_sprite.setPosition(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
 }
 
+int CEntity::getState(void)
+{
+  return m_state;
+}
+
+void CEntity::setState(int state)
+{
+  m_state = state;
+}
+
 struct DonneesInit CEntity::getDonneesInit(void)
 {
   return m_donneesInit;

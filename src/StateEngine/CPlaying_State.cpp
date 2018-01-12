@@ -75,7 +75,7 @@ namespace State
 
 		// ajout des PNJs
 		int indiceDecalage = m_listEntite.size();
-		for(int i = indiceDecalage; i < nombre_pnj + indiceDecalage; i++)
+		for(int i = indiceDecalage; i < 100 + indiceDecalage; i++)
 		{
 			m_listEntite.push_back(std::make_unique<CActor>(false));
 			m_listEntite[i].get()->setPosition(sf::Vector2f(CRandom::floatInRange(100.f, 1820.f), CRandom::floatInRange(100.f, 980.f)));
@@ -84,7 +84,7 @@ namespace State
 		// ajout des evenement
 		m_listEntite.push_back(std::make_unique<CEvent_pub>());
 		m_listEntite[m_listEntite.size()-1].get()->setPosition(sf::Vector2f(300, 300));
-*/
+
 
 		// centre la vue sur la position du personnage
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
@@ -146,6 +146,12 @@ namespace State
 				if ((* event).key.code == sf::Keyboard::Escape)
 					m_key.escape = false;
 			}
+
+			if ((* event).type == sf::Event::MouseButtonPressed && (* event).mouseButton.button == sf::Mouse::Left)
+			{
+				m_listEntite[m_indiceCharacter]->setState(4); //e_attack
+			}
+
 		}
 
 		//envoie les touches du client au serveur
@@ -216,7 +222,31 @@ namespace State
 
 		// update des entites
 		for (unsigned int i = 0; i < m_listEntite.size(); ++i)
+		{
+			if (m_listEntite[i]->getState() == 4)
+			{
+				for (unsigned int j = 0; j < m_listEntite.size(); ++j)
+				{
+	        if (m_listEntite[i]->getPosition() != m_listEntite[j]->getPosition())
+	        {
+						if (m_listEntite[i]->getPosition().x > m_listEntite[j]->getPosition().x - 20
+							&& m_listEntite[i]->getPosition().x < m_listEntite[j]->getPosition().x + 20
+							&& m_listEntite[i]->getPosition().y > m_listEntite[j]->getPosition().y - 20
+								&& m_listEntite[i]->getPosition().y < m_listEntite[j]->getPosition().y + 20)
+	          m_listEntite[j]->setState(5);	//e_dead
+	        }
+				}
+      }
+
+			if (m_listEntite[i]->getState() == 8)	//e_disappear
+			{
+				m_listEntite.erase(m_listEntite.begin() + i);
+				if (m_indiceCharacter > i)
+					m_indiceCharacter--;
+			}
+
 			m_listEntite[i]->update(dt);
+		}
 
 		// update de la profondeur des Entity
 		//quickSort(m_listEntite, 0, (int)m_listEntite.size() - 1);

@@ -13,6 +13,10 @@
   m_goal_point = sf::Vector2i(0, 0);
   m_stop = sf::Vector2f(0, 0);
 
+  m_timer = 0.f;
+
+  m_slow = false;
+
   setTexture();
 }
 
@@ -22,7 +26,15 @@
 
   m_isCharacter = false;
 
+<<<<<<< HEAD
   m_sprite.setOrigin(sf::Vector2f(20.f, 30.f));
+=======
+  m_timer = 0.f;
+  m_slow = false;
+
+  m_sprite.setOrigin(sf::Vector2f(20, 30));
+  m_position = sf::Vector2f(donnees.positionX, donnees.positionY);
+>>>>>>> c6ad48701c07633bb14924982f4538cc85786b5d
 
   m_goal_point = sf::Vector2i(0, 0);
   m_stop = sf::Vector2f(0, 0);
@@ -345,11 +357,12 @@ void CActor::update(float dt)
     {
       if(m_donnees.keyLeft || m_donnees.keyRight || m_donnees.keyUp || m_donnees.keyDown)
       {
-        if (!m_donnees.keyShift)
+        if (!m_donnees.keyShift || m_slow)
           m_state = e_walk;
         else
           m_state = e_run;
       }
+
 
       // mise a jour de l'animation
       if (m_orientation == e_right)
@@ -372,7 +385,10 @@ void CActor::update(float dt)
 
     case e_walk :
     {
-      m_move_speed = WALK_SPEED;
+      if (!m_slow)
+        m_move_speed = WALK_SPEED;
+      else
+        m_move_speed = WALK_SPEED/2;
       if(m_donnees.keyLeft) m_donnees.positionX += -(m_move_speed * dt);
       if(m_donnees.keyRight) m_donnees.positionX += m_move_speed * dt;
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
@@ -386,7 +402,7 @@ void CActor::update(float dt)
       if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp && !m_donnees.keyDown)
         m_state = e_idle;
       else
-        if(m_donnees.keyShift)
+        if(m_donnees.keyShift && !m_slow)
           m_state = e_run;
 
 
@@ -416,6 +432,19 @@ void CActor::update(float dt)
         CDisplay::getView()->setCenter(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
         CDisplay::getWindow()->setView(* CDisplay::getView());
       }
+
+
+      if (m_slow)
+      {
+        m_timer += dt;
+
+        if (m_timer > 2)
+        {
+          m_slow = false;
+          m_timer = 0.f;
+        }
+      }
+
       break;
     }
 
@@ -473,6 +502,14 @@ void CActor::update(float dt)
       break;
     }
 
+    case e_attack :
+    {
+      m_slow = true;
+      m_state = e_idle;
+
+      break;
+    }
+
     case e_wander :
     {
 
@@ -487,13 +524,19 @@ void CActor::update(float dt)
 
     case e_dead :
     {
+      m_timer += dt;
+
+      if (m_timer > 2)
+      {
+        m_state = e_disappear;
+      }
 
       break;
     }
 
     case e_disappear :
     {
-
+      //(*m_actors.erase())
       break;
     }
 
