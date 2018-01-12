@@ -98,6 +98,7 @@ namespace State
 
 	void CPlaying::input(sf::Event * event)
 	{
+		m_donneesSend = m_listEntite[m_indiceCharacter].get()->getDonnees();
 		struct Donnees donnees = m_donneesSend;
 		donnees.indice = m_indiceCharacter;
 
@@ -235,6 +236,8 @@ namespace State
 	        }
 				}
       }
+
+
 
 			if (m_listEntite[i]->getState() == 8)	//e_disappear
 			{

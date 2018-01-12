@@ -75,6 +75,7 @@ void CServeur::sendUDP(void)
   {
     struct Donnees donnees = m_listEntite[i].get()->getDonnees();
     donnees.indice =(sf:: Uint16)i;
+    std::cout << "X : " << donnees.positionX << " Y : " << donnees.positionY << std::endl;
     packet << donnees;
   }
 
@@ -148,7 +149,7 @@ void CServeur::loopGame(void)
     fps_timer += dt;
 
 
-    if (fps_timer >= (1.f/60.f))
+    if (fps_timer >= (1.f/50.f))
     {
       connection();
 

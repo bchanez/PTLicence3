@@ -65,9 +65,10 @@ struct Donnees CEntity::getDonnees(void)
 
 void CEntity::setDonnees(struct Donnees d)
 {
-   m_donnees.keyLeft = d.keyLeft;
+   /*m_donnees.keyLeft = d.keyLeft;
    m_donnees.keyRight = d.keyRight;
    m_donnees.keyUp = d.keyUp;
    m_donnees.keyDown = d.keyDown;
-   m_donnees.keyShift = d.keyShift;
+   m_donnees.keyShift = d.keyShift;*/
+   m_donnees = d;
 }
