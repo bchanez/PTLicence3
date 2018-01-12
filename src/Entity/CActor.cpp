@@ -402,7 +402,7 @@ void CActor::update(float dt)
           m_state = e_run;
 
 
-      if (position.x != getPosition().x && position.y != getPosition().y)
+      if (position != getPosition())
       {
         // mise a jour de la position
         setPosition(position);
