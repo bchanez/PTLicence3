@@ -6,6 +6,8 @@ namespace State
 		: CGame_State(application)
 	{
 		LOG("CPlaying Constructor\n");
+
+		m_serveur = "localhost";
 	}
 
 	/*virtual*/ CPlaying::~CPlaying()
@@ -32,7 +34,7 @@ namespace State
 		m_listEntite.clear();
 
 		m_UDPserver.bind(55003);
-		sf::Socket::Status status = m_TCPserver.connect("localhost", 55001);
+		sf::Socket::Status status = m_TCPserver.connect(m_serveur, 55001);
 		if (status != sf::Socket::Done)
 		{
 		    LOG("erreur connection \n");
@@ -166,7 +168,7 @@ namespace State
 			m_donneesSend.keyDown << " " <<
 			m_donneesSend.keyShift << std::endl;
 			packet << m_donneesSend;
-			if(m_UDPserver.send(packet, "localhost", 55002)  == sf::Socket::Done)
+			if(m_UDPserver.send(packet, m_serveur, 55002)  == sf::Socket::Done)
 			{
 				std::cout << "envoei info client\n";
 			}

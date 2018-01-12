@@ -31,6 +31,8 @@ namespace State
 
 		private:
 
+			sf::IpAddress m_serveur;
+
 			sf::TcpSocket m_TCPserver;
 			sf::UdpSocket m_UDPserver;
 			struct Donnees m_donneesSend;
