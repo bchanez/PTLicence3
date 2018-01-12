@@ -34,7 +34,7 @@
   m_goal_point = sf::Vector2i(0, 0);
   m_stop = sf::Vector2f(0, 0);
 
-  setPosition(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
+  setPosition(sf::Vector2f(donnees.positionX, donnees.positionY));
   setTexture(donnees);
   setAnimation();
 }
