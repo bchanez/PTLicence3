@@ -497,7 +497,6 @@ void CActor::update(float dt)
         if (m_timer > 2)
         {
           m_slow = false;
-          m_timer = 0.f;
         }
       }
 
@@ -561,6 +560,7 @@ void CActor::update(float dt)
     case e_attack :
     {
       m_slow = true;
+      m_timer = 0.f;
       m_state = e_idle;
 
       break;
