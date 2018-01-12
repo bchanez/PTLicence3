@@ -26,15 +26,10 @@
 
   m_isCharacter = false;
 
-<<<<<<< HEAD
   m_sprite.setOrigin(sf::Vector2f(20.f, 30.f));
-=======
+
   m_timer = 0.f;
   m_slow = false;
-
-  m_sprite.setOrigin(sf::Vector2f(20, 30));
-  m_position = sf::Vector2f(donnees.positionX, donnees.positionY);
->>>>>>> c6ad48701c07633bb14924982f4538cc85786b5d
 
   m_goal_point = sf::Vector2i(0, 0);
   m_stop = sf::Vector2f(0, 0);

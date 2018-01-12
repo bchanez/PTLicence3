@@ -84,7 +84,7 @@ namespace State
 		// ajout des evenement
 		m_listEntite.push_back(std::make_unique<CEvent_pub>());
 		m_listEntite[m_listEntite.size()-1].get()->setPosition(sf::Vector2f(300, 300));
-
+*/
 
 		// centre la vue sur la position du personnage
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
