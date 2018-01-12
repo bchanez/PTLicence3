@@ -75,7 +75,7 @@ void CServeur::sendUDP(void)
   {
     struct Donnees donnees = m_listEntite[i].get()->getDonnees();
     donnees.indice =(sf:: Uint16)i;
-    std::cout << "X : " << donnees.positionX << " Y : " << donnees.positionY << std::endl;
+    //std::cout << "X : " << donnees.positionX << " Y : " << donnees.positionY << std::endl;
     packet << donnees;
   }
 
