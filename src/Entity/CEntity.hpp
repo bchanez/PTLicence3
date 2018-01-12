@@ -22,16 +22,18 @@ class CEntity : public CDrawable
     virtual void setAnimation(void) = 0;
 
     virtual void update(float dt) = 0;
-    virtual void input(bool left, bool right, bool up, bool down, bool shift) = 0;
+    virtual void serverUpdate(float dt) = 0; 
+    virtual void input(void) = 0;
 
     struct DonneesInit getDonneesInit(void);
+    struct Donnees getDonnees(void);
+    void setDonnees(struct Donnees d);
 
   protected:
 
-    struct Key { bool left, right, up, down, shift; };
-    Key m_key;
+    struct DonneesInit m_donneesInit;
+    struct Donnees m_donnees;
 
-    sf::Vector2f m_position;
     unsigned int m_move_speed;
 
     enum Estate {e_idle};
@@ -43,7 +45,4 @@ class CEntity : public CDrawable
     enum EAnimation {};
     unsigned int m_nb_animation;
     std::vector<CAnimation> m_animation;
-
-    struct DonneesInit m_donneesInit;
-    struct Donnees m_donnees;
 };

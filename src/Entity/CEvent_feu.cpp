@@ -22,12 +22,17 @@ void CEvent_feu::setAnimation(void)
 
 }
 
-void CEvent_feu::input(bool left, bool right, bool up, bool down, bool shift)
+void CEvent_feu::input(void)
 {
-  m_key.left = left; m_key.right = right; m_key.up = up ; m_key.down = down; m_key.shift = shift;
+
 }
 
 void CEvent_feu::update(float dt)
+{
+  (void)dt;
+}
+
+void CEvent_feu::serverUpdate(float dt)
 {
   (void)dt;
 }

@@ -20,7 +20,7 @@
 
   m_sprite.setOrigin(sf::Vector2f(100, 100));
 
-  m_position = sf::Vector2f(donnees.positionX, donnees.positionY);
+  setPosition(sf::Vector2f(donnees.positionX, donnees.positionY));
 
   m_state = e_idle;
 
@@ -53,9 +53,9 @@ void CEvent_pub::setAnimation(void)
   }
 }
 
-void CEvent_pub::input(bool left, bool right, bool up, bool down, bool shift)
+void CEvent_pub::input(void)
 {
-  m_key.left = left; m_key.right = right; m_key.up = up ; m_key.down = down; m_key.shift = shift;
+
 }
 
 void CEvent_pub::update(float dt)
@@ -78,6 +78,33 @@ void CEvent_pub::update(float dt)
     case e_active :
     {
       m_sprite.setTextureRect(m_animation[e_active].getFrame());
+    }
+    break;
+
+    default : {} break;
+  }
+}
+
+void CEvent_pub::serverUpdate(float dt)
+{
+  (void)dt;
+  switch (m_state)
+  {
+    case e_idle :
+    {
+
+    }
+    break;
+
+    case e_call :
+    {
+
+    }
+    break;
+
+    case e_active :
+    {
+
     }
     break;
 

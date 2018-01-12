@@ -16,7 +16,7 @@ namespace State
 {
 	class CPlaying : public CGame_State
 	{
-			struct Key { bool left, right, up, down, shift, escape; };
+			struct Key { bool escape; };
 
 		public:
 			explicit CPlaying(CApplication& application);
@@ -31,7 +31,9 @@ namespace State
 
 		private:
 
-			sf::TcpSocket server;
+			sf::TcpSocket m_TCPserver;
+			sf::UdpSocket m_UDPserver;
+			struct Donnees m_donneesSend;
 
 			Key m_key;
 

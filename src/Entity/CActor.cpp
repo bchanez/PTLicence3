@@ -1,12 +1,12 @@
 #include "CActor.hpp"
 
-/*explicit*/ CActor::CActor(bool isCharacter)
+/*explicit*/ CActor::CActor(void)
 {
   LOG("CActor Constructor\n");
 
   m_donneesInit.classe = "CActor";
 
-  m_isCharacter = isCharacter;
+  m_isCharacter = false;
 
   m_sprite.setOrigin(sf::Vector2f(20, 30));
 
@@ -14,7 +14,6 @@
   m_stop = sf::Vector2f(0, 0);
 
   setTexture();
-  setAnimation();
 }
 
 /*explicit*/ CActor::CActor(struct DonneesInit donnees)
@@ -24,80 +23,12 @@
   m_isCharacter = false;
 
   m_sprite.setOrigin(sf::Vector2f(20.f, 30.f));
-  
-  m_position = sf::Vector2f(donnees.positionX, donnees.positionY);
 
   m_goal_point = sf::Vector2i(0, 0);
   m_stop = sf::Vector2f(0, 0);
 
-  //Texture
-  m_prerender.create(160, 80);
-
-  m_prerender.clear(sf::Color::Transparent);
-
-  sf::Sprite spr;
-  //Body
-  sf::Image i_Body = CResourceHolder::get().image(EImage_Name::e_Body_White);
-  sf::Color newColor, hairColor;
-
-  newColor = sf::Color(donnees.textures_color[1][0], donnees.textures_color[1][1], donnees.textures_color[1][2]);
-  hairColor = sf::Color(donnees.textures_color[2][0], donnees.textures_color[2][1], donnees.textures_color[2][2]);
-
-  //newColor = sf::Color(200,200,200);
-
-  for (int y = 0; y < (int)i_Body.getSize().y; y++){
-    for (int x = 0; x < (int)i_Body.getSize().x; x++){
-      if (i_Body.getPixel(x, y).a > 10){
-        i_Body.setPixel(x, y, newColor);
-      }
-    }
-  }
-
-  sf::Texture t_Body;
-  t_Body.loadFromImage(i_Body);
-
-  spr.setTexture(t_Body);
-  m_prerender.draw(spr);
-
-  //Details
-  i_Body = CResourceHolder::get().image(EImage_Name::e_Body_Details);
-  t_Body.loadFromImage(i_Body);
-  spr.setTexture(t_Body);
-  m_prerender.draw(spr);
-
-
-  //Hair
-  size_t hair_nb = donnees.textures[0];
-  sf::Image i_Hair = CResourceHolder::get().image((EImage_Name)hair_nb);
-
-
-
-  for (int y = 0; y < (int)i_Hair.getSize().y; y++){
-    for (int x = 0; x < (int)i_Hair.getSize().x; x++){
-      if (i_Hair.getPixel(x, y).a > 10){
-        i_Hair.setPixel(x, y, hairColor);
-      }
-    }
-  }
-
-  sf::Texture t_Hair;
-  t_Hair.loadFromImage(i_Hair);
-
-  spr.setTexture(t_Hair);
-  m_prerender.draw(spr);
-
-  //Details
-  i_Hair = CResourceHolder::get().image((EImage_Name)(hair_nb+8));
-  t_Hair.loadFromImage(i_Hair);
-  spr.setTexture(t_Hair);
-  m_prerender.draw(spr);
-
-  //Clothes
-
-  m_prerender.display();
-
-  m_sprite.setTexture(m_prerender.getTexture());
-
+  setPosition(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
+  setTexture(donnees);
   setAnimation();
 }
 
@@ -110,14 +41,6 @@
 // donne la texture au personnage
 void CActor::setTexture(void)
 {
-
-  m_prerender.create(160, 80);
-
-  m_prerender.clear(sf::Color::Transparent);
-
-  sf::Sprite spr;
-  //Body
-  sf::Image i_Body = CResourceHolder::get().image(EImage_Name::e_Body_White);
   sf::Color newColor, hairColor;
 
   switch(CRandom::intInRange(0,3)){
@@ -264,6 +187,27 @@ void CActor::setTexture(void)
     default : break;
   }
 
+  //Hair
+  m_donneesInit.textures[0] = CRandom::intInRange(2, 9);
+}
+
+void CActor::setTexture(struct DonneesInit donnees)
+{
+  //Texture
+  m_prerender.create(160, 80);
+
+  m_prerender.clear(sf::Color::Transparent);
+
+  sf::Sprite spr;
+  //Body
+  sf::Image i_Body = CResourceHolder::get().image(EImage_Name::e_Body_White);
+  sf::Color newColor, hairColor;
+
+  newColor = sf::Color(donnees.textures_color[1][0], donnees.textures_color[1][1], donnees.textures_color[1][2]);
+  hairColor = sf::Color(donnees.textures_color[2][0], donnees.textures_color[2][1], donnees.textures_color[2][2]);
+
+  //newColor = sf::Color(200,200,200);
+
   for (int y = 0; y < (int)i_Body.getSize().y; y++){
     for (int x = 0; x < (int)i_Body.getSize().x; x++){
       if (i_Body.getPixel(x, y).a > 10){
@@ -286,8 +230,7 @@ void CActor::setTexture(void)
 
 
   //Hair
-  size_t hair_nb = CRandom::intInRange(2, 9);
-  m_donneesInit.textures[0] = hair_nb;
+  size_t hair_nb = donnees.textures[0];
   sf::Image i_Hair = CResourceHolder::get().image((EImage_Name)hair_nb);
 
 
@@ -316,7 +259,6 @@ void CActor::setTexture(void)
 
   m_prerender.display();
 
-
   m_sprite.setTexture(m_prerender.getTexture());
 }
 
@@ -333,22 +275,18 @@ void CActor::setAnimation(void)
   }
 }
 
-void CActor::input(bool left, bool right, bool up, bool down, bool shift)
+void CActor::input(void)
 {
-  if (m_isCharacter) // character
+  if (!m_isCharacter) // pnj
   {
-    m_key.left = left; m_key.right = right; m_key.up = up ; m_key.down = down; m_key.shift = shift;
-  }
-  else if (!m_isCharacter) // pnj
-  {
-    m_key.left = m_key.right = m_key.up = m_key.down = m_key.shift = false;
+    m_donnees.keyLeft = m_donnees.keyRight = m_donnees.keyUp = m_donnees.keyDown = m_donnees.keyShift = false;
 
-    if ((m_goal_point.x != (int) m_position.x || m_goal_point.y != (int) m_position.y) && m_goal_point != sf::Vector2i(0, 0)) // si point de destination
+    if ((m_goal_point.x != (int) m_donnees.positionX || m_goal_point.y != (int) m_donnees.positionY) && m_goal_point != sf::Vector2i(0, 0)) // si point de destination
     {
-      m_key.left = (m_goal_point.x < (int) m_position.x);
-      m_key.right = (m_goal_point.x > (int) m_position.x);
-      m_key.up = (m_goal_point.y < (int) m_position.y);
-      m_key.down = (m_goal_point.y > (int) m_position.y);
+      m_donnees.keyLeft = (m_goal_point.x < (int) m_donnees.positionX);
+      m_donnees.keyRight = (m_goal_point.x > (int) m_donnees.positionX);
+      m_donnees.keyUp = (m_goal_point.y < (int) m_donnees.positionY);
+      m_donnees.keyDown = (m_goal_point.y > (int) m_donnees.positionY);
 
       if (CRandom::intInRange(0, 10) == 0){
         if (CRandom::intInRange(0, 20) == 0){
@@ -360,13 +298,13 @@ void CActor::input(bool left, bool right, bool up, bool down, bool shift)
       }
 
       if(m_stop.x)
-        m_key.left = false;
+        m_donnees.keyLeft = false;
       if(m_stop.x)
-        m_key.right = false;
+        m_donnees.keyRight = false;
       if(m_stop.y)
-        m_key.up = false;
+        m_donnees.keyUp = false;
       if(m_stop.y)
-        m_key.down = false;
+        m_donnees.keyDown = false;
 
     }
     else // si pas de point de destination
@@ -375,22 +313,22 @@ void CActor::input(bool left, bool right, bool up, bool down, bool shift)
       {
         case 0 : // gauche
         {
-          m_key.left = true;
+          m_donnees.keyLeft = true;
           break;
         }
         case 1 : // haut
         {
-          m_key.up = true;
+          m_donnees.keyUp = true;
           break;
         }
         case 2 : // droite
         {
-          m_key.right = true;
+          m_donnees.keyRight = true;
           break;
         }
         case 3 : // bas
         {
-          m_key.down = true;
+          m_donnees.keyDown = true;
           break;
         }
         default: break;
@@ -405,9 +343,9 @@ void CActor::update(float dt)
   {
     case e_idle :
     {
-      if(m_key.left || m_key.right || m_key.up || m_key.down)
+      if(m_donnees.keyLeft || m_donnees.keyRight || m_donnees.keyUp || m_donnees.keyDown)
       {
-        if (!m_key.shift)
+        if (!m_donnees.keyShift)
           m_state = e_walk;
         else
           m_state = e_run;
@@ -435,27 +373,27 @@ void CActor::update(float dt)
     case e_walk :
     {
       m_move_speed = WALK_SPEED;
-      if(m_key.left) m_position.x += -(m_move_speed * dt);
-      if(m_key.right) m_position.x += m_move_speed * dt;
-      if(!(m_key.right && m_key.left))
+      if(m_donnees.keyLeft) m_donnees.positionX += -(m_move_speed * dt);
+      if(m_donnees.keyRight) m_donnees.positionX += m_move_speed * dt;
+      if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {
-          if(m_key.left)  m_orientation = e_left;
-          if(m_key.right) m_orientation = e_right;
+          if(m_donnees.keyLeft)  m_orientation = e_left;
+          if(m_donnees.keyRight) m_orientation = e_right;
       }
-      if(m_key.up) m_position.y += -(m_move_speed * dt);
-      if(m_key.down) m_position.y += m_move_speed * dt;
+      if(m_donnees.keyUp) m_donnees.positionY += -(m_move_speed * dt);
+      if(m_donnees.keyDown) m_donnees.positionY += m_move_speed * dt;
 
-      if(!m_key.left && !m_key.right && !m_key.up && !m_key.down)
+      if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp && !m_donnees.keyDown)
         m_state = e_idle;
       else
-        if(m_key.shift)
+        if(m_donnees.keyShift)
           m_state = e_run;
 
 
-      if (m_position != m_sprite.getPosition())
+      if (sf::Vector2f(m_donnees.positionX, m_donnees.positionY) != m_sprite.getPosition())
       {
         // mise a jour de la position
-        m_sprite.setPosition(m_position);
+        setPosition(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
 
         // mise a jour de l'animation
         if (m_orientation == e_right)
@@ -475,7 +413,7 @@ void CActor::update(float dt)
       // centre la vue sur la position du personnage si c'est un character
       if (m_isCharacter)
       {
-        CDisplay::getView()->setCenter(m_position);
+        CDisplay::getView()->setCenter(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
         CDisplay::getWindow()->setView(* CDisplay::getView());
       }
       break;
@@ -484,26 +422,26 @@ void CActor::update(float dt)
     case e_run :
     {
       m_move_speed = RUN_SPEED;
-      if(m_key.left) m_position.x += -(m_move_speed * dt);
-      if(m_key.right) m_position.x += m_move_speed * dt;
-      if(!(m_key.right && m_key.left))
+      if(m_donnees.keyLeft) m_donnees.positionX += -(m_move_speed * dt);
+      if(m_donnees.keyRight) m_donnees.positionX += m_move_speed * dt;
+      if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {
-          if(m_key.left)  m_orientation = e_left;
-          if(m_key.right) m_orientation = e_right;
+          if(m_donnees.keyLeft)  m_orientation = e_left;
+          if(m_donnees.keyRight) m_orientation = e_right;
       }
-      if(m_key.up) m_position.y += -(m_move_speed * dt);
-      if(m_key.down) m_position.y += m_move_speed * dt;
+      if(m_donnees.keyUp) m_donnees.positionY += -(m_move_speed * dt);
+      if(m_donnees.keyDown) m_donnees.positionY += m_move_speed * dt;
 
-      if(!m_key.left && !m_key.right && !m_key.up  && !m_key.down)
+      if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp  && !m_donnees.keyDown)
         m_state = e_idle;
       else
-        if(!m_key.shift)
+        if(!m_donnees.keyShift)
           m_state = e_walk;
 
-      if (m_position != m_sprite.getPosition())
+      if (sf::Vector2f(m_donnees.positionX, m_donnees.positionY) != m_sprite.getPosition())
       {
         // mise a jour de la position
-        m_sprite.setPosition(m_position);
+        setPosition(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
 
         // mise a jour de l'animation
         if (m_orientation == e_right)
@@ -523,7 +461,7 @@ void CActor::update(float dt)
       // centre la vue sur la position du personnage si c'est un character
       if (m_isCharacter)
       {
-        CDisplay::getView()->setCenter(m_position);
+        CDisplay::getView()->setCenter(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
         CDisplay::getWindow()->setView(* CDisplay::getView());
       }
       break;
@@ -562,6 +500,124 @@ void CActor::update(float dt)
     default : break;
   }
 }
+
+void CActor::serverUpdate(float dt)
+{
+  switch (m_state)
+  {
+    case e_idle :
+    {
+      if(m_donnees.keyLeft || m_donnees.keyRight || m_donnees.keyUp || m_donnees.keyDown)
+      {
+        if (!m_donnees.keyShift)
+          m_state = e_walk;
+        else
+          m_state = e_run;
+      }
+
+      if (!m_isCharacter)
+        if (CRandom::intInRange(0, 1000) == 0)
+          m_goal_point = sf::Vector2i(CRandom::intInRange(100, 1820), CRandom::intInRange(100, 980));
+
+      break;
+    }
+
+    case e_walk :
+    {
+      m_move_speed = WALK_SPEED;
+      if(m_donnees.keyLeft) m_donnees.positionX += -(m_move_speed * dt);
+      if(m_donnees.keyRight) m_donnees.positionX += m_move_speed * dt;
+      if(!(m_donnees.keyRight && m_donnees.keyLeft))
+      {
+          if(m_donnees.keyLeft)  m_orientation = e_left;
+          if(m_donnees.keyRight) m_orientation = e_right;
+      }
+      if(m_donnees.keyUp) m_donnees.positionY += -(m_move_speed * dt);
+      if(m_donnees.keyDown) m_donnees.positionY += m_move_speed * dt;
+
+      if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp && !m_donnees.keyDown)
+        m_state = e_idle;
+      else
+        if(m_donnees.keyShift)
+          m_state = e_run;
+
+
+      if (sf::Vector2f(m_donnees.positionX, m_donnees.positionY) != getPosition())
+      {
+        // mise a jour de la position
+        setPosition(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
+      }
+      else
+        m_state = e_idle;
+
+      break;
+    }
+
+    case e_run :
+    {
+      m_move_speed = RUN_SPEED;
+      if(m_donnees.keyLeft) m_donnees.positionX += -(m_move_speed * dt);
+      if(m_donnees.keyRight) m_donnees.positionX += m_move_speed * dt;
+      if(!(m_donnees.keyRight && m_donnees.keyLeft))
+      {
+          if(m_donnees.keyLeft)  m_orientation = e_left;
+          if(m_donnees.keyRight) m_orientation = e_right;
+      }
+      if(m_donnees.keyUp) m_donnees.positionY += -(m_move_speed * dt);
+      if(m_donnees.keyDown) m_donnees.positionY += m_move_speed * dt;
+
+      if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp  && !m_donnees.keyDown)
+        m_state = e_idle;
+      else
+        if(!m_donnees.keyShift)
+          m_state = e_walk;
+
+      if (sf::Vector2f(m_donnees.positionX, m_donnees.positionY) != getPosition())
+      {
+        // mise a jour de la position
+        setPosition(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
+
+      }
+      else
+        m_state = e_idle;
+
+      break;
+    }
+
+    case e_action :
+    {
+
+      break;
+    }
+
+    case e_wander :
+    {
+
+      break;
+    }
+
+    case e_question :
+    {
+
+      break;
+    }
+
+    case e_dead :
+    {
+
+      break;
+    }
+
+    case e_disappear :
+    {
+
+      break;
+    }
+
+    default : break;
+  }
+}
+
 
 void CActor::setIsCharacter(bool isCharacter)
 {

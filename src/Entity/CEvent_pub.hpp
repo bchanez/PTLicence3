@@ -15,8 +15,9 @@ class CEvent_pub: public CEvent
 
     void setTexture(void) override;
     void setAnimation(void) override;
-    void input(bool left, bool right, bool up, bool down, bool shift) override;
+    void input(void) override;
     void update(float dt) override;
+    void serverUpdate(float dt) override;
 
   private:
 

@@ -42,3 +42,8 @@ sf::Packet& operator >>(sf::Packet& packet, Donnees& d)
     d.positionX >> d.positionY >>
     d.keyLeft >> d.keyRight >> d.keyUp >> d.keyDown >> d.keyShift;
 }
+
+bool operator != (const struct Donnees& d1, const struct Donnees& d2)
+{
+  return d1.keyLeft != d2.keyLeft || d1.keyRight != d2.keyRight || d1.keyUp != d2.keyUp || d1.keyDown != d2.keyDown || d1.keyShift != d2.keyShift;
+}

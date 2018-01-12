@@ -14,8 +14,9 @@ class CEvent: public CEntity
 
     virtual void setTexture(void) = 0;
     void setAnimation(void) override = 0;
-    void input(bool left, bool right, bool up, bool down, bool shift) override = 0;
+    void input(void) override = 0;
     void update(float dt) override = 0;
+    void serverUpdate(float dt) override = 0;
 
   protected:
 

@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 #include <list>
+#include <unistd.h>
 #include <SFML/Network.hpp>
 #include "../Tools/DEBUG.hpp"
 #include "../Tools/CRandom.hpp"
@@ -29,10 +30,12 @@ class CServeur
     // methode pour la partie
     void initGame(int taille_carree_map, int nombre_pnj, int nombre_evenement);
     void loopGame(void);
-    void updateGame(void);
+    void updateGame(float dt);
 
   private:
-    // server
+
+    sf::Clock m_clock;
+
     //tcp
     sf::TcpListener listenerSocket;
     std::list<sf::TcpSocket*> clients;
@@ -49,12 +52,12 @@ class CServeur
     std::vector<Client> m_listClient;
 
     //donnees
-    sf::Packet packet;
     std::vector<struct DonneesInit> m_DonneesInit;
-    std::vector<struct Donnees> m_Donnees;
 
-    // variable for game
+    //game
     CMap m_map;
     std::vector<std::unique_ptr<CEntity>> m_listEntite; // joueur, pnj, evenement
+
+    void quickSort(std::vector<std::unique_ptr<CEntity>>& tableau, int debut, int fin);
 
 };
