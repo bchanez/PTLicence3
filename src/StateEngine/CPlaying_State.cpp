@@ -60,7 +60,7 @@ namespace State
 		for(unsigned int i = 0; i < tailleDonnee; ++i)
 		{
 			packetInitGame >> donneesInit;
-			std::cout << donneesInit.positionX << " " <<  donneesInit.positionY << std::endl;
+			//std::cout << donneesInit.positionX << " " <<  donneesInit.positionY << std::endl;
 			if((donneesInit.classe).compare("CActor") == 0)
 			{
 				m_listEntite.push_back(std::make_unique<CActor>(donneesInit));
@@ -163,12 +163,12 @@ namespace State
 		{
 			sf::Packet packet;
 			m_donneesSend = donnees;
-			std::cout <<
-			m_donneesSend.keyLeft << " " <<
-			m_donneesSend.keyRight << " " <<
-			m_donneesSend.keyUp << " " <<
-			m_donneesSend.keyDown << " " <<
-			m_donneesSend.keyShift << std::endl;
+			// std::cout <<
+			// m_donneesSend.keyLeft << " " <<
+			// m_donneesSend.keyRight << " " <<
+			// m_donneesSend.keyUp << " " <<
+			// m_donneesSend.keyDown << " " <<
+			// m_donneesSend.keyShift << std::endl;
 			packet << m_donneesSend;
 			if(m_UDPserver.send(packet, m_serveur, 55002)  == sf::Socket::Done)
 			{

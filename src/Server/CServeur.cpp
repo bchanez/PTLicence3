@@ -103,12 +103,12 @@ void CServeur::receiveUDP(void)
     if(udpSocket.receive(packet, serveur, port) == sf::Socket::Done)
     {
       packet >> donnees;
-      std::cout <<
-      donnees.keyLeft << " " <<
-      donnees.keyRight << " " <<
-      donnees.keyUp << " " <<
-      donnees.keyDown << " " <<
-      donnees.keyShift << std::endl;
+      // std::cout <<
+      // donnees.keyLeft << " " <<
+      // donnees.keyRight << " " <<
+      // donnees.keyUp << " " <<
+      // donnees.keyDown << " " <<
+      // donnees.keyShift << std::endl;
       m_listEntite[donnees.indice].get()->setDonnees(donnees);
       std::cout << "marche\n";
     }else

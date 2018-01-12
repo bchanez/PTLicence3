@@ -380,19 +380,20 @@ void CActor::update(float dt)
 
     case e_walk :
     {
+      sf::Vector2f position = sf::Vector2f(m_donnees.positionX, m_donnees.positionY);
       if (!m_slow)
         m_move_speed = WALK_SPEED;
       else
         m_move_speed = WALK_SPEED/2;
-      if(m_donnees.keyLeft) m_donnees.positionX += -(m_move_speed * dt);
-      if(m_donnees.keyRight) m_donnees.positionX += m_move_speed * dt;
+      if(m_donnees.keyLeft) position.x += -(m_move_speed * dt);
+      if(m_donnees.keyRight) position.x += m_move_speed * dt;
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {
           if(m_donnees.keyLeft)  m_orientation = e_left;
           if(m_donnees.keyRight) m_orientation = e_right;
       }
-      if(m_donnees.keyUp) m_donnees.positionY += -(m_move_speed * dt);
-      if(m_donnees.keyDown) m_donnees.positionY += m_move_speed * dt;
+      if(m_donnees.keyUp) position.y += -(m_move_speed * dt);
+      if(m_donnees.keyDown) position.y += m_move_speed * dt;
 
       if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp && !m_donnees.keyDown)
         m_state = e_idle;
@@ -401,10 +402,10 @@ void CActor::update(float dt)
           m_state = e_run;
 
 
-      if (sf::Vector2f(m_donnees.positionX, m_donnees.positionY) != getPosition())
+      if (position != getPosition())
       {
         // mise a jour de la position
-        setPosition(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
+        setPosition(position);
 
         // mise a jour de l'animation
         if (m_orientation == e_right)
@@ -424,7 +425,7 @@ void CActor::update(float dt)
       // centre la vue sur la position du personnage si c'est un character
       if (m_isCharacter)
       {
-        CDisplay::getView()->setCenter(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
+        CDisplay::getView()->setCenter(getPosition());
         CDisplay::getWindow()->setView(* CDisplay::getView());
       }
 
@@ -444,16 +445,17 @@ void CActor::update(float dt)
 
     case e_run :
     {
+      sf::Vector2f position = sf::Vector2f(m_donnees.positionX, m_donnees.positionY);
       m_move_speed = RUN_SPEED;
-      if(m_donnees.keyLeft) m_donnees.positionX += -(m_move_speed * dt);
-      if(m_donnees.keyRight) m_donnees.positionX += m_move_speed * dt;
+      if(m_donnees.keyLeft) position.x += -(m_move_speed * dt);
+      if(m_donnees.keyRight) position.x += m_move_speed * dt;
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {
           if(m_donnees.keyLeft)  m_orientation = e_left;
           if(m_donnees.keyRight) m_orientation = e_right;
       }
-      if(m_donnees.keyUp) m_donnees.positionY += -(m_move_speed * dt);
-      if(m_donnees.keyDown) m_donnees.positionY += m_move_speed * dt;
+      if(m_donnees.keyUp) position.y += -(m_move_speed * dt);
+      if(m_donnees.keyDown) position.y += m_move_speed * dt;
 
       if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp  && !m_donnees.keyDown)
         m_state = e_idle;
@@ -461,10 +463,10 @@ void CActor::update(float dt)
         if(!m_donnees.keyShift)
           m_state = e_walk;
 
-      if (sf::Vector2f(m_donnees.positionX, m_donnees.positionY) != getPosition())
+      if (position != getPosition())
       {
         // mise a jour de la position
-        setPosition(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
+        setPosition(position);
 
         // mise a jour de l'animation
         if (m_orientation == e_right)
@@ -484,7 +486,7 @@ void CActor::update(float dt)
       // centre la vue sur la position du personnage si c'est un character
       if (m_isCharacter)
       {
-        CDisplay::getView()->setCenter(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
+        CDisplay::getView()->setCenter(getPosition());
         CDisplay::getWindow()->setView(* CDisplay::getView());
       }
       break;
@@ -563,15 +565,16 @@ void CActor::serverUpdate(float dt)
     case e_walk :
     {
       m_move_speed = WALK_SPEED;
-      if(m_donnees.keyLeft) m_donnees.positionX += -(m_move_speed * dt);
-      if(m_donnees.keyRight) m_donnees.positionX += m_move_speed * dt;
+      sf::Vector2f position = sf::Vector2f(m_donnees.positionX, m_donnees.positionY);
+      if(m_donnees.keyLeft) position.x += -(m_move_speed * dt);
+      if(m_donnees.keyRight) position.x += m_move_speed * dt;
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {
           if(m_donnees.keyLeft)  m_orientation = e_left;
           if(m_donnees.keyRight) m_orientation = e_right;
       }
-      if(m_donnees.keyUp) m_donnees.positionY += -(m_move_speed * dt);
-      if(m_donnees.keyDown) m_donnees.positionY += m_move_speed * dt;
+      if(m_donnees.keyUp) position.y += -(m_move_speed * dt);
+      if(m_donnees.keyDown) position.y += m_move_speed * dt;
 
       if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp && !m_donnees.keyDown)
         m_state = e_idle;
@@ -580,10 +583,10 @@ void CActor::serverUpdate(float dt)
           m_state = e_run;
 
 
-      if (sf::Vector2f(m_donnees.positionX, m_donnees.positionY) != getPosition())
+      if (position != getPosition())
       {
         // mise a jour de la position
-        setPosition(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
+        setPosition(position);
       }
       else
         m_state = e_idle;
@@ -593,16 +596,17 @@ void CActor::serverUpdate(float dt)
 
     case e_run :
     {
+      sf::Vector2f position = sf::Vector2f(m_donnees.positionX, m_donnees.positionY);
       m_move_speed = RUN_SPEED;
-      if(m_donnees.keyLeft) m_donnees.positionX += -(m_move_speed * dt);
-      if(m_donnees.keyRight) m_donnees.positionX += m_move_speed * dt;
+      if(m_donnees.keyLeft) position.x += -(m_move_speed * dt);
+      if(m_donnees.keyRight) position.x += m_move_speed * dt;
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {
           if(m_donnees.keyLeft)  m_orientation = e_left;
           if(m_donnees.keyRight) m_orientation = e_right;
       }
-      if(m_donnees.keyUp) m_donnees.positionY += -(m_move_speed * dt);
-      if(m_donnees.keyDown) m_donnees.positionY += m_move_speed * dt;
+      if(m_donnees.keyUp) position.y += -(m_move_speed * dt);
+      if(m_donnees.keyDown) position.y += m_move_speed * dt;
 
       if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp  && !m_donnees.keyDown)
         m_state = e_idle;
@@ -610,11 +614,10 @@ void CActor::serverUpdate(float dt)
         if(!m_donnees.keyShift)
           m_state = e_walk;
 
-      if (sf::Vector2f(m_donnees.positionX, m_donnees.positionY) != getPosition())
+      if (position != getPosition())
       {
         // mise a jour de la position
-        setPosition(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
-
+        setPosition(position);
       }
       else
         m_state = e_idle;
