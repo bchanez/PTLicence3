@@ -162,10 +162,15 @@ void CServeur::loopGame(void)
 
 void CServeur::updateGame(float dt)
 {
+  m_DonneesInit.clear();
+
   //std::cout<<"test update"<<std::endl;
   // update des entites
   for (unsigned int i = 0; i < m_listEntite.size(); ++i)
+  {
     m_listEntite[i]->serverUpdate(dt);
+    m_DonneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
+  }
 
   //std::cout<<"test update en cours"<<std::endl;
 
