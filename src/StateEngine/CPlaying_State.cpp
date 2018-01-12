@@ -7,8 +7,8 @@ namespace State
 	{
 		LOG("CPlaying Constructor\n");
 
-		//m_serveur = "192.168.43.26";
-		m_serveur = "localhost";
+		m_serveur = "172.21.207.140";
+		//m_serveur = "localhost";
 	}
 
 	/*virtual*/ CPlaying::~CPlaying()
