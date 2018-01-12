@@ -211,7 +211,7 @@ void CActor::setTexture(struct DonneesInit donnees)
   sf::Color newColor, hairColor;
 
   newColor = sf::Color(donnees.textures_color[1][0], donnees.textures_color[1][1], donnees.textures_color[1][2]);
-  hairColor = sf::Color(donnees.textures_color[2][0], donnees.textures_color[2][1], donnees.textures_color[2][2]);
+  hairColor = sf::Color(donnees.textures_color[0][0], donnees.textures_color[0][1], donnees.textures_color[0][2]);
 
   //newColor = sf::Color(200,200,200);
 

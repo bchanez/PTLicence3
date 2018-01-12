@@ -110,7 +110,6 @@ void CServeur::receiveUDP(void)
       // donnees.keyDown << " " <<
       // donnees.keyShift << std::endl;
       m_listEntite[donnees.indice].get()->setDonnees(donnees);
-      std::cout << "marche\n";
     }else
     {
       //std::cout << "marche pas\n";

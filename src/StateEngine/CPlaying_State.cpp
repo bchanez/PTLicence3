@@ -170,14 +170,8 @@ namespace State
 			// m_donneesSend.keyDown << " " <<
 			// m_donneesSend.keyShift << std::endl;
 			packet << m_donneesSend;
-			if(m_UDPserver.send(packet, m_serveur, 55002)  == sf::Socket::Done)
-			{
-				std::cout << "envoei info client\n";
-			}
-			else
-			{
-				std::cout << "marche pas\n";
-			}
+
+			m_UDPserver.send(packet, m_serveur, 55002);
 		}
 	}
 
