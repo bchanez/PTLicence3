@@ -9,6 +9,8 @@
 
   udpSocket.setBlocking(false);
   udpSocket.bind(55002);
+
+  fps_timer = 0.f;
 }
 
 /*virtual*/ CServeur::~CServeur(void)
@@ -144,17 +146,24 @@ void CServeur::loopGame(void)
   while(1)
   {
     float dt = m_clock.restart().asSeconds();
-    connection();
+    fps_timer += dt;
 
-    // met a jour les events
-    for (unsigned int i = 0; i < m_listEntite.size(); ++i)
-      m_listEntite[i]->input();
 
-    receiveUDP();
-    sleep(1.f/70.f - dt);
-    //std::cout << dt << std::endl;
-    sendUDP();
-    updateGame(dt);
+    if (fps_timer >= (1.f/60.f))
+    {
+      connection();
+
+      // met a jour les events
+      for (unsigned int i = 0; i < m_listEntite.size(); ++i)
+        m_listEntite[i]->input();
+
+      receiveUDP();
+      //std::cout << dt << std::endl;
+
+      sendUDP();
+      updateGame(dt);
+      fps_timer = 0.f;
+    }
 
     //std::cout<<"test boucle"<<std::endl;
   }

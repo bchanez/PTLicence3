@@ -35,6 +35,7 @@ class CServeur
   private:
 
     sf::Clock m_clock;
+    float fps_timer;
 
     //tcp
     sf::TcpListener listenerSocket;
