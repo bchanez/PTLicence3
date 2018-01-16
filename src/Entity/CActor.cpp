@@ -382,10 +382,6 @@ void CActor::update(float dt)
         m_sprite.setTextureRect(m_animation[e_walk_left].getCurrentFrame());
       }
 
-      if (!m_isCharacter)
-        if (CRandom::intInRange(0, 1000) == 0)
-          m_goal_point = sf::Vector2i(CRandom::intInRange(100, 1820), CRandom::intInRange(100, 980));
-
       break;
     }
 
@@ -398,15 +394,16 @@ void CActor::update(float dt)
         m_move_speed = WALK_SPEED/2;
 
       if(m_donnees.keyLeft){
-        if((position.x += -(m_move_speed * dt)) <0){
+        if((position.x -(m_move_speed * dt)) <0){
           LOG("TRIGGER");
         }else{
           position.x += -(m_move_speed * dt);
         }
       }
 
+
       if(m_donnees.keyRight){
-        if(((position.x += m_move_speed * dt) >= 2000)){
+        if(((position.x + m_move_speed * dt) >= 2000)){
           LOG("TRIGGER");
         }else{
           position.x += m_move_speed * dt;
@@ -420,15 +417,15 @@ void CActor::update(float dt)
       }
 
       if(m_donnees.keyUp){
-        if(((position.y += -(m_move_speed * dt)) <0 )){
+        if(((position.y - (m_move_speed * dt)) <0 )){
           LOG("TRIGGER");
         }else{
-          position.x += -(m_move_speed * dt);
+          position.y += -(m_move_speed * dt);
         }
       }
 
       if(m_donnees.keyDown){
-        if(((position.y += m_move_speed * dt) >= 2000)){
+        if(((position.y + m_move_speed * dt) >= 2000)){
           LOG("TRIGGER");
         }else{
           position.y += m_move_speed * dt;
@@ -615,7 +612,7 @@ void CActor::serverUpdate(float dt)
     {
       m_move_speed = WALK_SPEED;
       sf::Vector2f position = sf::Vector2f(m_donnees.positionX, m_donnees.positionY);
-      if(m_donnees.keyLeft) position.x += -(m_move_speed * dt);
+      /*if(m_donnees.keyLeft) position.x += -(m_move_speed * dt);
       if(m_donnees.keyRight) position.x += m_move_speed * dt;
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {
@@ -629,7 +626,50 @@ void CActor::serverUpdate(float dt)
         m_state = e_idle;
       else
         if(m_donnees.keyShift)
-          m_state = e_run;
+          m_state = e_run;*/
+
+      if(m_donnees.keyLeft){
+        if(position.x <= 0){
+          if (!m_isCharacter)
+              m_goal_point = sf::Vector2i(CRandom::intInRange(100, 1820), CRandom::intInRange(100, 980));
+        }else{
+          position.x += -(m_move_speed * dt);
+        }
+      }
+
+
+      if(m_donnees.keyRight){
+        if(position.x >= 2000){
+          if (!m_isCharacter)
+              m_goal_point = sf::Vector2i(CRandom::intInRange(100, 1820), CRandom::intInRange(100, 980));
+        }else{
+          position.x += m_move_speed * dt;
+        }
+      }
+
+      if(!(m_donnees.keyRight && m_donnees.keyLeft))
+      {
+          if(m_donnees.keyLeft)  m_orientation = e_left;
+          if(m_donnees.keyRight) m_orientation = e_right;
+      }
+
+      if(m_donnees.keyUp){
+        if(position.y <= 0){
+          if (!m_isCharacter)
+              m_goal_point = sf::Vector2i(CRandom::intInRange(100, 1820), CRandom::intInRange(100, 980));
+        }else{
+          position.y += -(m_move_speed * dt);
+        }
+      }
+
+      if(m_donnees.keyDown){
+        if(position.y >= 2000){
+          if (!m_isCharacter)
+              m_goal_point = sf::Vector2i(CRandom::intInRange(100, 1820), CRandom::intInRange(100, 980));
+        }else{
+          position.y += m_move_speed * dt;
+        }
+      }
 
 
       if (position != getPosition())
