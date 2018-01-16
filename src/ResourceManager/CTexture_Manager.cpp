@@ -14,6 +14,9 @@
 	addResource(ETexture_Name::e_Retour, "rsc/graphics/retour.png");
 	addResource(ETexture_Name::e_Quitter, "rsc/graphics/quitter.png");
 
+	//armes
+	addResource(ETexture_Name::e_Knife, "rsc/graphics/knife.png");
+
 	// input
 	addResource(ETexture_Name::e_InputTest, "rsc/graphics/inputfield.png");
 

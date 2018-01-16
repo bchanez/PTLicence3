@@ -23,12 +23,15 @@ class CAnimation
       virtual ~CAnimation();
 
       void addFrame(const sf::IntRect& frame, float timeToNextFrame);
-      const sf::IntRect getFrame();
-      const sf::IntRect getCurrentFrame();
+      const sf::IntRect getFrame(void);
+      const sf::IntRect getCurrentFrame(void);
+      bool isLoopDone(void);
       void restart(void);
 
     private:
         std::vector<Frame> m_frames;
+
+        bool m_loop;
 
         sf::Clock m_timer;
 

@@ -17,6 +17,8 @@
 
   m_slow = false;
 
+  m_attack = false;
+
   setTexture();
 }
 
@@ -30,6 +32,7 @@
 
   m_timer = 0.f;
   m_slow = false;
+  m_attack = false;
 
   m_goal_point = sf::Vector2i(0, 0);
   m_stop = sf::Vector2f(0, 0);
@@ -346,6 +349,11 @@ void CActor::input(void)
 
 void CActor::update(float dt)
 {
+
+  m_knife.update(dt);
+  if (m_knife.isLoopDone())
+    m_attack = false;
+
   switch (m_state)
   {
     case e_idle :
@@ -406,6 +414,7 @@ void CActor::update(float dt)
       {
         // mise a jour de la position
         setPosition(position);
+        m_knife.setPosition(position);
 
         // mise a jour de l'animation
         if (m_orientation == e_right)
@@ -434,7 +443,7 @@ void CActor::update(float dt)
       {
         m_timer += dt;
 
-        if (m_timer > 2)
+        if (m_timer > 1)
         {
           m_slow = false;
         }
@@ -467,6 +476,7 @@ void CActor::update(float dt)
       {
         // mise a jour de la position
         setPosition(position);
+        m_knife.setPosition(position);
 
         // mise a jour de l'animation
         if (m_orientation == e_right)
@@ -500,8 +510,13 @@ void CActor::update(float dt)
 
     case e_attack :
     {
-      m_slow = true;
-      m_timer = 0.f;
+      if (m_slow == false){
+        m_slow = true;
+        m_timer = 0.f;
+        m_knife.attack();
+        m_attack = true;
+      }
+
       m_state = e_idle;
 
       break;
