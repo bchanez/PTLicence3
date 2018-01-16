@@ -353,10 +353,6 @@ void CActor::input(void)
 void CActor::update(float dt)
 {
 
-  m_knife.update(dt);
-  if (m_knife.isLoopDone())
-    m_attack = false;
-
   switch (m_state)
   {
     case e_idle :
@@ -548,7 +544,12 @@ void CActor::update(float dt)
         m_attack = true;
       }
 
-      m_state = e_idle;
+
+      m_knife.update(dt);
+      if (m_knife.isLoopDone()){
+        m_attack = false;
+        m_state = e_idle;
+      }
 
       break;
     }
