@@ -116,10 +116,36 @@ void CMap::genMap(void)
   }
 }
 
+void CMap::writeMapFile()
+{
+  std::ofstream myfile;
+  myfile.open("rsc/Map/map.txt");
+  myfile << SIZE_MAP_X << " " << SIZE_MAP_Y << '\n';
+  for (int i = 0; i< SIZE_MAP_X; ++i)
+  {
+    for (int j = 0; j <= SIZE_MAP_Y; ++j)
+    {
+      myfile << CMap::map[i][j].x << ',' << CMap::map[i][j].y << ' ';
+    }
+    myfile << '\n';
+  }
+  myfile.close();
+}
+
+void CMap::writeCollisionFile()
+{
+  std::ofstream myfile;
+  myfile.open("rsc/Map/colmap.txt");
+
+  myfile.close();
+}
+
+
 // Setting textures
 void CMap::setTexture(void)
 {
   CMap::genMap();
+  CMap::writeMapFile();
 
   sf::Texture tileTexture;  //Texture of the tile
   sf::Sprite tileSprite;    //Sprite of the tile
@@ -133,10 +159,6 @@ void CMap::setTexture(void)
   {
       for (int j = 0; j <= SIZE_MAP_Y; ++j)
       {
-        LOG(CMap::map[i][j].x);
-        LOG(CMap::map[i][j].y + '\n');
-
-
         if(CMap::map[i][j].x != -1 && CMap::map[i][j].y != -1)
         {
             tileSprite.setPosition(i*SIZE_TILE, j*SIZE_TILE);

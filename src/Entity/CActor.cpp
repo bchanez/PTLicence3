@@ -244,7 +244,6 @@ void CActor::setTexture(struct DonneesInit donnees)
   sf::Image i_Hair = CResourceHolder::get().image((EImage_Name)hair_nb);
 
 
-
   for (int y = 0; y < (int)i_Hair.getSize().y; y++){
     for (int x = 0; x < (int)i_Hair.getSize().x; x++){
       if (i_Hair.getPixel(x, y).a > 10){
@@ -287,6 +286,10 @@ void CActor::setAnimation(void)
 
 void CActor::input(void)
 {
+  //TEST
+  int size_map_x = 2000;
+  int size_map_y = 2000;
+
   if (!m_isCharacter) // pnj
   {
     m_donnees.keyLeft = m_donnees.keyRight = m_donnees.keyUp = m_donnees.keyDown = m_donnees.keyShift = false;
@@ -393,15 +396,46 @@ void CActor::update(float dt)
         m_move_speed = WALK_SPEED;
       else
         m_move_speed = WALK_SPEED/2;
-      if(m_donnees.keyLeft) position.x += -(m_move_speed * dt);
-      if(m_donnees.keyRight) position.x += m_move_speed * dt;
+
+      if(m_donnees.keyLeft){
+        if((position.x += -(m_move_speed * dt)) <0){
+          LOG("TRIGGER");
+        }else{
+          position.x += -(m_move_speed * dt);
+        }
+      }
+
+      if(m_donnees.keyRight){
+        if(((position.x += m_move_speed * dt) >= 2000)){
+          LOG("TRIGGER");
+        }else{
+          position.x += m_move_speed * dt;
+        }
+      }
+
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {
           if(m_donnees.keyLeft)  m_orientation = e_left;
           if(m_donnees.keyRight) m_orientation = e_right;
       }
-      if(m_donnees.keyUp) position.y += -(m_move_speed * dt);
-      if(m_donnees.keyDown) position.y += m_move_speed * dt;
+
+      if(m_donnees.keyUp){
+        if(((position.y += -(m_move_speed * dt)) <0 )){
+          LOG("TRIGGER");
+        }else{
+          position.x += -(m_move_speed * dt);
+        }
+      }
+
+      if(m_donnees.keyDown){
+        if(((position.y += m_move_speed * dt) >= 2000)){
+          LOG("TRIGGER");
+        }else{
+          position.y += m_move_speed * dt;
+        }
+      }
+
+
 
       if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp && !m_donnees.keyDown)
         m_state = e_idle;
