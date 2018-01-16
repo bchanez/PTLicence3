@@ -2,7 +2,7 @@
 
 sf::Packet& operator <<(sf::Packet& packet, const DonneesInit& d)
 {
-  packet << d.classe;
+  packet << d.indice << d.classe;
   for (int i = 0; i < 4; ++i)
     packet << d.textures[i];
   for (int i = 0; i < 4; ++i)
@@ -16,7 +16,7 @@ sf::Packet& operator <<(sf::Packet& packet, const DonneesInit& d)
 
 sf::Packet& operator >>(sf::Packet& packet, DonneesInit& d)
 {
-  packet >> d.classe;
+  packet >> d.indice >> d.classe;
   for (int i = 0; i < 4; ++i)
     packet >> d.textures[i];
   for (int i = 0; i < 4; ++i)

@@ -54,15 +54,12 @@ void CServeur::connection(void)
 
       while (client.send(packetInitGame) != sf::Socket::Done);
 
-      if(client.receive(packetInitGame) == sf::Socket::Disconnected)
-      {
-          std::cout<<"Client disconnected"<<std::endl;
-          selector.remove(client);
-          client.disconnect();
-          delete(&client);
-          clients.erase(it);
-          it--;
-      }
+      std::cout<<"Client disconnected"<<std::endl;
+      selector.remove(client);
+      client.disconnect();
+      delete(&client);
+      clients.erase(it);
+      it--;
   }
 }
 
@@ -74,23 +71,13 @@ void CServeur::sendUDP(void)
   for (unsigned int i = 0; i < m_listEntite.size(); ++i)
   {
     struct Donnees donnees = m_listEntite[i].get()->getDonnees();
-    donnees.indice =(sf:: Uint16)i;
-    //std::cout << "X : " << donnees.positionX << " Y : " << donnees.positionY << std::endl;
     packet << donnees;
   }
 
   for (unsigned int i = 0; i < m_listClient.size(); ++i)
   {
     udpSocket.send(packet, m_listClient[i].adresse, 55003);
-
   }
-
-  /*for (unsigned int i = 0; i < m_listClient.size(); ++i)
-  {
-    const char out[] = "Hi, I'm the server";
-    if (udpSocket.send(out, sizeof(out), m_listClient[i].adresse, 55003) != sf::Socket::Done)
-      return;
-  }*/
 }
 
 void CServeur::receiveUDP(void)
@@ -104,16 +91,7 @@ void CServeur::receiveUDP(void)
     if(udpSocket.receive(packet, serveur, port) == sf::Socket::Done)
     {
       packet >> donnees;
-      // std::cout <<
-      // donnees.keyLeft << " " <<
-      // donnees.keyRight << " " <<
-      // donnees.keyUp << " " <<
-      // donnees.keyDown << " " <<
-      // donnees.keyShift << std::endl;
       m_listEntite[donnees.indice].get()->setDonnees(donnees);
-    }else
-    {
-      //std::cout << "marche pas\n";
     }
   }
 }
@@ -126,7 +104,7 @@ void CServeur::initGame(int taille_carree_map, int nombre_pnj, int nombre_evenem
   // ajout des PNJs
   for(int i = 0; i < nombre_pnj; ++i)
   {
-    m_listEntite.push_back(std::make_unique<CActor>());
+    m_listEntite.push_back(std::make_unique<CActor>(i));
     m_listEntite[i].get()->setPosition(sf::Vector2f(CRandom::floatInRange(0.f, taille_carree_map * 40.f), CRandom::floatInRange(0.f, taille_carree_map * 40.f)));
     m_DonneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
   }
@@ -135,7 +113,7 @@ void CServeur::initGame(int taille_carree_map, int nombre_pnj, int nombre_evenem
   unsigned int indiceDecalage = m_listEntite.size();
   for(unsigned int i = indiceDecalage; i < nombre_evenement + indiceDecalage; ++i)
   {
-    m_listEntite.push_back(std::make_unique<CEvent_pub>());
+    m_listEntite.push_back(std::make_unique<CEvent_pub>(i));
     m_listEntite[i].get()->setPosition(sf::Vector2f(CRandom::floatInRange(0.f, taille_carree_map * 40.f), CRandom::floatInRange(0.f, taille_carree_map * 40.f)));
     m_DonneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
   }
@@ -148,7 +126,6 @@ void CServeur::loopGame(void)
     float dt = m_clock.restart().asSeconds();
     fps_timer += dt;
 
-
     if (fps_timer >= (1.f/50.f))
     {
       connection();
@@ -158,14 +135,10 @@ void CServeur::loopGame(void)
         m_listEntite[i]->input();
 
       receiveUDP();
-      //std::cout << dt << std::endl;
-
       sendUDP();
       updateGame(dt);
       fps_timer = 0.f;
     }
-
-    //std::cout<<"test boucle"<<std::endl;
   }
 }
 
@@ -173,43 +146,10 @@ void CServeur::updateGame(float dt)
 {
   m_DonneesInit.clear();
 
-  //std::cout<<"test update"<<std::endl;
   // update des entites
   for (unsigned int i = 0; i < m_listEntite.size(); ++i)
   {
-    m_listEntite[i]->serverUpdate(dt);
+    m_listEntite[i]->update(true, dt);
     m_DonneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
   }
-
-  //std::cout<<"test update en cours"<<std::endl;
-
-  // update de la profondeur des Entity
-  //quickSort(m_listEntite, 0, (int)m_listEntite.size() - 1);
-  //std::cout<<"test update fin"<<std::endl;
-}
-
-// trie rapide des entites par rapport a leurs positions sur l'axe y
-void CServeur::quickSort(std::vector<std::unique_ptr<CEntity>>& tableau, int debut, int fin)
-{
-    int gauche = debut-1;
-    int droite = fin+1;
-    const float pivot = tableau[debut]->getPosition().y;
-
-    if(debut >= fin)
-        return;
-
-    while(1)
-    {
-        do droite--; while(tableau[droite]->getPosition().y > pivot);
-        do gauche++; while(tableau[gauche]->getPosition().y < pivot);
-
-        if(gauche < droite)
-        {
-          std::swap(tableau[gauche], tableau[droite]);
-        }
-        else break;
-    }
-
-    quickSort(tableau, debut, droite);
-    quickSort(tableau, droite+1, fin);
 }

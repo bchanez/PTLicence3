@@ -35,11 +35,15 @@ namespace State
 
 			sf::TcpSocket m_TCPserver;
 			sf::UdpSocket m_UDPserver;
-			struct Donnees m_donneesSend;
+			struct Donnees m_donnees;
+			void receive(void);
+			void send(void);
+
 
 			Key m_key;
 
 			void quickSort(std::vector<std::unique_ptr<CEntity>>& tableau, int debut, int fin);
+
 
 			CMap m_map;
 

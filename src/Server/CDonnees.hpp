@@ -5,6 +5,7 @@
 
 struct DonneesInit
 {
+  sf::Uint16 indice;
   std::string classe;
   sf:: Uint16 textures[4];
   sf:: Uint16 textures_color[4][3];

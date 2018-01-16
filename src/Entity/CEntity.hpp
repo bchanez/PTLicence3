@@ -24,8 +24,7 @@ class CEntity : public CDrawable
     int getState(void);
     void setState(int);
 
-    virtual void update(float dt) = 0;
-    virtual void serverUpdate(float dt) = 0; 
+    virtual void update(bool isServer, float dt) = 0;
     virtual void input(void) = 0;
 
     struct DonneesInit getDonneesInit(void);

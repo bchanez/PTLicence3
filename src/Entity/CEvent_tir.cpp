@@ -27,12 +27,8 @@ void CEvent_tir::input(void)
 
 }
 
-void CEvent_tir::update(float dt)
+void CEvent_tir::update(bool isServer, float dt)
 {
   (void)dt;
-}
-
-void CEvent_tir::serverUpdate(float dt)
-{
-  (void)dt;
+  (void)isServer;
 }

@@ -11,7 +11,7 @@ class CActor : public CEntity
 {
   public:
 
-    explicit CActor(void);
+    explicit CActor(unsigned int indice);
     explicit CActor(struct DonneesInit donnees);
     virtual ~CActor(void);
 
@@ -20,8 +20,7 @@ class CActor : public CEntity
 
     void setAnimation(void) override;
     void input(void);
-    void update(float dt) override;
-    void serverUpdate(float dt) override; 
+    void update(bool isServer, float dt) override;
 
     void setIsCharacter(bool isCharacter);
 

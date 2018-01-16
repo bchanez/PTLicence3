@@ -15,8 +15,7 @@ class CEvent_feu: public CEvent
     void setTexture(void) override;
     void setAnimation(void) override;
     void input(void) override;
-    void update(float dt) override;
-    void serverUpdate(float dt) override;
+    void update(bool isServer, float dt) override;
 
   private:
 

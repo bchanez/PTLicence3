@@ -1,10 +1,12 @@
 #include "CActor.hpp"
 
-/*explicit*/ CActor::CActor(void)
+/*explicit*/ CActor::CActor(unsigned int indice)
 {
   LOG("CActor Constructor\n");
 
   m_donneesInit.classe = "CActor";
+  m_donneesInit.indice = (sf:: Uint16) indice;
+  m_donnees.indice = (sf:: Uint16) indice;
 
   m_isCharacter = false;
 
@@ -25,6 +27,10 @@
   LOG("CActor Constructor\n");
 
   m_isCharacter = false;
+  std::cout << donnees.indice << std::endl;
+  m_donneesInit.indice = donnees.indice;
+  m_donnees.indice = donnees.indice;
+
 
   m_sprite.setOrigin(sf::Vector2f(20.f, 30.f));
 
@@ -344,7 +350,7 @@ void CActor::input(void)
   }
 }
 
-void CActor::update(float dt)
+void CActor::update(bool isServer, float dt)
 {
   switch (m_state)
   {
@@ -358,17 +364,19 @@ void CActor::update(float dt)
           m_state = e_run;
       }
 
-
-      // mise a jour de l'animation
-      if (m_orientation == e_right)
+      if (!isServer)
       {
-        m_animation[e_walk_right].restart();
-        m_sprite.setTextureRect(m_animation[e_walk_right].getCurrentFrame());
-      }
-      else if (m_orientation == e_left)
-      {
-        m_animation[e_walk_left].restart();
-        m_sprite.setTextureRect(m_animation[e_walk_left].getCurrentFrame());
+        // mise a jour de l'animation
+        if (m_orientation == e_right)
+        {
+          m_animation[e_walk_right].restart();
+          m_sprite.setTextureRect(m_animation[e_walk_right].getCurrentFrame());
+        }
+        else if (m_orientation == e_left)
+        {
+          m_animation[e_walk_left].restart();
+          m_sprite.setTextureRect(m_animation[e_walk_left].getCurrentFrame());
+        }
       }
 
       if (!m_isCharacter)
@@ -407,37 +415,39 @@ void CActor::update(float dt)
         // mise a jour de la position
         setPosition(position);
 
-        // mise a jour de l'animation
-        if (m_orientation == e_right)
+        if (!isServer)
         {
-          m_animation[e_walk_left].restart();
-          m_sprite.setTextureRect(m_animation[e_walk_right].getFrame());
-        }
-        else if (m_orientation == e_left)
-        {
-          m_animation[e_walk_right].restart();
-          m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
+          // mise a jour de l'animation
+          if (m_orientation == e_right)
+          {
+            m_animation[e_walk_left].restart();
+            m_sprite.setTextureRect(m_animation[e_walk_right].getFrame());
+          }
+          else if (m_orientation == e_left)
+          {
+            m_animation[e_walk_right].restart();
+            m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
+          }
         }
       }
       else
         m_state = e_idle;
 
-      // centre la vue sur la position du personnage si c'est un character
-      if (m_isCharacter)
+      if (!isServer)
       {
-        CDisplay::getView()->setCenter(getPosition());
-        CDisplay::getWindow()->setView(* CDisplay::getView());
+        // centre la vue sur la position du personnage si c'est un character
+        if (m_isCharacter)
+        {
+          CDisplay::getView()->setCenter(getPosition());
+          CDisplay::getWindow()->setView(* CDisplay::getView());
+        }
       }
-
 
       if (m_slow)
       {
         m_timer += dt;
-
         if (m_timer > 2)
-        {
           m_slow = false;
-        }
       }
 
       break;
@@ -468,26 +478,32 @@ void CActor::update(float dt)
         // mise a jour de la position
         setPosition(position);
 
-        // mise a jour de l'animation
-        if (m_orientation == e_right)
+        if (!isServer)
         {
-          m_animation[e_walk_left].restart();
-          m_sprite.setTextureRect(m_animation[e_walk_right].getFrame());
-        }
-        else if (m_orientation == e_left)
-        {
-          m_animation[e_walk_right].restart();
-          m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
+          // mise a jour de l'animation
+          if (m_orientation == e_right)
+          {
+            m_animation[e_walk_left].restart();
+            m_sprite.setTextureRect(m_animation[e_walk_right].getFrame());
+          }
+          else if (m_orientation == e_left)
+          {
+            m_animation[e_walk_right].restart();
+            m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
+          }
         }
       }
       else
         m_state = e_idle;
 
-      // centre la vue sur la position du personnage si c'est un character
-      if (m_isCharacter)
+      if (!isServer)
       {
-        CDisplay::getView()->setCenter(getPosition());
-        CDisplay::getWindow()->setView(* CDisplay::getView());
+        // centre la vue sur la position du personnage si c'est un character
+        if (m_isCharacter)
+        {
+          CDisplay::getView()->setCenter(getPosition());
+          CDisplay::getWindow()->setView(* CDisplay::getView());
+        }
       }
       break;
     }
@@ -524,9 +540,7 @@ void CActor::update(float dt)
       m_timer += dt;
 
       if (m_timer > 2)
-      {
         m_state = e_disappear;
-      }
 
       break;
     }
@@ -534,124 +548,6 @@ void CActor::update(float dt)
     case e_disappear :
     {
       //(*m_actors.erase())
-      break;
-    }
-
-    default : break;
-  }
-}
-
-void CActor::serverUpdate(float dt)
-{
-  switch (m_state)
-  {
-    case e_idle :
-    {
-      if(m_donnees.keyLeft || m_donnees.keyRight || m_donnees.keyUp || m_donnees.keyDown)
-      {
-        if (!m_donnees.keyShift)
-          m_state = e_walk;
-        else
-          m_state = e_run;
-      }
-
-      if (!m_isCharacter)
-        if (CRandom::intInRange(0, 1000) == 0)
-          m_goal_point = sf::Vector2i(CRandom::intInRange(100, 1820), CRandom::intInRange(100, 980));
-
-      break;
-    }
-
-    case e_walk :
-    {
-      m_move_speed = WALK_SPEED;
-      sf::Vector2f position = sf::Vector2f(m_donnees.positionX, m_donnees.positionY);
-      if(m_donnees.keyLeft) position.x += -(m_move_speed * dt);
-      if(m_donnees.keyRight) position.x += m_move_speed * dt;
-      if(!(m_donnees.keyRight && m_donnees.keyLeft))
-      {
-          if(m_donnees.keyLeft)  m_orientation = e_left;
-          if(m_donnees.keyRight) m_orientation = e_right;
-      }
-      if(m_donnees.keyUp) position.y += -(m_move_speed * dt);
-      if(m_donnees.keyDown) position.y += m_move_speed * dt;
-
-      if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp && !m_donnees.keyDown)
-        m_state = e_idle;
-      else
-        if(m_donnees.keyShift)
-          m_state = e_run;
-
-
-      if (position != getPosition())
-      {
-        // mise a jour de la position
-        setPosition(position);
-      }
-      else
-        m_state = e_idle;
-
-      break;
-    }
-
-    case e_run :
-    {
-      sf::Vector2f position = sf::Vector2f(m_donnees.positionX, m_donnees.positionY);
-      m_move_speed = RUN_SPEED;
-      if(m_donnees.keyLeft) position.x += -(m_move_speed * dt);
-      if(m_donnees.keyRight) position.x += m_move_speed * dt;
-      if(!(m_donnees.keyRight && m_donnees.keyLeft))
-      {
-          if(m_donnees.keyLeft)  m_orientation = e_left;
-          if(m_donnees.keyRight) m_orientation = e_right;
-      }
-      if(m_donnees.keyUp) position.y += -(m_move_speed * dt);
-      if(m_donnees.keyDown) position.y += m_move_speed * dt;
-
-      if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp  && !m_donnees.keyDown)
-        m_state = e_idle;
-      else
-        if(!m_donnees.keyShift)
-          m_state = e_walk;
-
-      if (position != getPosition())
-      {
-        // mise a jour de la position
-        setPosition(position);
-      }
-      else
-        m_state = e_idle;
-
-      break;
-    }
-
-    case e_action :
-    {
-
-      break;
-    }
-
-    case e_wander :
-    {
-
-      break;
-    }
-
-    case e_question :
-    {
-
-      break;
-    }
-
-    case e_dead :
-    {
-
-      break;
-    }
-
-    case e_disappear :
-    {
-
       break;
     }
 
