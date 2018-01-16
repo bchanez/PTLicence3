@@ -353,6 +353,10 @@ void CActor::input(void)
 void CActor::update(float dt)
 {
 
+  m_knife.update(dt);
+  if (m_knife.isLoopDone())
+    m_attack = false;
+
   switch (m_state)
   {
     case e_idle :
@@ -376,6 +380,15 @@ void CActor::update(float dt)
       {
         m_animation[e_walk_left].restart();
         m_sprite.setTextureRect(m_animation[e_walk_left].getCurrentFrame());
+      }
+
+      if (m_slow){
+        m_timer += dt;
+
+        if (m_timer > 1)
+        {
+          m_slow = false;
+        }
       }
 
       break;
@@ -465,6 +478,16 @@ void CActor::update(float dt)
         CDisplay::getWindow()->setView(* CDisplay::getView());
       }
 
+
+      if (m_slow){
+        m_timer += dt;
+
+        if (m_timer > 1)
+        {
+          m_slow = false;
+        }
+      }
+
       break;
     }
 
@@ -533,18 +556,7 @@ void CActor::update(float dt)
         m_attack = true;
       }
 
-      m_knife.update(dt);
-      if (m_knife.isLoopDone()){
-        m_attack = false;
-      }
-
-      m_timer += dt;
-
-      if (m_timer > 1)
-      {
-        m_slow = false;
-        m_state = e_idle;
-      }
+      m_state = e_idle;
 
       break;
     }
