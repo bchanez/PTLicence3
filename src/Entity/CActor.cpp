@@ -357,6 +357,8 @@ void CActor::input(void)
 
 void CActor::update(bool isServer, float dt)
 {
+  if (m_donnees.mouseLeft)
+  std::cout << m_donnees.mouseLeft << std::endl;
 
   m_knife.update(dt, false);
   if (m_knife.isLoopDone())
