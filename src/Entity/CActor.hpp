@@ -36,13 +36,12 @@ class CActor : public CEntity
 
     bool m_isCharacter;
 
-    enum Estate {e_idle, e_walk, e_run, e_action, e_attack, e_dead, e_wander, e_question, e_disappear};
+    enum Estate {e_idle, e_walk, e_run, e_action, e_attack, e_slow, e_dead, e_wander, e_question, e_disappear};
 
     enum EAnimation {e_walk_right, e_walk_left};
     unsigned int m_nb_animation = 2;
 
     float m_timer;
-    float m_slow;
 
     CWeapon m_knife;
     bool m_attack;
