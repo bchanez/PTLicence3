@@ -1,10 +1,12 @@
 #include "CEvent_pub.hpp"
 
-/*explicit*/ CEvent_pub::CEvent_pub(void)
+/*explicit*/ CEvent_pub::CEvent_pub(unsigned int indice)
 {
   LOG("CEvent_pub Constructor\n");
 
   m_donneesInit.classe = "CEvent_pub";
+  m_donneesInit.indice = indice;
+  m_donnees.indice = indice;
 
   m_sprite.setOrigin(sf::Vector2f(100, 100));
 
@@ -18,12 +20,14 @@
 {
   LOG("CEvent_pub Constructor\n");
 
-  m_sprite.setOrigin(sf::Vector2f(100, 100));
+  m_donneesInit.indice = donnees.indice;
+  m_donnees.indice = donnees.indice;
 
-  setPosition(sf::Vector2f(donnees.positionX, donnees.positionY));
+  m_sprite.setOrigin(sf::Vector2f(100, 100));
 
   m_state = e_idle;
 
+  setPosition(sf::Vector2f(donnees.positionX, donnees.positionY));
   setTexture();
   setAnimation();
 }
@@ -58,9 +62,10 @@ void CEvent_pub::input(void)
 
 }
 
-void CEvent_pub::update(float dt)
+void CEvent_pub::update(bool isServer, float dt)
 {
   (void)dt;
+  (void)isServer;
   switch (m_state)
   {
     case e_idle :
@@ -78,33 +83,6 @@ void CEvent_pub::update(float dt)
     case e_active :
     {
       m_sprite.setTextureRect(m_animation[e_active].getFrame());
-    }
-    break;
-
-    default : {} break;
-  }
-}
-
-void CEvent_pub::serverUpdate(float dt)
-{
-  (void)dt;
-  switch (m_state)
-  {
-    case e_idle :
-    {
-
-    }
-    break;
-
-    case e_call :
-    {
-
-    }
-    break;
-
-    case e_active :
-    {
-
     }
     break;
 

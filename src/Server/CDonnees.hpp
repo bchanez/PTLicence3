@@ -5,6 +5,8 @@
 
 struct DonneesInit
 {
+  sf::Uint16 indice;
+  sf::Uint16 state;
   std::string classe;
   sf:: Uint16 textures[4];
   sf:: Uint16 textures_color[4][3];
@@ -14,8 +16,9 @@ struct DonneesInit
 struct Donnees
 {
   sf::Uint16 indice;
+  sf::Uint16 state;
   float positionX, positionY;
-  bool keyLeft, keyRight, keyUp, keyDown, keyShift;
+  bool keyLeft, keyRight, keyUp, keyDown, keyShift, mouseLeft;
 };
 
 sf::Packet& operator <<(sf::Packet& packet, const struct DonneesInit& d);

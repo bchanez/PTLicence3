@@ -26,12 +26,8 @@ void CEvent_concert::input()
 {
 }
 
-void CEvent_concert::update(float dt)
+void CEvent_concert::update(bool isServer, float dt)
 {
   (void)dt;
-}
-
-void CEvent_concert::serverUpdate(float dt)
-{
-  (void)dt;
+  (void)isServer;
 }

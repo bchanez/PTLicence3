@@ -16,8 +16,7 @@ class CWeapon : public CEntity
     void setAnimation(void) override;
     void attack(void);
     void input(void);
-    void update(float dt) override;
-    void serverUpdate(float dt) override;
+    void update(bool isServer, float dt) override;
 
     bool isLoopDone(void);
 

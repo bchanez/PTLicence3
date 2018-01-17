@@ -12,7 +12,7 @@ class CActor : public CEntity
 {
   public:
 
-    explicit CActor(void);
+    explicit CActor(unsigned int indice);
     explicit CActor(struct DonneesInit donnees);
     virtual ~CActor(void);
 
@@ -21,8 +21,7 @@ class CActor : public CEntity
 
     void setAnimation(void) override;
     void input(void);
-    void update(float dt) override;
-    void serverUpdate(float dt) override;
+    void update(bool isServer, float dt) override;
 
     void setIsCharacter(bool isCharacter);
 
@@ -36,7 +35,6 @@ class CActor : public CEntity
     }
 
     bool m_isCharacter;
-    bool m_slow;
 
     enum Estate {e_idle, e_walk, e_run, e_action, e_attack, e_dead, e_wander, e_question, e_disappear};
 
@@ -44,6 +42,7 @@ class CActor : public CEntity
     unsigned int m_nb_animation = 2;
 
     float m_timer;
+    float m_slow;
 
     CWeapon m_knife;
     bool m_attack;

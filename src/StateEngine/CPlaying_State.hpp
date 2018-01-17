@@ -35,15 +35,20 @@ namespace State
 
 			sf::TcpSocket m_TCPserver;
 			sf::UdpSocket m_UDPserver;
-			struct Donnees m_donneesSend;
+			struct Donnees m_donnees;
+			void receive(void);
+			void send(void);
+
 
 			Key m_key;
 
 			void quickSort(std::vector<std::unique_ptr<CEntity>>& tableau, int debut, int fin);
 
+
 			CMap m_map;
 
 			std::vector<std::unique_ptr<CEntity>> m_listEntite; // joueur, pnj, evenement
+
 			sf:: Uint16 m_indiceCharacter; // variable qui stocke l'indice du character dans le tableau
 	};
 }

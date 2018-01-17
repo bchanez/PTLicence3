@@ -37,7 +37,7 @@ void CWeapon::attack(void){
   m_loop = false;
 }
 
-void CWeapon::update(float dt){
+void CWeapon::update(bool isServer, float dt){
 
   m_sprite.setTextureRect(m_animation[0].getFrame());
   if (m_animation[0].isLoopDone()){
@@ -52,5 +52,3 @@ bool CWeapon::isLoopDone(void){
 
 
 void CWeapon::input(void){}
-
-void CWeapon::serverUpdate(float dt){}

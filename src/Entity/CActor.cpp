@@ -1,10 +1,12 @@
 #include "CActor.hpp"
 
-/*explicit*/ CActor::CActor(void)
+/*explicit*/ CActor::CActor(unsigned int indice)
 {
   LOG("CActor Constructor\n");
 
   m_donneesInit.classe = "CActor";
+  m_donneesInit.indice = (sf:: Uint16) indice;
+  m_donnees.indice = (sf:: Uint16) indice;
 
   m_isCharacter = false;
 
@@ -26,6 +28,9 @@
 {
   LOG("CActor Constructor\n");
 
+  m_donneesInit = donnees;
+  m_donnees.indice = donnees.indice;
+
   m_isCharacter = false;
 
   m_sprite.setOrigin(sf::Vector2f(20.f, 30.f));
@@ -37,11 +42,12 @@
   m_goal_point = sf::Vector2i(0, 0);
   m_stop = sf::Vector2f(0, 0);
 
+  m_timer = 0.f;
+
   setPosition(sf::Vector2f(donnees.positionX, donnees.positionY));
   setTexture(donnees);
   setAnimation();
 }
-
 
 /*virtual*/ CActor::~CActor(void)
 {
@@ -238,7 +244,6 @@ void CActor::setTexture(struct DonneesInit donnees)
   spr.setTexture(t_Body);
   m_prerender.draw(spr);
 
-
   //Hair
   size_t hair_nb = donnees.textures[0];
   sf::Image i_Hair = CResourceHolder::get().image((EImage_Name)hair_nb);
@@ -350,10 +355,10 @@ void CActor::input(void)
   }
 }
 
-void CActor::update(float dt)
+void CActor::update(bool isServer, float dt)
 {
 
-  m_knife.update(dt);
+  m_knife.update(dt, false);
   if (m_knife.isLoopDone())
     m_attack = false;
 
@@ -363,23 +368,28 @@ void CActor::update(float dt)
     {
       if(m_donnees.keyLeft || m_donnees.keyRight || m_donnees.keyUp || m_donnees.keyDown)
       {
-        if (!m_donnees.keyShift || m_slow)
+        if (!m_donnees.keyShift)
           m_state = e_walk;
         else
           m_state = e_run;
       }
 
+      if(m_donnees.mouseLeft)
+        m_state = e_attack;
 
-      // mise a jour de l'animation
-      if (m_orientation == e_right)
+      if (!isServer)
       {
-        m_animation[e_walk_right].restart();
-        m_sprite.setTextureRect(m_animation[e_walk_right].getCurrentFrame());
-      }
-      else if (m_orientation == e_left)
-      {
-        m_animation[e_walk_left].restart();
-        m_sprite.setTextureRect(m_animation[e_walk_left].getCurrentFrame());
+        // mise a jour de l'animation
+        if (m_orientation == e_right)
+        {
+          m_animation[e_walk_right].restart();
+          m_sprite.setTextureRect(m_animation[e_walk_right].getCurrentFrame());
+        }
+        else if (m_orientation == e_left)
+        {
+          m_animation[e_walk_left].restart();
+          m_sprite.setTextureRect(m_animation[e_walk_left].getCurrentFrame());
+        }
       }
 
       if (m_slow){
@@ -446,7 +456,7 @@ void CActor::update(float dt)
       if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp && !m_donnees.keyDown)
         m_state = e_idle;
       else
-        if(m_donnees.keyShift && !m_slow)
+        if(m_donnees.keyShift)
           m_state = e_run;
 
 
@@ -456,35 +466,31 @@ void CActor::update(float dt)
         setPosition(position);
         m_knife.setPosition(position);
 
-        // mise a jour de l'animation
-        if (m_orientation == e_right)
+        if (!isServer)
         {
-          m_animation[e_walk_left].restart();
-          m_sprite.setTextureRect(m_animation[e_walk_right].getFrame());
-        }
-        else if (m_orientation == e_left)
-        {
-          m_animation[e_walk_right].restart();
-          m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
+          // mise a jour de l'animation
+          if (m_orientation == e_right)
+          {
+            m_animation[e_walk_left].restart();
+            m_sprite.setTextureRect(m_animation[e_walk_right].getFrame());
+          }
+          else if (m_orientation == e_left)
+          {
+            m_animation[e_walk_right].restart();
+            m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
+          }
         }
       }
       else
         m_state = e_idle;
 
-      // centre la vue sur la position du personnage si c'est un character
-      if (m_isCharacter)
+      if (!isServer)
       {
-        CDisplay::getView()->setCenter(getPosition());
-        CDisplay::getWindow()->setView(* CDisplay::getView());
-      }
-
-
-      if (m_slow){
-        m_timer += dt;
-
-        if (m_timer > 1)
+        // centre la vue sur la position du personnage si c'est un character
+        if (m_isCharacter)
         {
-          m_slow = false;
+          CDisplay::getView()->setCenter(getPosition());
+          CDisplay::getWindow()->setView(* CDisplay::getView());
         }
       }
 
@@ -511,32 +517,42 @@ void CActor::update(float dt)
         if(!m_donnees.keyShift)
           m_state = e_walk;
 
+      if(m_donnees.mouseLeft)
+        m_state = e_attack;
+
+
       if (position != getPosition())
       {
         // mise a jour de la position
         setPosition(position);
         m_knife.setPosition(position);
 
-        // mise a jour de l'animation
-        if (m_orientation == e_right)
+        if (!isServer)
         {
-          m_animation[e_walk_left].restart();
-          m_sprite.setTextureRect(m_animation[e_walk_right].getFrame());
-        }
-        else if (m_orientation == e_left)
-        {
-          m_animation[e_walk_right].restart();
-          m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
+          // mise a jour de l'animation
+          if (m_orientation == e_right)
+          {
+            m_animation[e_walk_left].restart();
+            m_sprite.setTextureRect(m_animation[e_walk_right].getFrame());
+          }
+          else if (m_orientation == e_left)
+          {
+            m_animation[e_walk_right].restart();
+            m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
+          }
         }
       }
       else
         m_state = e_idle;
 
-      // centre la vue sur la position du personnage si c'est un character
-      if (m_isCharacter)
+      if (!isServer)
       {
-        CDisplay::getView()->setCenter(getPosition());
-        CDisplay::getWindow()->setView(* CDisplay::getView());
+        // centre la vue sur la position du personnage si c'est un character
+        if (m_isCharacter)
+        {
+          CDisplay::getView()->setCenter(getPosition());
+          CDisplay::getWindow()->setView(* CDisplay::getView());
+        }
       }
       break;
     }
@@ -558,6 +574,7 @@ void CActor::update(float dt)
 
       m_state = e_idle;
 
+
       break;
     }
 
@@ -578,170 +595,7 @@ void CActor::update(float dt)
       m_timer += dt;
 
       if (m_timer > 2)
-      {
         m_state = e_disappear;
-      }
-
-      break;
-    }
-
-    case e_disappear :
-    {
-      //(*m_actors.erase())
-      break;
-    }
-
-    default : break;
-  }
-}
-
-void CActor::serverUpdate(float dt)
-{
-  switch (m_state)
-  {
-    case e_idle :
-    {
-      if(m_donnees.keyLeft || m_donnees.keyRight || m_donnees.keyUp || m_donnees.keyDown)
-      {
-        if (!m_donnees.keyShift)
-          m_state = e_walk;
-        else
-          m_state = e_run;
-      }
-
-      if (!m_isCharacter)
-        if (CRandom::intInRange(0, 1000) == 0)
-          m_goal_point = sf::Vector2i(CRandom::intInRange(100, 1820), CRandom::intInRange(100, 980));
-
-      break;
-    }
-
-    case e_walk :
-    {
-      m_move_speed = WALK_SPEED;
-      sf::Vector2f position = sf::Vector2f(m_donnees.positionX, m_donnees.positionY);
-      /*if(m_donnees.keyLeft) position.x += -(m_move_speed * dt);
-      if(m_donnees.keyRight) position.x += m_move_speed * dt;
-      if(!(m_donnees.keyRight && m_donnees.keyLeft))
-      {
-          if(m_donnees.keyLeft)  m_orientation = e_left;
-          if(m_donnees.keyRight) m_orientation = e_right;
-      }
-      if(m_donnees.keyUp) position.y += -(m_move_speed * dt);
-      if(m_donnees.keyDown) position.y += m_move_speed * dt;
-
-      if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp && !m_donnees.keyDown)
-        m_state = e_idle;
-      else
-        if(m_donnees.keyShift)
-          m_state = e_run;*/
-
-      if(m_donnees.keyLeft){
-        if(position.x <= 0){
-          if (!m_isCharacter)
-              m_goal_point = sf::Vector2i(CRandom::intInRange(100, 1820), CRandom::intInRange(100, 980));
-        }else{
-          position.x += -(m_move_speed * dt);
-        }
-      }
-
-
-      if(m_donnees.keyRight){
-        if(position.x >= 2000){
-          if (!m_isCharacter)
-              m_goal_point = sf::Vector2i(CRandom::intInRange(100, 1820), CRandom::intInRange(100, 980));
-        }else{
-          position.x += m_move_speed * dt;
-        }
-      }
-
-      if(!(m_donnees.keyRight && m_donnees.keyLeft))
-      {
-          if(m_donnees.keyLeft)  m_orientation = e_left;
-          if(m_donnees.keyRight) m_orientation = e_right;
-      }
-
-      if(m_donnees.keyUp){
-        if(position.y <= 0){
-          if (!m_isCharacter)
-              m_goal_point = sf::Vector2i(CRandom::intInRange(100, 1820), CRandom::intInRange(100, 980));
-        }else{
-          position.y += -(m_move_speed * dt);
-        }
-      }
-
-      if(m_donnees.keyDown){
-        if(position.y >= 2000){
-          if (!m_isCharacter)
-              m_goal_point = sf::Vector2i(CRandom::intInRange(100, 1820), CRandom::intInRange(100, 980));
-        }else{
-          position.y += m_move_speed * dt;
-        }
-      }
-
-
-      if (position != getPosition())
-      {
-        // mise a jour de la position
-        setPosition(position);
-      }
-      else
-        m_state = e_idle;
-
-      break;
-    }
-
-    case e_run :
-    {
-      sf::Vector2f position = sf::Vector2f(m_donnees.positionX, m_donnees.positionY);
-      m_move_speed = RUN_SPEED;
-      if(m_donnees.keyLeft) position.x += -(m_move_speed * dt);
-      if(m_donnees.keyRight) position.x += m_move_speed * dt;
-      if(!(m_donnees.keyRight && m_donnees.keyLeft))
-      {
-          if(m_donnees.keyLeft)  m_orientation = e_left;
-          if(m_donnees.keyRight) m_orientation = e_right;
-      }
-      if(m_donnees.keyUp) position.y += -(m_move_speed * dt);
-      if(m_donnees.keyDown) position.y += m_move_speed * dt;
-
-      if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp  && !m_donnees.keyDown)
-        m_state = e_idle;
-      else
-        if(!m_donnees.keyShift)
-          m_state = e_walk;
-
-      if (position != getPosition())
-      {
-        // mise a jour de la position
-        setPosition(position);
-      }
-      else
-        m_state = e_idle;
-
-      break;
-    }
-
-    case e_action :
-    {
-
-      break;
-    }
-
-    case e_wander :
-    {
-
-      break;
-    }
-
-    case e_question :
-    {
-
-      break;
-    }
-
-    case e_dead :
-    {
 
       break;
     }
@@ -755,7 +609,6 @@ void CActor::serverUpdate(float dt)
     default : break;
   }
 }
-
 
 void CActor::setIsCharacter(bool isCharacter)
 {

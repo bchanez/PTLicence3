@@ -27,12 +27,8 @@ void CEvent_feu::input(void)
 
 }
 
-void CEvent_feu::update(float dt)
+void CEvent_feu::update(bool isServer, float dt)
 {
   (void)dt;
-}
-
-void CEvent_feu::serverUpdate(float dt)
-{
-  (void)dt;
+  (void)isServer;
 }

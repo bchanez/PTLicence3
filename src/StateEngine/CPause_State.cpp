@@ -37,30 +37,27 @@ namespace State
 
   void CPause::input(sf::Event * event)
   {
-    while (CDisplay::getWindow()->pollEvent(* event))
-    {
-      if((* event).type == sf::Event::KeyPressed)
-        if ((* event).key.code == sf::Keyboard::Escape)
-          m_key.escape = true;
+    if((* event).type == sf::Event::KeyPressed)
+      if ((* event).key.code == sf::Keyboard::Escape)
+        m_key.escape = true;
 
-      if((* event).type == sf::Event::KeyReleased)
-        if ((* event).key.code == sf::Keyboard::Escape)
-          m_key.escape = false;
+    if((* event).type == sf::Event::KeyReleased)
+      if ((* event).key.code == sf::Keyboard::Escape)
+        m_key.escape = false;
 
-      if ((* event).type == sf::Event::MouseMoved)
-        for (unsigned int i = 0; i < m_listButton.size(); ++i)
-          m_listButton[i]->inputMousePosition(CDisplay::getWindow()->mapPixelToCoords(sf::Vector2i((* event).mouseMove.x, (* event).mouseMove.y), * CDisplay::getView()));
+    if ((* event).type == sf::Event::MouseMoved)
+      for (unsigned int i = 0; i < m_listButton.size(); ++i)
+        m_listButton[i]->inputMousePosition(CDisplay::getWindow()->mapPixelToCoords(sf::Vector2i((* event).mouseMove.x, (* event).mouseMove.y), * CDisplay::getView()));
 
-      if ((* event).type == sf::Event::MouseButtonPressed)
-          if ((* event).mouseButton.button == sf::Mouse::Left)
-            for (unsigned int i = 0; i < m_listButton.size(); ++i)
-              m_listButton[i]->inputMouseclicked(true);
+    if ((* event).type == sf::Event::MouseButtonPressed)
+        if ((* event).mouseButton.button == sf::Mouse::Left)
+          for (unsigned int i = 0; i < m_listButton.size(); ++i)
+            m_listButton[i]->inputMouseclicked(true);
 
-      if ((* event).type == sf::Event::MouseButtonReleased)
-          if ((* event).mouseButton.button == sf::Mouse::Left)
-            for (unsigned int i = 0; i < m_listButton.size(); ++i)
-              m_listButton[i]->inputMouseclicked(false);
-    }
+    if ((* event).type == sf::Event::MouseButtonReleased)
+        if ((* event).mouseButton.button == sf::Mouse::Left)
+          for (unsigned int i = 0; i < m_listButton.size(); ++i)
+            m_listButton[i]->inputMouseclicked(false);
   }
 
   void CPause::update(float dt)
