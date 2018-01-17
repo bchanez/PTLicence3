@@ -17,6 +17,9 @@ enum class ETexture_Name
 	e_Retour,
 	e_Quitter,
 
+	//armes
+	e_Knife,
+
 	//input
 	e_InputTest,
 

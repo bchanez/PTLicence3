@@ -17,6 +17,10 @@
 
   m_timer = 0.f;
 
+  m_slow = false;
+
+  m_attack = false;
+
   setTexture();
 }
 
@@ -30,6 +34,10 @@
   m_isCharacter = false;
 
   m_sprite.setOrigin(sf::Vector2f(20.f, 30.f));
+
+  m_timer = 0.f;
+  m_slow = false;
+  m_attack = false;
 
   m_goal_point = sf::Vector2i(0, 0);
   m_stop = sf::Vector2f(0, 0);
@@ -283,6 +291,10 @@ void CActor::setAnimation(void)
 
 void CActor::input(void)
 {
+  //TEST
+  int size_map_x = 2000;
+  int size_map_y = 2000;
+
   if (!m_isCharacter) // pnj
   {
     m_donnees.keyLeft = m_donnees.keyRight = m_donnees.keyUp = m_donnees.keyDown = m_donnees.keyShift = false;
@@ -345,6 +357,11 @@ void CActor::input(void)
 
 void CActor::update(bool isServer, float dt)
 {
+
+  m_knife.update(dt, false);
+  if (m_knife.isLoopDone())
+    m_attack = false;
+
   switch (m_state)
   {
     case e_idle :
@@ -375,9 +392,14 @@ void CActor::update(bool isServer, float dt)
         }
       }
 
-      if (!m_isCharacter)
-        if (CRandom::intInRange(0, 1000) == 0)
-          m_goal_point = sf::Vector2i(CRandom::intInRange(100, 1820), CRandom::intInRange(100, 980));
+      if (m_slow){
+        m_timer += dt;
+
+        if (m_timer > 1)
+        {
+          m_slow = false;
+        }
+      }
 
       break;
     }
@@ -385,16 +407,51 @@ void CActor::update(bool isServer, float dt)
     case e_walk :
     {
       sf::Vector2f position = sf::Vector2f(m_donnees.positionX, m_donnees.positionY);
-      m_move_speed = WALK_SPEED;
-      if(m_donnees.keyLeft) position.x += -(m_move_speed * dt);
-      if(m_donnees.keyRight) position.x += m_move_speed * dt;
+      if (!m_slow)
+        m_move_speed = WALK_SPEED;
+      else
+        m_move_speed = WALK_SPEED/2;
+
+      if(m_donnees.keyLeft){
+        if((position.x -(m_move_speed * dt)) <0){
+          LOG("TRIGGER");
+        }else{
+          position.x += -(m_move_speed * dt);
+        }
+      }
+
+
+      if(m_donnees.keyRight){
+        if(((position.x + m_move_speed * dt) >= 2000)){
+          LOG("TRIGGER");
+        }else{
+          position.x += m_move_speed * dt;
+        }
+      }
+
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {
           if(m_donnees.keyLeft)  m_orientation = e_left;
           if(m_donnees.keyRight) m_orientation = e_right;
       }
-      if(m_donnees.keyUp) position.y += -(m_move_speed * dt);
-      if(m_donnees.keyDown) position.y += m_move_speed * dt;
+
+      if(m_donnees.keyUp){
+        if(((position.y - (m_move_speed * dt)) <0 )){
+          LOG("TRIGGER");
+        }else{
+          position.y += -(m_move_speed * dt);
+        }
+      }
+
+      if(m_donnees.keyDown){
+        if(((position.y + m_move_speed * dt) >= 2000)){
+          LOG("TRIGGER");
+        }else{
+          position.y += m_move_speed * dt;
+        }
+      }
+
+
 
       if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp && !m_donnees.keyDown)
         m_state = e_idle;
@@ -407,6 +464,7 @@ void CActor::update(bool isServer, float dt)
       {
         // mise a jour de la position
         setPosition(position);
+        m_knife.setPosition(position);
 
         if (!isServer)
         {
@@ -467,6 +525,7 @@ void CActor::update(bool isServer, float dt)
       {
         // mise a jour de la position
         setPosition(position);
+        m_knife.setPosition(position);
 
         if (!isServer)
         {
@@ -506,6 +565,13 @@ void CActor::update(bool isServer, float dt)
 
     case e_attack :
     {
+      if (m_slow == false){
+        m_slow = true;
+        m_timer = 0.f;
+        m_knife.attack();
+        m_attack = true;
+      }
+
       m_state = e_idle;
 
 

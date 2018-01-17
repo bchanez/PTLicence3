@@ -5,6 +5,7 @@
 #include "../Tools/DEBUG.hpp"
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/CRandom.hpp"
+#include "CWeapon.hpp"
 #include <vector>
 
 class CActor : public CEntity
@@ -26,6 +27,13 @@ class CActor : public CEntity
 
   private:
 
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        target.draw(m_sprite, states);
+        if (m_attack)
+          target.draw(m_knife);
+    }
+
     bool m_isCharacter;
 
     enum Estate {e_idle, e_walk, e_run, e_action, e_attack, e_dead, e_wander, e_question, e_disappear};
@@ -34,6 +42,10 @@ class CActor : public CEntity
     unsigned int m_nb_animation = 2;
 
     float m_timer;
+    float m_slow;
+
+    CWeapon m_knife;
+    bool m_attack;
 
     sf::Vector2f m_stop;
     sf::Vector2i m_goal_point;
