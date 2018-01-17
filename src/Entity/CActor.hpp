@@ -27,7 +27,6 @@ class CActor : public CEntity
   private:
 
     bool m_isCharacter;
-    bool m_slow;
 
     enum Estate {e_idle, e_walk, e_run, e_action, e_attack, e_dead, e_wander, e_question, e_disappear};
 

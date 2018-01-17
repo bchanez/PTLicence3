@@ -48,6 +48,7 @@ namespace State
 			CMap m_map;
 
 			std::vector<std::unique_ptr<CEntity>> m_listEntite; // joueur, pnj, evenement
+
 			sf:: Uint16 m_indiceCharacter; // variable qui stocke l'indice du character dans le tableau
 	};
 }

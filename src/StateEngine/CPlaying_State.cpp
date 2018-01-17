@@ -41,16 +41,17 @@ namespace State
 		if (status != sf::Socket::Done)
 		{
 		    LOG("erreur connection \n");
+				exit(0);
 		}
 
 		sf::Packet packetInitGame;
 		if (m_TCPserver.receive(packetInitGame) != sf::Socket::Done)
 		{
-			LOG("erreur reception client tcp\n");
+			LOG("erreur reception tcp\n");
 		}
 		else
 		{
-			LOG("reception client OK tcp\n");
+			LOG("reception tcp ok\n");
 		}
 		m_TCPserver.disconnect();
 
@@ -86,64 +87,66 @@ namespace State
 		m_donnees = m_listEntite[m_indiceCharacter].get()->getDonnees();
 		struct Donnees donnees = m_donnees;
 
-		while (CDisplay::getWindow()->pollEvent(* event))
-    {
-			// event de la scene
-	    if((* event).type == sf::Event::KeyPressed)
-			{
-				if ((* event).key.code == sf::Keyboard::Z
-					|| (* event).key.code == sf::Keyboard::W)
-					donnees.keyUp = true;
+    if((* event).type == sf::Event::KeyPressed)
+		{
+			if ((* event).key.code == sf::Keyboard::Z
+				|| (* event).key.code == sf::Keyboard::W)
+				donnees.keyUp = true;
 
-				if ((* event).key.code == sf::Keyboard::Q
-					|| (* event).key.code == sf::Keyboard::A)
-					donnees.keyLeft = true;
+			if ((* event).key.code == sf::Keyboard::Q
+				|| (* event).key.code == sf::Keyboard::A)
+				donnees.keyLeft = true;
 
-				if ((* event).key.code == sf::Keyboard::S)
-					donnees.keyDown = true;
+			if ((* event).key.code == sf::Keyboard::S)
+				donnees.keyDown = true;
 
-				if ((* event).key.code == sf::Keyboard::D)
-					donnees.keyRight = true;
+			if ((* event).key.code == sf::Keyboard::D)
+				donnees.keyRight = true;
 
-				if ((* event).key.code == sf::Keyboard::LShift)
-					donnees.keyShift = true;
+			if ((* event).key.code == sf::Keyboard::LShift)
+				donnees.keyShift = true;
 
-				if((* event).key.code == sf::Keyboard::Escape)
-					m_key.escape = true;
-			}
-
-
-			if((* event).type == sf::Event::KeyReleased)
-			{
-				if ((* event).key.code == sf::Keyboard::Z
-					|| (* event).key.code == sf::Keyboard::W)
-					donnees.keyUp = false;
-
-				if ((* event).key.code == sf::Keyboard::Q
-					|| (* event).key.code == sf::Keyboard::A)
-					donnees.keyLeft = false;
-
-				if ((* event).key.code == sf::Keyboard::S)
-					donnees.keyDown = false;
-
-				if ((* event).key.code == sf::Keyboard::D)
-					donnees.keyRight = false;
-
-				if ((* event).key.code == sf::Keyboard::LShift)
-					donnees.keyShift = false;
-
-				if ((* event).key.code == sf::Keyboard::Escape)
-					m_key.escape = false;
-			}
-
-			if ((* event).type == sf::Event::MouseButtonPressed && (* event).mouseButton.button == sf::Mouse::Left)
-			{
-				m_listEntite[m_indiceCharacter]->setState(4); //e_attack
-			}
-
+			if((* event).key.code == sf::Keyboard::Escape)
+				m_key.escape = true;
 		}
 
-		//envoie les touches du client au serveur
+
+		if((* event).type == sf::Event::KeyReleased)
+		{
+			if ((* event).key.code == sf::Keyboard::Z
+				|| (* event).key.code == sf::Keyboard::W)
+				donnees.keyUp = false;
+
+			if ((* event).key.code == sf::Keyboard::Q
+				|| (* event).key.code == sf::Keyboard::A)
+				donnees.keyLeft = false;
+
+			if ((* event).key.code == sf::Keyboard::S)
+				donnees.keyDown = false;
+
+			if ((* event).key.code == sf::Keyboard::D)
+				donnees.keyRight = false;
+
+			if ((* event).key.code == sf::Keyboard::LShift)
+				donnees.keyShift = false;
+
+			if ((* event).key.code == sf::Keyboard::Escape)
+				m_key.escape = false;
+		}
+
+		if ((* event).type == sf::Event::MouseButtonPressed)
+		{
+			if ((* event).mouseButton.button == sf::Mouse::Left)
+				donnees.mouseLeft = true;
+		}
+
+		if ((* event).type == sf::Event::MouseButtonPressed)
+		{
+			if((* event).mouseButton.button == sf::Mouse::Left)
+				donnees.mouseLeft = false;
+		}
+
+		//envoie uniquement les touches si changements par rapport au ancienne donnees envoye
 		if(m_donnees != donnees)
 		{
 			m_donnees = donnees;
@@ -165,31 +168,7 @@ namespace State
 
 		// update des entites
 		for (unsigned int i = 0; i < m_listEntite.size(); ++i)
-		{
-			if (m_listEntite[i]->getState() == 4)
-			{
-				for (unsigned int j = 0; j < m_listEntite.size(); ++j)
-				{
-	        if (m_listEntite[i]->getPosition() != m_listEntite[j]->getPosition())
-	        {
-						if (m_listEntite[i]->getPosition().x > m_listEntite[j]->getPosition().x - 20
-							&& m_listEntite[i]->getPosition().x < m_listEntite[j]->getPosition().x + 20
-							&& m_listEntite[i]->getPosition().y > m_listEntite[j]->getPosition().y - 20
-								&& m_listEntite[i]->getPosition().y < m_listEntite[j]->getPosition().y + 20)
-	          m_listEntite[j]->setState(5);	//e_dead
-	        }
-				}
-      }
-
-			if (m_listEntite[i]->getState() == 8)	//e_disappear
-			{
-				m_listEntite.erase(m_listEntite.begin() + i);
-				if (m_indiceCharacter > i)
-					m_indiceCharacter--;
-			}
-
 			m_listEntite[i]->update(false, dt);
-		}
 
 		// update de la profondeur des Entity
 		quickSort(m_listEntite, 0, (int)m_listEntite.size() - 1);

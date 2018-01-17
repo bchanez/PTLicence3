@@ -17,8 +17,6 @@
 
   m_timer = 0.f;
 
-  m_slow = false;
-
   setTexture();
 }
 
@@ -26,25 +24,22 @@
 {
   LOG("CActor Constructor\n");
 
-  m_isCharacter = false;
-  std::cout << donnees.indice << std::endl;
-  m_donneesInit.indice = donnees.indice;
+  m_donneesInit = donnees;
   m_donnees.indice = donnees.indice;
 
+  m_isCharacter = false;
 
   m_sprite.setOrigin(sf::Vector2f(20.f, 30.f));
 
-  m_timer = 0.f;
-  m_slow = false;
-
   m_goal_point = sf::Vector2i(0, 0);
   m_stop = sf::Vector2f(0, 0);
+
+  m_timer = 0.f;
 
   setPosition(sf::Vector2f(donnees.positionX, donnees.positionY));
   setTexture(donnees);
   setAnimation();
 }
-
 
 /*virtual*/ CActor::~CActor(void)
 {
@@ -241,11 +236,9 @@ void CActor::setTexture(struct DonneesInit donnees)
   spr.setTexture(t_Body);
   m_prerender.draw(spr);
 
-
   //Hair
   size_t hair_nb = donnees.textures[0];
   sf::Image i_Hair = CResourceHolder::get().image((EImage_Name)hair_nb);
-
 
 
   for (int y = 0; y < (int)i_Hair.getSize().y; y++){
@@ -358,11 +351,14 @@ void CActor::update(bool isServer, float dt)
     {
       if(m_donnees.keyLeft || m_donnees.keyRight || m_donnees.keyUp || m_donnees.keyDown)
       {
-        if (!m_donnees.keyShift || m_slow)
+        if (!m_donnees.keyShift)
           m_state = e_walk;
         else
           m_state = e_run;
       }
+
+      if(m_donnees.mouseLeft)
+        m_state = e_attack;
 
       if (!isServer)
       {
@@ -389,10 +385,7 @@ void CActor::update(bool isServer, float dt)
     case e_walk :
     {
       sf::Vector2f position = sf::Vector2f(m_donnees.positionX, m_donnees.positionY);
-      if (!m_slow)
-        m_move_speed = WALK_SPEED;
-      else
-        m_move_speed = WALK_SPEED/2;
+      m_move_speed = WALK_SPEED;
       if(m_donnees.keyLeft) position.x += -(m_move_speed * dt);
       if(m_donnees.keyRight) position.x += m_move_speed * dt;
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
@@ -406,7 +399,7 @@ void CActor::update(bool isServer, float dt)
       if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp && !m_donnees.keyDown)
         m_state = e_idle;
       else
-        if(m_donnees.keyShift && !m_slow)
+        if(m_donnees.keyShift)
           m_state = e_run;
 
 
@@ -443,13 +436,6 @@ void CActor::update(bool isServer, float dt)
         }
       }
 
-      if (m_slow)
-      {
-        m_timer += dt;
-        if (m_timer > 2)
-          m_slow = false;
-      }
-
       break;
     }
 
@@ -472,6 +458,10 @@ void CActor::update(bool isServer, float dt)
       else
         if(!m_donnees.keyShift)
           m_state = e_walk;
+
+      if(m_donnees.mouseLeft)
+        m_state = e_attack;
+
 
       if (position != getPosition())
       {
@@ -516,9 +506,8 @@ void CActor::update(bool isServer, float dt)
 
     case e_attack :
     {
-      m_slow = true;
-      m_timer = 0.f;
       m_state = e_idle;
+
 
       break;
     }
@@ -547,14 +536,13 @@ void CActor::update(bool isServer, float dt)
 
     case e_disappear :
     {
-      //(*m_actors.erase())
+
       break;
     }
 
     default : break;
   }
 }
-
 
 void CActor::setIsCharacter(bool isCharacter)
 {

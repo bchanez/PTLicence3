@@ -25,10 +25,9 @@
 
   m_sprite.setOrigin(sf::Vector2f(100, 100));
 
-  setPosition(sf::Vector2f(donnees.positionX, donnees.positionY));
-
   m_state = e_idle;
 
+  setPosition(sf::Vector2f(donnees.positionX, donnees.positionY));
   setTexture();
   setAnimation();
 }
