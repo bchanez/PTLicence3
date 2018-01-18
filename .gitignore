@@ -7,3 +7,4 @@
 app
 *.o
 /rsc/map/test.txt
+/rsc/Map/map.txt
