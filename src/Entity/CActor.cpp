@@ -355,10 +355,10 @@ void CActor::input(void)
 
 void CActor::update(bool isServer, float dt)
 {
-  if ( m_donneesInit.indice == 0)
-  std::cout << m_donneesInit.indice << " " << getPosition().x << " " << getPosition().y << std::endl;
-  if ( m_donneesInit.indice == 1)
-  std::cout << m_donneesInit.indice << " " << getPosition().x << " " << getPosition().y << std::endl;
+  // if ( m_donneesInit.indice == 0)
+  // std::cout << m_donneesInit.indice << " " << getPosition().x << " " << getPosition().y << std::endl;
+  // if ( m_donneesInit.indice == 1)
+  // std::cout << m_donneesInit.indice << " " << getPosition().x << " " << getPosition().y << std::endl;
 
   switch (m_state)
   {

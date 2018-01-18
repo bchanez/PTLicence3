@@ -126,7 +126,7 @@ void CServeur::loopGame(void)
     float dt = m_clock.restart().asSeconds();
     fps_timer += dt;
 
-    if (fps_timer >= (1.f/50.f))
+    if (fps_timer >= (1.f/70.f))
     {
       connection();
 
@@ -136,7 +136,8 @@ void CServeur::loopGame(void)
 
       receiveUDP();
       sendUDP();
-      updateGame(dt);
+
+      updateGame(fps_timer);
       fps_timer = 0.f;
     }
   }

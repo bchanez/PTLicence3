@@ -165,7 +165,7 @@ namespace State
 		}
 
 		receive();
-
+		
 		// update des entites
 		for (unsigned int i = 0; i < m_listEntite.size(); ++i)
 		{
