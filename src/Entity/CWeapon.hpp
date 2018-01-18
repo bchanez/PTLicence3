@@ -14,13 +14,11 @@ class CWeapon : public CEntity
 
     void setTexture(void);
     void setAnimation(void) override;
-    void attack(void);
     void input(void);
     void update(bool isServer, float dt) override;
 
+    void attack(void);
     bool isLoopDone(void);
-
-    void setIsCharacter(bool isCharacter);
 
   private:
 

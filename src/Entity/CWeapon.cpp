@@ -1,6 +1,7 @@
 #include "CWeapon.hpp"
 
-CWeapon::CWeapon(void){
+CWeapon::CWeapon(void)
+{
   LOG("CWeapon Constructor\n");
 
   m_attack = false;
@@ -12,43 +13,47 @@ CWeapon::CWeapon(void){
   setAnimation();
 }
 
-CWeapon::~CWeapon(void){
+CWeapon::~CWeapon(void)
+{
   LOG("CWeapon Destructor\n");
-
 }
 
-void CWeapon::setTexture(void){
+void CWeapon::setTexture(void)
+{
   m_sprite.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Knife));
 }
 
-void CWeapon::setAnimation(void){
-
+void CWeapon::setAnimation(void)
+{
   m_animation.push_back(CAnimation());
 
-  for (int i = 0; i < m_nb_animation; ++i)
-  {
+  for (unsigned int i = 0; i < m_nb_animation; ++i)
     m_animation[0].addFrame(sf::IntRect(i * 40, 0, 40, 40), 0.05f);
-  }
 }
 
-void CWeapon::attack(void){
-  m_attack = true;
-  m_animation[0].restart();
-  m_loop = false;
-}
+void CWeapon::input(void){}
 
-void CWeapon::update(bool isServer, float dt){
+void CWeapon::update(bool isServer, float dt)
+{
+  if (!isServer)
+    m_sprite.setTextureRect(m_animation[0].getFrame());
 
-  m_sprite.setTextureRect(m_animation[0].getFrame());
   if (m_animation[0].isLoopDone()){
     m_attack = false;
     m_loop = true;
   }
 }
 
-bool CWeapon::isLoopDone(void){
-  return m_loop;
+void CWeapon::attack(void)
+{
+  m_attack = true;
+
+  m_animation[0].restart();
+
+  m_loop = false;
 }
 
-
-void CWeapon::input(void){}
+bool CWeapon::isLoopDone(void)
+{
+  return m_loop;
+}

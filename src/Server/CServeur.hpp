@@ -28,7 +28,7 @@ class CServeur
     void receiveUDP(void);
 
     // methode pour la partie
-    void initGame(int taille_carree_map, int nombre_pnj, int nombre_evenement);
+    void initGame(int nombre_pnj, int nombre_evenement);
     void loopGame(void);
     void updateGame(float dt);
 
