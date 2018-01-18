@@ -5,6 +5,7 @@
 #include "Server/CServeur.hpp"
 #include "CApplication.hpp"
 #include "Tools/CRandom.hpp"
+#include "StateEngine/CConfig.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -34,7 +35,7 @@ int main(int argc, char *argv[])
 	else
 	{
 		CServeur serveur;
-		serveur.initGame(100, 3);
+		serveur.initGame(NB_PNJ, NB_STAND);
 		serveur.loopGame();
 	}
 
