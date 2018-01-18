@@ -288,10 +288,6 @@ void CActor::setAnimation(void)
 
 void CActor::input(void)
 {
-  //TEST
-  int size_map_x = 2000;
-  int size_map_y = 2000;
-
   if (!m_isCharacter) // pnj
   {
     m_donnees.keyLeft = m_donnees.keyRight = m_donnees.keyUp = m_donnees.keyDown = m_donnees.keyShift = false;
@@ -313,13 +309,15 @@ void CActor::input(void)
       }
 
       if(m_stop.x)
+      {
         m_donnees.keyLeft = false;
-      if(m_stop.x)
         m_donnees.keyRight = false;
+      }
       if(m_stop.y)
+      {
         m_donnees.keyUp = false;
-      if(m_stop.y)
         m_donnees.keyDown = false;
+      }
 
     }
     else // si pas de point de destination
@@ -346,11 +344,6 @@ void CActor::input(void)
           m_donnees.keyDown = true;
           break;
         }
-        case 4 : // bas
-        {
-          m_goal_point = sf::Vector2i(CRandom::intInRange(100, 1900), CRandom::intInRange(100, 900));
-          break;
-        }
         default: break;
       }
     }
@@ -359,9 +352,6 @@ void CActor::input(void)
 
 void CActor::update(bool isServer, float dt)
 {
-  if (m_donnees.mouseLeft)
-  std::cout << m_donnees.mouseLeft << std::endl;
-
   switch (m_state)
   {
     case e_idle :
@@ -376,6 +366,11 @@ void CActor::update(bool isServer, float dt)
 
       if(m_donnees.mouseLeft)
         m_state = e_attack;
+
+      if (!m_isCharacter)
+        if (CRandom::intInRange(0, 1000) == 0)
+          m_goal_point = sf::Vector2i(CRandom::intInRange(0, 2000), CRandom::intInRange(0, 2000));
+
 
       if (!isServer)
       {
@@ -392,9 +387,6 @@ void CActor::update(bool isServer, float dt)
         }
       }
 
-      if(m_donnees.mouseLeft)
-        m_state = e_attack;
-
       break;
     }
 
@@ -404,18 +396,17 @@ void CActor::update(bool isServer, float dt)
 
       m_move_speed = WALK_SPEED;
 
-      if(m_donnees.keyLeft){
-        if((position.x - (m_move_speed * dt)) >= 0){
-          position.x += -(m_move_speed * dt);
-        }
-      }
+      if(m_donnees.keyLeft)
+        position.x += ((position.x - (m_move_speed * dt)) >= 0.f) ? -(m_move_speed * dt) : 0.f;
 
+      if(m_donnees.keyRight)
+        position.x += ((position.x + m_move_speed * dt) < 2000.f) ? m_move_speed * dt : 0.f;
 
-      if(m_donnees.keyRight){
-        if(((position.x + m_move_speed * dt) < 2000)){
-          position.x += m_move_speed * dt;
-        }
-      }
+      if(m_donnees.keyUp)
+        position.y += ((position.y - (m_move_speed * dt)) >= 0.f) ? -(m_move_speed * dt) : 0.f;
+
+      if(m_donnees.keyDown)
+        position.y += ((position.y + m_move_speed * dt) < 2000.f) ? m_move_speed * dt : 0.f;
 
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {
@@ -423,25 +414,14 @@ void CActor::update(bool isServer, float dt)
           if(m_donnees.keyRight) m_orientation = e_right;
       }
 
-      if(m_donnees.keyUp){
-        if(((position.y - (m_move_speed * dt)) >= 0 )){
-          position.y += -(m_move_speed * dt);
-        }
-      }
-
-      if(m_donnees.keyDown){
-        if(((position.y + m_move_speed * dt) < 2000)){
-          position.y += m_move_speed * dt;
-        }
-      }
-
-
-
-      if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp && !m_donnees.keyDown)
+      if(position == getPosition())
         m_state = e_idle;
       else
         if(m_donnees.keyShift)
           m_state = e_run;
+
+      if(m_donnees.mouseLeft)
+        m_state = e_attack;
 
 
       if (position != getPosition())
@@ -463,23 +443,15 @@ void CActor::update(bool isServer, float dt)
             m_animation[e_walk_right].restart();
             m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
           }
+
+          // centre la vue sur la position du personnage si c'est un character
+          if (m_isCharacter)
+          {
+            CDisplay::getView()->setCenter(getPosition());
+            CDisplay::getWindow()->setView(* CDisplay::getView());
+          }
         }
       }
-      else
-        m_state = e_idle;
-
-      if (!isServer)
-      {
-        // centre la vue sur la position du personnage si c'est un character
-        if (m_isCharacter)
-        {
-          CDisplay::getView()->setCenter(getPosition());
-          CDisplay::getWindow()->setView(* CDisplay::getView());
-        }
-      }
-
-      if(m_donnees.mouseLeft)
-        m_state = e_attack;
 
       break;
     }
@@ -487,23 +459,35 @@ void CActor::update(bool isServer, float dt)
     case e_run :
     {
       sf::Vector2f position = sf::Vector2f(m_donnees.positionX, m_donnees.positionY);
+
       m_move_speed = RUN_SPEED;
-      if(m_donnees.keyLeft) position.x += -(m_move_speed * dt);
-      if(m_donnees.keyRight) position.x += m_move_speed * dt;
+
+      if(m_donnees.keyLeft)
+        position.x += ((position.x - (m_move_speed * dt)) >= 0.f) ? -(m_move_speed * dt) : 0.f;
+
+      if(m_donnees.keyRight)
+        position.x += ((position.x + m_move_speed * dt) < 2000.f) ? m_move_speed * dt : 0.f;
+
+      if(m_donnees.keyUp)
+        position.y += ((position.y - (m_move_speed * dt)) >= 0.f) ? -(m_move_speed * dt) : 0.f;
+
+      if(m_donnees.keyDown)
+        position.y += ((position.y + m_move_speed * dt) < 2000.f) ? m_move_speed * dt : 0.f;
+
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {
           if(m_donnees.keyLeft)  m_orientation = e_left;
           if(m_donnees.keyRight) m_orientation = e_right;
       }
-      if(m_donnees.keyUp) position.y += -(m_move_speed * dt);
-      if(m_donnees.keyDown) position.y += m_move_speed * dt;
 
-      if(!m_donnees.keyLeft && !m_donnees.keyRight && !m_donnees.keyUp  && !m_donnees.keyDown)
+      if(position == getPosition())
         m_state = e_idle;
       else
         if(!m_donnees.keyShift)
           m_state = e_walk;
 
+      if(m_donnees.mouseLeft)
+        m_state = e_attack;
 
       if (position != getPosition())
       {
@@ -524,18 +508,13 @@ void CActor::update(bool isServer, float dt)
             m_animation[e_walk_right].restart();
             m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
           }
-        }
-      }
-      else
-        m_state = e_idle;
 
-      if (!isServer)
-      {
-        // centre la vue sur la position du personnage si c'est un character
-        if (m_isCharacter)
-        {
-          CDisplay::getView()->setCenter(getPosition());
-          CDisplay::getWindow()->setView(* CDisplay::getView());
+          // centre la vue sur la position du personnage si c'est un character
+          if (m_isCharacter)
+          {
+            CDisplay::getView()->setCenter(getPosition());
+            CDisplay::getWindow()->setView(* CDisplay::getView());
+          }
         }
       }
       break;
@@ -573,35 +552,22 @@ void CActor::update(bool isServer, float dt)
 
       m_move_speed = WALK_SPEED/2;
 
-      if(m_donnees.keyLeft){
-        if((position.x - (m_move_speed * dt)) >= 0){
-          position.x += -(m_move_speed * dt);
-        }
-      }
+      if(m_donnees.keyLeft)
+        position.x += ((position.x - (m_move_speed * dt)) >= 0.f) ? -(m_move_speed * dt) : 0.f;
 
+      if(m_donnees.keyRight)
+        position.x += ((position.x + m_move_speed * dt) < 2000.f) ? m_move_speed * dt : 0.f;
 
-      if(m_donnees.keyRight){
-        if(((position.x + m_move_speed * dt) < 2000)){
-          position.x += m_move_speed * dt;
-        }
-      }
+      if(m_donnees.keyUp)
+        position.y += ((position.y - (m_move_speed * dt)) >= 0.f) ? -(m_move_speed * dt) : 0.f;
+
+      if(m_donnees.keyDown)
+        position.y += ((position.y + m_move_speed * dt) < 2000.f) ? m_move_speed * dt : 0.f;
 
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {
           if(m_donnees.keyLeft)  m_orientation = e_left;
           if(m_donnees.keyRight) m_orientation = e_right;
-      }
-
-      if(m_donnees.keyUp){
-        if(((position.y - (m_move_speed * dt)) >= 0 )){
-          position.y += -(m_move_speed * dt);
-        }
-      }
-
-      if(m_donnees.keyDown){
-        if(((position.y + m_move_speed * dt) < 2000)){
-          position.y += m_move_speed * dt;
-        }
       }
 
       if (position != getPosition())
@@ -623,16 +589,13 @@ void CActor::update(bool isServer, float dt)
             m_animation[e_walk_right].restart();
             m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
           }
-        }
-      }
 
-      if (!isServer)
-      {
-        // centre la vue sur la position du personnage si c'est un character
-        if (m_isCharacter)
-        {
-          CDisplay::getView()->setCenter(getPosition());
-          CDisplay::getWindow()->setView(* CDisplay::getView());
+          // centre la vue sur la position du personnage si c'est un character
+          if (m_isCharacter)
+          {
+            CDisplay::getView()->setCenter(getPosition());
+            CDisplay::getWindow()->setView(* CDisplay::getView());
+          }
         }
       }
 
