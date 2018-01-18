@@ -36,13 +36,13 @@
 
   m_sprite.setOrigin(sf::Vector2f(20.f, 30.f));
 
-  m_timer = 0.f;
-  m_attack = false;
-
   m_goal_point = sf::Vector2i(0, 0);
   m_stop = sf::Vector2f(0, 0);
 
   m_timer = 0.f;
+
+  m_attack = false;
+  m_mustDisappear = false;
 
   setPosition(sf::Vector2f(donnees.positionX, donnees.positionY));
   setTexture(donnees);
@@ -355,6 +355,11 @@ void CActor::input(void)
 
 void CActor::update(bool isServer, float dt)
 {
+  if ( m_donneesInit.indice == 0)
+  std::cout << m_donneesInit.indice << " " << getPosition().x << " " << getPosition().y << std::endl;
+  if ( m_donneesInit.indice == 1)
+  std::cout << m_donneesInit.indice << " " << getPosition().x << " " << getPosition().y << std::endl;
+
   switch (m_state)
   {
     case e_idle :
