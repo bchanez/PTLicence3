@@ -9,10 +9,7 @@
 #include "../ResourceManager/CResourceHolder.hpp"
 #include "../Tools/DEBUG.hpp"
 #include "../Tools/CRandom.hpp"
-
-#define SIZE_TILE 40
-#define SIZE_MAP_X 50
-#define SIZE_MAP_Y 50
+#include "../StateEngine/CConfig.hpp"
 
 class CMap : public CDrawable
 {

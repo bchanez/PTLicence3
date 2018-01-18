@@ -11,6 +11,7 @@
 #include "../Entity/CActor.hpp"
 #include "../Entity/CEvent_pub.hpp"
 #include "CDonnees.hpp"
+#include "../StateEngine/CConfig.hpp"
 
 class CServeur
 {
