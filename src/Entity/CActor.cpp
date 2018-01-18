@@ -372,7 +372,7 @@ void CActor::update(bool isServer, float dt)
 
       if (!m_isCharacter)
         if (CRandom::intInRange(0, 1000) == 0)
-          m_goal_point = sf::Vector2i(CRandom::intInRange(0, SIZE_MAP_X*SIZE_TILE), CRandom::intInRange(0, SIZE_MAP_X*SIZE_TILE));
+          m_goal_point = sf::Vector2i(CRandom::intInRange(0, SIZE_MAP_X*SIZE_TILE), CRandom::intInRange(0, SIZE_MAP_Y*SIZE_TILE));
 
 
       if (!isServer)
@@ -409,7 +409,7 @@ void CActor::update(bool isServer, float dt)
         position.y += ((position.y - (m_move_speed * dt)) >= 0.f) ? -(m_move_speed * dt) : 0.f;
 
       if(m_donnees.keyDown)
-        position.y += ((position.y + m_move_speed * dt) < SIZE_MAP_X*SIZE_TILE) ? m_move_speed * dt : 0.f;
+        position.y += ((position.y + m_move_speed * dt) < SIZE_MAP_Y*SIZE_TILE) ? m_move_speed * dt : 0.f;
 
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {
@@ -475,7 +475,7 @@ void CActor::update(bool isServer, float dt)
         position.y += ((position.y - (m_move_speed * dt)) >= 0.f) ? -(m_move_speed * dt) : 0.f;
 
       if(m_donnees.keyDown)
-        position.y += ((position.y + m_move_speed * dt) < SIZE_MAP_X*SIZE_TILE) ? m_move_speed * dt : 0.f;
+        position.y += ((position.y + m_move_speed * dt) < SIZE_MAP_Y*SIZE_TILE) ? m_move_speed * dt : 0.f;
 
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {
@@ -578,7 +578,7 @@ void CActor::update(bool isServer, float dt)
         position.y += ((position.y - (m_move_speed * dt)) >= 0.f) ? -(m_move_speed * dt) : 0.f;
 
       if(m_donnees.keyDown)
-        position.y += ((position.y + m_move_speed * dt) < SIZE_MAP_X*SIZE_TILE) ? m_move_speed * dt : 0.f;
+        position.y += ((position.y + m_move_speed * dt) < SIZE_MAP_Y*SIZE_TILE) ? m_move_speed * dt : 0.f;
 
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {

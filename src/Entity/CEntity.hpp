@@ -5,7 +5,7 @@
 #include "../Tools/CAnimation.hpp"
 #include "../Tools/DEBUG.hpp"
 #include "../Server/CDonnees.hpp"
-#include "../StateEngine/CConfig.hpp"
+#include "../CConfig.hpp"
 
 #define WALK_SPEED 60
 #define RUN_SPEED 120

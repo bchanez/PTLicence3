@@ -5,7 +5,7 @@
 #include "Server/CServeur.hpp"
 #include "CApplication.hpp"
 #include "Tools/CRandom.hpp"
-#include "StateEngine/CConfig.hpp"
+#include "CConfig.hpp"
 
 int main(int argc, char *argv[])
 {

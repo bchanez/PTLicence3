@@ -9,7 +9,7 @@
 #include "../ResourceManager/CResourceHolder.hpp"
 #include "../Tools/DEBUG.hpp"
 #include "../Tools/CRandom.hpp"
-#include "../StateEngine/CConfig.hpp"
+#include "../CConfig.hpp"
 
 class CMap : public CDrawable
 {
