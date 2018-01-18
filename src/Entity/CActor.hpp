@@ -5,6 +5,7 @@
 #include "../Tools/DEBUG.hpp"
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/CRandom.hpp"
+#include "../Tools/CCollision.hpp"
 #include "CWeapon.hpp"
 #include <vector>
 
@@ -12,7 +13,7 @@ class CActor : public CEntity
 {
   public:
 
-    explicit CActor(unsigned int indice);
+    explicit CActor(unsigned int indice, std::vector<std::unique_ptr<CEntity>> * listEntite);
     explicit CActor(struct DonneesInit donnees);
     virtual ~CActor(void);
 
@@ -20,10 +21,11 @@ class CActor : public CEntity
     void setTexture(struct DonneesInit donnees);
 
     void setAnimation(void) override;
-    void input(void);
+    void input(void) override;
     void update(bool isServer, float dt) override;
 
     void setIsCharacter(bool isCharacter);
+    bool getMustDisappear(void);
 
   private:
 
@@ -45,7 +47,10 @@ class CActor : public CEntity
 
     CWeapon m_knife;
     bool m_attack;
+    bool m_mustDisappear;
 
     sf::Vector2f m_stop;
     sf::Vector2i m_goal_point;
+
+    std::vector<std::unique_ptr<CEntity>> * m_listEntite;
 };

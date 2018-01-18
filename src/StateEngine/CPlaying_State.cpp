@@ -78,7 +78,7 @@ namespace State
 
 		// centre la vue sur la position du personnage
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
-		CDisplay::getView()->setCenter(m_listEntite[m_indiceCharacter].get()->getPosition());
+		CDisplay::getView()->setCenter(m_listEntite[m_indiceCharacter]->getPosition());
 		CDisplay::getWindow()->setView(* CDisplay::getView());
 	}
 
@@ -169,22 +169,7 @@ namespace State
 		// update des entites
 		for (unsigned int i = 0; i < m_listEntite.size(); ++i)
 		{
-			if (m_listEntite[i]->getState() == 4)
-			{
-				for (unsigned int j = 0; j < m_listEntite.size(); ++j)
-				{
-	        if (m_listEntite[j]->getDonneesInit().classe == "CActor" && m_listEntite[i]->getPosition() != m_listEntite[j]->getPosition())
-	        {
-						if (m_listEntite[i]->getPosition().x > m_listEntite[j]->getPosition().x - 20
-							&& m_listEntite[i]->getPosition().x < m_listEntite[j]->getPosition().x + 20
-							&& m_listEntite[i]->getPosition().y > m_listEntite[j]->getPosition().y - 20
-								&& m_listEntite[i]->getPosition().y < m_listEntite[j]->getPosition().y + 20)
-	          m_listEntite[j]->setState(5);	//e_dead
-	        }
-				}
-      }
-
-			if (m_listEntite[i]->getState() == 8)	//e_disappear
+			if (m_listEntite[i]->getDonneesInit().classe == "CActor" && dynamic_cast<CActor *>(m_listEntite[i].get())->getMustDisappear())
 			{
 				m_listEntite.erase(m_listEntite.begin() + i);
 				if (m_indiceCharacter > i)

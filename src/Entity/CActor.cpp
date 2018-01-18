@@ -1,8 +1,10 @@
 #include "CActor.hpp"
 
-/*explicit*/ CActor::CActor(unsigned int indice)
+/*explicit*/ CActor::CActor(unsigned int indice, std::vector<std::unique_ptr<CEntity>> * listEntite)
 {
   LOG("CActor Constructor\n");
+
+  m_listEntite = listEntite;
 
   m_donneesInit.classe = "CActor";
   m_donneesInit.indice = (sf:: Uint16) indice;
@@ -18,6 +20,7 @@
   m_timer = 0.f;
 
   m_attack = false;
+  m_mustDisappear = false;
 
   setTexture();
 }
@@ -528,6 +531,19 @@ void CActor::update(bool isServer, float dt)
 
     case e_attack :
     {
+      if(isServer)
+      {
+        for (unsigned int i = 0; i < (*m_listEntite).size(); ++i)
+        {
+          if ((*m_listEntite)[i]->getDonneesInit().classe == "CActor" && getPosition() != (*m_listEntite)[i]->getPosition())
+            if (CCollision::collision(sf::FloatRect(getPosition().x - 20.f, getPosition().y - 20.f, 40.f, 40.f), (*m_listEntite)[i]->getPosition()))
+            {
+              std::cout << "tue cible\n";
+              dynamic_cast<CActor *>((*m_listEntite)[i].get())->m_state = e_dead;
+            }
+        }
+      }
+
       if (!m_attack){
         m_knife.attack();
         m_attack = true;
@@ -640,4 +656,9 @@ void CActor::update(bool isServer, float dt)
 void CActor::setIsCharacter(bool isCharacter)
 {
   m_isCharacter = isCharacter;
+}
+
+bool CActor::getMustDisappear(void)
+{
+  return m_mustDisappear;
 }

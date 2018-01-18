@@ -104,7 +104,7 @@ void CServeur::initGame(int nombre_pnj, int nombre_evenement)
   // ajout des PNJs
   for(int i = 0; i < nombre_pnj; ++i)
   {
-    m_listEntite.push_back(std::make_unique<CActor>(i));
+    m_listEntite.push_back(std::make_unique<CActor>(i, &m_listEntite));
     m_listEntite[i].get()->setPosition(sf::Vector2f(CRandom::floatInRange(0.f, 2000.f), CRandom::floatInRange(0.f, 2000.f)));
     m_DonneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
   }
