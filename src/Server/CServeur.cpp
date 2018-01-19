@@ -45,8 +45,6 @@ void CServeur::connection(void)
 // UDP
 void CServeur::send(void)
 {
-  // initialisation des donnees de synchronisation
-
   // initialisation des donnees normal
   sf::Packet packet;
   std::vector<struct Donnees> listeDonnees;
@@ -92,21 +90,21 @@ void CServeur::send(void)
         // envoie
         while (m_listClient[i].socketTCP->send(packetInitGame) != sf::Socket::Done);
 
-        m_listClient[i].etat = 1;
+        m_listClient[i].etat = 99;
         break;
       }
-      case 1 : // envoie donnees de synchronisation
-      {
-        break;
-      }
-      case 2 : // envoie donnes normal
+      case 1 : // envoie donnes normal
       {
         udpSocket.send(packet, m_listClient[i].adresse, 55003);
         break;
       }
+      case 99 : // do nothing
+      {
+        break;
+      }
       default :
       {
-        std::cout << "probleme le client " << m_listClient[i].indice << "est a l'etat " << m_listClient[i].etat << std::endl;
+        std::cout << "PROBLEME le client " << m_listClient[i].indice << " est a l'etat " << m_listClient[i].etat << std::endl;
         break;
       }
     }
