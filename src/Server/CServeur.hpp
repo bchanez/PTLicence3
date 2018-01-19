@@ -47,6 +47,8 @@ class CServeur
     sf::UdpSocket udpSocket;
 
     struct Client {
+      unsigned int etat;
+      sf::TcpSocket *socketTCP;
       unsigned int indice;
       sf::IpAddress adresse;
       unsigned short port;
@@ -55,6 +57,7 @@ class CServeur
 
     //donnees
     std::vector<struct DonneesInit> m_DonneesInit;
+    std::vector<struct Donnees> m_Donnees;
 
     //game
     CMap m_map;

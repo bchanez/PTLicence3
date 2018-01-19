@@ -47,13 +47,13 @@ namespace State
 		sf::Packet packetInitGame;
 		if (m_TCPserver.receive(packetInitGame) != sf::Socket::Done)
 		{
-			LOG("erreur reception tcp\n");
+			LOG("reception tcp erreur\n");
 		}
 		else
 		{
 			LOG("reception tcp ok\n");
 		}
-		m_TCPserver.disconnect();
+	//	m_TCPserver.disconnect();
 
 		sf::Uint16 tailleDonnee;
 		struct DonneesInit donneesInit;
@@ -80,6 +80,17 @@ namespace State
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
 		CDisplay::getView()->setCenter(m_listEntite[m_indiceCharacter]->getPosition());
 		CDisplay::getWindow()->setView(* CDisplay::getView());
+
+		sf::Packet packet;
+		packet << (sf::Uint16) 2;
+		if (m_TCPserver.send(packet) != sf::Socket::Done)
+		{
+			LOG("envoie tcp error\n");
+		}
+		else
+		{
+			LOG("envoie tcp ok\n");
+		}
 	}
 
 	void CPlaying::input(sf::Event * event)
@@ -165,12 +176,13 @@ namespace State
 		}
 
 		receive();
-		
+
 		// update des entites
 		for (unsigned int i = 0; i < m_listEntite.size(); ++i)
 		{
 			if (m_listEntite[i]->getDonneesInit().classe == "CActor" && dynamic_cast<CActor *>(m_listEntite[i].get())->getMustDisappear())
 			{
+				std::cout  << "delete \n";
 				m_listEntite.erase(m_listEntite.begin() + i);
 				if (m_indiceCharacter > i)
 					m_indiceCharacter--;
@@ -227,8 +239,9 @@ namespace State
 
 	void CPlaying::receive(void)
 	{
+		std::cout << "recoie\n";
 			sf:: Uint16 tailleDonnee;
-			struct Donnees donnees; donnees.indice = 0;
+			struct Donnees donnees;
 			sf::Packet packet;
 			sf::IpAddress serveur;
 			unsigned short port;

@@ -29,6 +29,8 @@ namespace State
 			void update(float dt) override;
 			void draw() override;
 
+			sf::Thread * getThreadReceive();
+
 		private:
 
 			sf::IpAddress m_serveur;
@@ -38,7 +40,6 @@ namespace State
 			struct Donnees m_donnees;
 			void receive(void);
 			void send(void);
-
 
 			Key m_key;
 
