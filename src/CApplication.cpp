@@ -17,6 +17,9 @@
 /*virtual*/ CApplication::~CApplication(void)
 {
 	LOG("CApplication Destructor\n");
+
+	m_client.getThreadSend()->terminate();
+	m_client.getThreadReceive()->terminate();
 }
 
 void CApplication::runMainLoop(void)
