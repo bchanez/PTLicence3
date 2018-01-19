@@ -22,9 +22,6 @@ class CEntity : public CDrawable
 
     virtual void setAnimation(void) = 0;
 
-    int getState(void);
-    void setState(int);
-
     virtual void update(bool isServer, float dt) = 0;
     virtual void input(void) = 0;
 

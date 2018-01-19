@@ -18,6 +18,7 @@
 
   m_donnees.indice = 0;
   m_donnees.state = 0;
+  m_donnees.mustUpdatePosition = false;
   m_donnees.positionX = m_donnees.positionY = 0.f;
   m_donnees.keyLeft = m_donnees.keyRight = m_donnees.keyUp = m_donnees.keyDown = m_donnees.keyShift = m_donnees.mouseLeft = false;
 
@@ -44,16 +45,6 @@ void CEntity::setPosition(sf::Vector2f pos)
   m_sprite.setPosition(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
 }
 
-int CEntity::getState(void)
-{
-  return m_state;
-}
-
-void CEntity::setState(int state)
-{
-  m_state = state;
-}
-
 struct DonneesInit CEntity::getDonneesInit(void)
 {
   return m_donneesInit;
@@ -66,11 +57,18 @@ struct Donnees CEntity::getDonnees(void)
 
 void CEntity::setDonnees(struct Donnees d)
 {
+  m_donnees.state = d.state;
+
   m_donnees.keyLeft = d.keyLeft;
   m_donnees.keyRight = d.keyRight;
   m_donnees.keyUp = d.keyUp;
   m_donnees.keyDown = d.keyDown;
   m_donnees.keyShift = d.keyShift;
   m_donnees.mouseLeft = d.mouseLeft;
-  //m_donnees = d;
+
+  if(d.mustUpdatePosition)
+  {
+      m_donnees.positionX = d.positionX;
+      m_donnees.positionY = d.positionY;
+  }
 }

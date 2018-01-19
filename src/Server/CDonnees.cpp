@@ -32,7 +32,8 @@ sf::Packet& operator <<(sf::Packet& packet, const Donnees& d)
     return packet <<
       d.indice <<
       d.state <<
-      //d.positionX << d.positionY <<
+      d.mustUpdatePosition <<
+      d.positionX << d.positionY <<
       d.keyLeft << d.keyRight << d.keyUp << d.keyDown << d.keyShift << d.mouseLeft;
 }
 
@@ -41,7 +42,8 @@ sf::Packet& operator >>(sf::Packet& packet, Donnees& d)
   return packet >>
     d.indice >>
     d.state >>
-    //d.positionX >> d.positionY >>
+    d.mustUpdatePosition >>
+    d.positionX >> d.positionY >>
     d.keyLeft >> d.keyRight >> d.keyUp >> d.keyDown >> d.keyShift >> d.mouseLeft;
 }
 

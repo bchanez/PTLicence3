@@ -54,6 +54,9 @@ class CServeur
     std::vector<struct DonneesInit> m_DonneesInit;
     std::vector<struct Donnees> m_Donnees;
 
+    //tab pour syncro la position des entites tous les temps de frame
+    std::vector<unsigned int> m_synchroPosition;
+
     //game
     CMap m_map;
     std::vector<std::unique_ptr<CEntity>> m_listEntite; // joueur, pnj, evenement

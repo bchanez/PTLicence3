@@ -56,6 +56,14 @@ void CServeur::send(void)
     if(m_Donnees[i] != m_listEntite[i].get()->getDonnees())
     {
       m_Donnees[i] = m_listEntite[i].get()->getDonnees();
+
+      m_synchroPosition[i]++;
+      if(m_synchroPosition[i] == 8)
+      {
+        m_Donnees[i].mustUpdatePosition = true;
+        m_synchroPosition[i] = 0;
+      }
+
       listeDonnees.push_back(m_Donnees[i]);
     }
   }
@@ -155,6 +163,7 @@ void CServeur::initGame(int nombre_pnj, int nombre_evenement)
     m_listEntite[i].get()->setPosition(sf::Vector2f(CRandom::floatInRange(0.f, SIZE_MAP_X*SIZE_TILE), CRandom::floatInRange(0.f, SIZE_MAP_Y*SIZE_TILE)));
     m_DonneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
     m_Donnees.push_back(m_listEntite[i].get()->getDonnees());
+    m_synchroPosition.push_back(0);
   }
 
   // ajout des evenement
@@ -165,6 +174,7 @@ void CServeur::initGame(int nombre_pnj, int nombre_evenement)
     m_listEntite[i].get()->setPosition(sf::Vector2f(CRandom::floatInRange(0.f, SIZE_MAP_X*SIZE_TILE), CRandom::floatInRange(0.f, SIZE_MAP_Y*SIZE_TILE)));
     m_DonneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
     m_Donnees.push_back(m_listEntite[i].get()->getDonnees());
+    m_synchroPosition.push_back(0);
   }
 }
 

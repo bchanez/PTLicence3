@@ -17,6 +17,7 @@ struct Donnees
 {
   sf::Uint16 indice;
   sf::Uint16 state;
+  bool mustUpdatePosition;
   float positionX, positionY;
   bool keyLeft, keyRight, keyUp, keyDown, keyShift, mouseLeft;
 };

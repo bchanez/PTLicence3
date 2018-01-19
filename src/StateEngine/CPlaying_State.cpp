@@ -135,7 +135,6 @@ namespace State
 			m_donnees = donnees;
 			p << m_donnees;
 			m_client->addPacketToSend(p);
-			//m_client->send();
 		}
 	}
 
@@ -150,9 +149,8 @@ namespace State
 		}
 
 		// met a jour par rapport au donnees recu
-		//m_client->receive();
 		std::vector<sf::Packet> listePacket = m_client->getListPacketReceive();
-		for(unsigned int k = 0; k < listePacket.size();++k)
+		for(unsigned int k = 0; k < listePacket.size(); ++k)
 		{
 			sf::Uint16 tailleDonnee;
 			listePacket[k] >> tailleDonnee;

@@ -355,11 +355,6 @@ void CActor::input(void)
 
 void CActor::update(bool isServer, float dt)
 {
-  // if ( m_donneesInit.indice == 0)
-  // std::cout << m_donneesInit.indice << " " << getPosition().x << " " << getPosition().y << std::endl;
-  // if ( m_donneesInit.indice == 1)
-  // std::cout << m_donneesInit.indice << " " << getPosition().x << " " << getPosition().y << std::endl;
-
   switch (m_state)
   {
     case e_idle :
@@ -661,6 +656,7 @@ void CActor::update(bool isServer, float dt)
 void CActor::setIsCharacter(bool isCharacter)
 {
   m_isCharacter = isCharacter;
+  m_donnees.keyLeft = m_donnees.keyRight = m_donnees.keyUp = m_donnees.keyDown = m_donnees.keyShift = m_donnees.mouseLeft = false;
 }
 
 bool CActor::getMustDisappear(void)
