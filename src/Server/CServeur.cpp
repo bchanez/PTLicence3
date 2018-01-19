@@ -40,50 +40,14 @@ void CServeur::connection(void)
   {
     delete client;
   }
-
-  for (unsigned int i = 0; i < m_listClient.size(); ++i)
-  {
-    if (m_listClient[i].etat == 0)
-    {
-      // envoie les info au client pour creer la partie
-      sf::Packet packetInitGame;
-      dynamic_cast<CActor *>(m_listEntite[m_listClient.size() - 1].get())->setIsCharacter(true);
-      packetInitGame << (sf:: Uint16) (m_listClient.size() - 1);
-      packetInitGame << (sf:: Uint16) m_DonneesInit.size();
-      for(unsigned int i = 0; i < m_DonneesInit.size(); ++i)
-        packetInitGame << m_DonneesInit[i];
-
-      while (m_listClient[i].socketTCP->send(packetInitGame) != sf::Socket::Done);
-
-      m_listClient[i].etat = 1;
-    }
-
-
-    sf::Packet packet;
-    // recoie info client en tcp
-    if (m_listClient[i].socketTCP->receive(packet) == sf::Socket::Done)
-    {
-      sf:: Uint16 etat;
-      packet >> etat;
-      std::cout << " etat : " << etat << std::endl;
-      m_listClient[i].etat = etat;
-    }
-
-    // detruit client si deconnecte
-    if(m_listClient[i].socketTCP->receive(packet) == sf::Socket::Disconnected)
-    { exit(0);
-       std::cout<<"Client disconnected"<<std::endl;
-       m_listClient[i].socketTCP->disconnect();
-       delete(m_listClient[i].socketTCP);
-       m_listClient.erase(m_listClient.begin() + i);
-       i--;
-    }
-  }
 }
 
 // UDP
-void CServeur::sendUDP(void)
+void CServeur::send(void)
 {
+  // initialisation des donnees de synchronisation
+
+  // initialisation des donnees normal
   sf::Packet packet;
   std::vector<struct Donnees> listeDonnees;
 
@@ -104,26 +68,76 @@ void CServeur::sendUDP(void)
 
   for (unsigned int i = 0; i < m_listClient.size(); ++i)
   {
-    if(m_listClient[i].etat == 2)
+    switch(m_listClient[i].etat)
     {
-      std::cout << "envoieDonne\n";
-      udpSocket.send(packet, m_listClient[i].adresse, 55003);
+      case 0 : // envoie donnees d'initialisation de partie
+      {
+        // initialisation des donnees
+        std::cout << "le serveur envoie au client " << m_listClient[i].indice << " les donnees d'init de partie" << std::endl;
+        sf::Packet packetInitGame;
+        dynamic_cast<CActor *>(m_listEntite[m_listClient[i].indice].get())->setIsCharacter(true);
+        packetInitGame << (sf:: Uint16) (m_listClient[i].indice);
+        packetInitGame << (sf:: Uint16) m_DonneesInit.size();
+        for(unsigned int i = 0; i < m_DonneesInit.size(); ++i)
+          packetInitGame << m_DonneesInit[i];
+
+        // envoie
+        while (m_listClient[i].socketTCP->send(packetInitGame) != sf::Socket::Done);
+
+        m_listClient[i].etat = 1;
+        break;
+      }
+      case 1 : // envoie donnees de synchronisation
+      {
+        break;
+      }
+      case 2 : // envoie donnes normal
+      {
+        udpSocket.send(packet, m_listClient[i].adresse, 55003);
+        break;
+      }
+      default :
+      {
+        std::cout << "probleme le client " << m_listClient[i].indice << "est a l'etat " << m_listClient[i].etat << std::endl;
+        break;
+      }
     }
   }
 }
 
-void CServeur::receiveUDP(void)
+void CServeur::receive(void)
 {
-  sf::Packet packet;
   for (unsigned int i = 0; i < m_listClient.size(); ++i)
   {
+    sf::Packet packet;
     struct Donnees donnees;
     sf::IpAddress serveur;
     unsigned short port;
+
+    // recoie donnees de mise a jour des inputs du client
     if(udpSocket.receive(packet, serveur, port) == sf::Socket::Done)
     {
       packet >> donnees;
       m_listEntite[donnees.indice].get()->setDonnees(donnees);
+    }
+
+    // recoie un ordre du client
+    if (m_listClient[i].socketTCP->receive(packet) == sf::Socket::Done)
+    {
+      sf:: Uint16 etat;
+      packet >> etat;
+      std::cout << "le client " << m_listClient[i].indice << " se passe a l'etat " << etat << std::endl;
+      m_listClient[i].etat = etat;
+    }
+
+    // detruit client si deconnecte
+    if(m_listClient[i].socketTCP->receive(packet) == sf::Socket::Disconnected)
+    { exit(0);
+       std::cout<<"Client disconnected"<<std::endl;
+       m_listClient[i].socketTCP->disconnect();
+       delete(m_listClient[i].socketTCP);
+       m_listClient.erase(m_listClient.begin() + i);
+       i--;
     }
   }
 }
@@ -153,8 +167,10 @@ void CServeur::initGame(int nombre_pnj, int nombre_evenement)
   }
 }
 
-void CServeur::loopGame(void)
+void CServeur::loopServer(void)
 {
+  initGame(NB_PNJ, NB_STAND);
+
   while(1)
   {
     float dt = m_clock.restart().asSeconds();
@@ -168,8 +184,8 @@ void CServeur::loopGame(void)
       for (unsigned int i = 0; i < m_listEntite.size(); ++i)
         m_listEntite[i]->input();
 
-      receiveUDP();
-      sendUDP();
+      receive();
+      send();
 
       updateGame(fps_timer);
       fps_timer = 0.f;

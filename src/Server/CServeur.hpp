@@ -19,18 +19,13 @@ class CServeur
     explicit CServeur(void);
     virtual ~CServeur(void);
 
-    // TCP
     void connection(void);
-    void sendTCP(void);
-    void receiveTCP(void);
-
-    // UDP
-    void sendUDP(void);
-    void receiveUDP(void);
+    void send(void);
+    void receive(void);
 
     // methode pour la partie
     void initGame(int nombre_pnj, int nombre_evenement);
-    void loopGame(void);
+    void loopServer(void);
     void updateGame(float dt);
 
   private:

@@ -35,8 +35,7 @@ int main(int argc, char *argv[])
 	else
 	{
 		CServeur serveur;
-		serveur.initGame(NB_PNJ, NB_STAND);
-		serveur.loopGame();
+		serveur.loopServer();
 	}
 
 	return EXIT_SUCCESS;
