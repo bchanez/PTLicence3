@@ -7,8 +7,8 @@
 
 	m_state.insert(std::make_pair(EState::e_intro, std::make_unique<State::CIntro>(*this)));
 	m_state.insert(std::make_pair(EState::e_menu, std::make_unique<State::CMenu>(*this)));
-	m_state.insert(std::make_pair(EState::e_playing, std::make_unique<State::CPlaying>(*this)));
-	m_state.insert(std::make_pair(EState::e_pause, std::make_unique<State::CPause>(*this)));
+	m_state.insert(std::make_pair(EState::e_playing, std::make_unique<State::CPlaying>(*this, &m_client)));
+	m_state.insert(std::make_pair(EState::e_pause, std::make_unique<State::CPause>(*this, &m_client)));
 
 	m_currentScene = EState::e_intro;
 	dynamic_cast<State::CIntro *>(m_state[m_currentScene].get())->init();

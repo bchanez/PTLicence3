@@ -132,12 +132,13 @@ void CServeur::receive(void)
 
     // detruit client si deconnecte
     if(m_listClient[i].socketTCP->receive(packet) == sf::Socket::Disconnected)
-    { exit(0);
+    {
        std::cout<<"Client disconnected"<<std::endl;
        m_listClient[i].socketTCP->disconnect();
        delete(m_listClient[i].socketTCP);
        m_listClient.erase(m_listClient.begin() + i);
        i--;
+       break;
     }
   }
 }

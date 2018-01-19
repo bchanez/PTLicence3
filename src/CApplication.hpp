@@ -10,6 +10,7 @@
 #include "StateEngine/CMenu_State.hpp"
 #include "StateEngine/CPlaying_State.hpp"
 #include "StateEngine/CPause_State.hpp"
+#include "Server/CClient.hpp"
 
 // Inclusion cyclique
 
@@ -51,4 +52,6 @@ private:
 	EState m_currentScene;
 
 	sf::Clock m_clock;
+
+	CClient m_client;
 };

@@ -5,6 +5,7 @@
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/CButton.hpp"
 #include "../Tools/DEBUG.hpp"
+#include "../Server/CClient.hpp"
 
 namespace State
 {
@@ -13,7 +14,7 @@ namespace State
 			struct Key { bool escape; };
 
 		public:
-			explicit CPause(CApplication& application);
+			explicit CPause(CApplication& application, CClient * client);
 			virtual ~CPause();
 
 			void init(void);
@@ -22,6 +23,9 @@ namespace State
 			void draw() override;
 
 		private:
+			// client pour connecter avec le serveur
+			CClient * m_client;
+			
 			Key m_key;
 
 			sf::Sprite m_pause;

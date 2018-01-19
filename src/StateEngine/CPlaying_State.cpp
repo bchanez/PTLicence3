@@ -2,15 +2,12 @@
 
 namespace State
 {
-	/*explicit*/ CPlaying::CPlaying(CApplication & application)
+	/*explicit*/ CPlaying::CPlaying(CApplication & application, CClient * client)
 		: CGame_State(application)
 	{
 		LOG("CPlaying Constructor\n");
 
-		m_UDPserver.setBlocking(false);
-
-		//m_serveur = "192.168.43.26";
-		m_serveur = "localhost";
+		m_client = client;
 	}
 
 	/*virtual*/ CPlaying::~CPlaying()
@@ -36,32 +33,15 @@ namespace State
 
 		m_listEntite.clear();
 
-		m_UDPserver.bind(55003);
-		sf::Socket::Status status = m_TCPserver.connect(m_serveur, 55001);
-		if (status != sf::Socket::Done)
-		{
-		    LOG("erreur connection \n");
-				exit(0);
-		}
-
-		sf::Packet packetInitGame;
-		if (m_TCPserver.receive(packetInitGame) != sf::Socket::Done)
-		{
-			LOG("reception tcp erreur\n");
-		}
-		else
-		{
-			LOG("reception tcp ok\n");
-		}
-	//	m_TCPserver.disconnect();
+		m_client->connexion();
+		sf::Packet packetInitGame = m_client->receiveInitgame();
 
 		sf::Uint16 tailleDonnee;
-		struct DonneesInit donneesInit;
-
 		packetInitGame >>  m_indiceCharacter;
 		packetInitGame >>  tailleDonnee;
 		for(unsigned int i = 0; i < tailleDonnee; ++i)
 		{
+			struct DonneesInit donneesInit;
 			packetInitGame >> donneesInit;
 
 			if((donneesInit.classe).compare("CActor") == 0)
@@ -81,16 +61,7 @@ namespace State
 		CDisplay::getView()->setCenter(m_listEntite[m_indiceCharacter]->getPosition());
 		CDisplay::getWindow()->setView(* CDisplay::getView());
 
-		sf::Packet packet;
-		packet << (sf::Uint16) 2;
-		if (m_TCPserver.send(packet) != sf::Socket::Done)
-		{
-			LOG("envoie tcp error\n");
-		}
-		else
-		{
-			LOG("envoie tcp ok\n");
-		}
+		m_client->sendState(2);
 	}
 
 	void CPlaying::input(sf::Event * event)
@@ -160,8 +131,11 @@ namespace State
 		//envoie uniquement les touches si changements par rapport au ancienne donnees envoye
 		if(m_donnees != donnees)
 		{
+			sf::Packet p;
 			m_donnees = donnees;
-			send();
+			p << m_donnees;
+			m_client->addPacketToSend(p);
+			m_client->send();
 		}
 	}
 
@@ -175,21 +149,43 @@ namespace State
 			return;
 		}
 
-		receive();
-
-		// update des entites
-		for (unsigned int i = 0; i < m_listEntite.size(); ++i)
+		// met a jour par rapport au donnees recu
+		m_client->receive();
+		std::vector<sf::Packet> listePacket = m_client->getListPacketReceive();
+		// std::cout << listePacket.size() << std::endl;
+		for(unsigned int k = 0; k < listePacket.size();++k)
 		{
-			if (m_listEntite[i]->getDonneesInit().classe == "CActor" && dynamic_cast<CActor *>(m_listEntite[i].get())->getMustDisappear())
+			sf::Uint16 tailleDonnee;
+			listePacket[k] >> tailleDonnee;
+			for (unsigned int i = 0; i < tailleDonnee; ++i)
 			{
-				std::cout  << "delete \n";
-				m_listEntite.erase(m_listEntite.begin() + i);
-				if (m_indiceCharacter > i)
-					m_indiceCharacter--;
+				struct Donnees donnees;
+				listePacket[k] >> donnees;
+
+				for (unsigned int j = 0; j < m_listEntite.size(); ++j)
+					if(m_listEntite[j]->getDonnees().indice == donnees.indice)
+					{
+						m_listEntite[j]->setDonnees(donnees);
+						break;
+					}
 			}
 
-			m_listEntite[i]->update(false, dt);
+			// update des entites
+			for (unsigned int i = 0; i < m_listEntite.size(); ++i)
+			{
+				if (m_listEntite[i]->getDonneesInit().classe == "CActor" && dynamic_cast<CActor *>(m_listEntite[i].get())->getMustDisappear())
+				{
+					std::cout  << "delete \n";
+					m_listEntite.erase(m_listEntite.begin() + i);
+					if (m_indiceCharacter > i)
+						m_indiceCharacter--;
+				}
+
+				m_listEntite[i]->update(false, dt);
+			}
 		}
+
+		m_client->removePacketReceivedFromBeginingToIndice(listePacket.size());
 
 		// update de la profondeur des Entity
 		quickSort(m_listEntite, 0, (int)m_listEntite.size() - 1);
@@ -235,37 +231,5 @@ namespace State
 
 			quickSort(tableau, debut, droite);
 			quickSort(tableau, droite+1, fin);
-	}
-
-	void CPlaying::receive(void)
-	{
-		std::cout << "recoie\n";
-			sf:: Uint16 tailleDonnee;
-			struct Donnees donnees;
-			sf::Packet packet;
-			sf::IpAddress serveur;
-			unsigned short port;
-			if(m_UDPserver.receive(packet, serveur, port) == sf::Socket::Done)
-			{
-				packet >> tailleDonnee;
-				for (unsigned int i = 0; i < tailleDonnee; ++i)
-				{
-					packet >> donnees;
-
-					for (unsigned int j = 0; j < m_listEntite.size(); ++j)
-						if(m_listEntite[j]->getDonnees().indice == donnees.indice)
-						{
-							m_listEntite[j]->setDonnees(donnees);
-							break;
-						}
-				}
-			}
-	}
-
-	void CPlaying::send(void)
-	{
-			sf::Packet packet;
-			packet << m_donnees;
-			m_UDPserver.send(packet, m_serveur, 55002);
 	}
 }

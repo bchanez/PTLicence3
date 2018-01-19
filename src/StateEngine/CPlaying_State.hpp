@@ -10,6 +10,7 @@
 #include "../Entity/CMap.hpp"
 #include "../Entity/CActor.hpp"
 #include "../Entity/CEvent_pub.hpp"
+#include "../Server/CClient.hpp"
 #include "../Server/CDonnees.hpp"
 
 namespace State
@@ -19,7 +20,7 @@ namespace State
 			struct Key { bool escape; };
 
 		public:
-			explicit CPlaying(CApplication& application);
+			explicit CPlaying(CApplication& application, CClient * client);
 			virtual ~CPlaying();
 
 			void init(void);
@@ -29,17 +30,13 @@ namespace State
 			void update(float dt) override;
 			void draw() override;
 
-			sf::Thread * getThreadReceive();
-
 		private:
 
-			sf::IpAddress m_serveur;
+			// client pour connecter avec le serveur
+			CClient * m_client;
 
-			sf::TcpSocket m_TCPserver;
-			sf::UdpSocket m_UDPserver;
 			struct Donnees m_donnees;
 			void receive(void);
-			void send(void);
 
 			Key m_key;
 

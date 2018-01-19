@@ -1,12 +1,13 @@
 #include "CPause_State.hpp"
-#include <iostream>
 
 namespace State
 {
-  /*explicit*/ CPause::CPause(CApplication & application)
+  /*explicit*/ CPause::CPause(CApplication & application, CClient * client)
     : CGame_State(application)
   {
     LOG("CPause Constructor\n");
+
+    m_client = client;
 
     m_pause.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Pause));
 
