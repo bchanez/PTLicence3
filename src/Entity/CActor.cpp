@@ -543,7 +543,7 @@ void CActor::update(bool isServer, float dt)
           if ((*m_listEntite)[i]->getDonneesInit().classe == "CActor" && getPosition() != (*m_listEntite)[i]->getPosition())
             if (CCollision::collision(sf::FloatRect(getPosition().x - 20.f, getPosition().y - 20.f, 40.f, 40.f), (*m_listEntite)[i]->getPosition()))
             {
-              std::cout << "tue cible\n";
+              //std::cout << "tue cible\n";
               dynamic_cast<CActor *>((*m_listEntite)[i].get())->m_state = e_dead;
             }
         }

@@ -21,6 +21,10 @@
 
 void CApplication::runMainLoop(void)
 {
+	// lance les thread poru recevoir et envoyer les donnees
+	m_client.getThreadSend()->launch();
+	m_client.getThreadReceive()->launch();
+
 	while (CDisplay::isOpen())
 	{
 		float dt = m_clock.restart().asSeconds();

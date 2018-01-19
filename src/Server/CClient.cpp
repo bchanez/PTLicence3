@@ -1,7 +1,7 @@
 #include "CClient.hpp"
 
 /*explicit*/ CClient::CClient(void)
-
+: m_tSend(&CClient::send, this), m_tReceive(&CClient::receive, this)
 {
   LOG("CClient constructor");
   m_UDPserver.bind(55003);
@@ -60,22 +60,28 @@ void CClient::sendState(unsigned int state)
 
 void CClient::send(void)
 {
-  for (unsigned int i = 0; i < m_listPacketToSend.size(); ++i)
+  while(1)
   {
-    m_UDPserver.send(m_listPacketToSend[i], m_serveur, 55002);
-    m_listPacketToSend.erase(m_listPacketToSend.begin() + i);
-    i--;
+    for (unsigned int i = 0; i < m_listPacketToSend.size(); ++i)
+    {
+      m_UDPserver.send(m_listPacketToSend[i], m_serveur, 55002);
+      m_listPacketToSend.erase(m_listPacketToSend.begin() + i);
+      i--;
+    }
   }
 }
 
 void CClient::receive(void)
 {
-  sf::Packet packet;
-  sf::IpAddress serveur;
-  unsigned short port;
-  if(m_UDPserver.receive(packet, serveur, port) == sf::Socket::Done)
+  while(1)
   {
-    addPacketReceive(packet);
+    sf::Packet packet;
+    sf::IpAddress serveur;
+    unsigned short port;
+    if(m_UDPserver.receive(packet, serveur, port) == sf::Socket::Done)
+    {
+      addPacketReceive(packet);
+    }
   }
 }
 
@@ -100,4 +106,14 @@ void CClient::removePacketReceivedFromBeginingToIndice(unsigned int indice)
   {
     m_listPacketReceive.erase(m_listPacketReceive.begin() + i);
   }
+}
+
+sf::Thread * CClient::getThreadSend(void)
+{
+  return &m_tSend;
+}
+
+sf::Thread * CClient::getThreadReceive(void)
+{
+  return &m_tReceive;
 }

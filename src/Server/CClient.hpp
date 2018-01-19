@@ -27,6 +27,9 @@ class CClient
     std::vector<sf::Packet> getListPacketReceive(void);
     void removePacketReceivedFromBeginingToIndice(unsigned int indice);
 
+    sf::Thread * getThreadSend(void);
+    sf::Thread * getThreadReceive(void);
+
   private:
     sf::IpAddress m_serveur;
 
@@ -35,4 +38,7 @@ class CClient
 
     std::vector<sf::Packet> m_listPacketToSend;
     std::vector<sf::Packet> m_listPacketReceive;
+
+    sf::Thread m_tSend;
+    sf::Thread m_tReceive;
 };
