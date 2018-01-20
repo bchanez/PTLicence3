@@ -355,20 +355,20 @@ void CActor::input(void)
 
 void CActor::update(bool isServer, float dt)
 {
-  switch (m_state)
+  switch (m_donnees.state)
   {
     case e_idle :
     {
       if(m_donnees.keyLeft || m_donnees.keyRight || m_donnees.keyUp || m_donnees.keyDown)
       {
         if (!m_donnees.keyShift)
-          m_state = e_walk;
+          m_donnees.state = e_walk;
         else
-          m_state = e_run;
+          m_donnees.state = e_run;
       }
 
       if(m_donnees.mouseLeft)
-        m_state = e_attack;
+        m_donnees.state = e_attack;
 
       if (!m_isCharacter)
         if (CRandom::intInRange(0, 1000) == 0)
@@ -418,13 +418,13 @@ void CActor::update(bool isServer, float dt)
       }
 
       if(position == getPosition())
-        m_state = e_idle;
+        m_donnees.state = e_idle;
       else
         if(m_donnees.keyShift)
-          m_state = e_run;
+          m_donnees.state = e_run;
 
       if(m_donnees.mouseLeft)
-        m_state = e_attack;
+        m_donnees.state = e_attack;
 
 
       if (position != getPosition())
@@ -484,13 +484,13 @@ void CActor::update(bool isServer, float dt)
       }
 
       if(position == getPosition())
-        m_state = e_idle;
+        m_donnees.state = e_idle;
       else
         if(!m_donnees.keyShift)
-          m_state = e_walk;
+          m_donnees.state = e_walk;
 
       if(m_donnees.mouseLeft)
-        m_state = e_attack;
+        m_donnees.state = e_attack;
 
       if (position != getPosition())
       {
@@ -535,11 +535,11 @@ void CActor::update(bool isServer, float dt)
       {
         for (unsigned int i = 0; i < (*m_listEntite).size(); ++i)
         {
-          if ((*m_listEntite)[i]->getDonneesInit().classe == "CActor" && getDonnees().indice != (*m_listEntite)[i]->getDonnees().indice)
+          if ((*m_listEntite)[i]->getIsAlive() && getDonnees().indice != (*m_listEntite)[i]->getDonnees().indice)
             if (CCollision::collision(sf::FloatRect(getPosition().x - 20.f, getPosition().y - 20.f, 40.f, 40.f), (*m_listEntite)[i]->getPosition()))
             {
               std::cout << "tue cible\n";
-              dynamic_cast<CActor *>((*m_listEntite)[i].get())->m_state = e_dead;
+              dynamic_cast<CActor *>((*m_listEntite)[i].get())->m_donnees.state = e_dead;
             }
         }
       }
@@ -554,7 +554,7 @@ void CActor::update(bool isServer, float dt)
       if (m_knife.isLoopDone()){
         m_attack = false;
         m_timer = 0.f;
-        m_state = e_slow;
+        m_donnees.state = e_slow;
       }
 
       break;
@@ -616,7 +616,7 @@ void CActor::update(bool isServer, float dt)
       }
 
       if (m_timer > 1)
-        m_state = e_idle;
+        m_donnees.state = e_idle;
 
       break;
     }
@@ -635,10 +635,13 @@ void CActor::update(bool isServer, float dt)
 
     case e_dead :
     {
+      setIsAlive(false);
+      m_goal_point = sf::Vector2i(getPosition());
+
       m_timer += dt;
 
       if (m_timer > 2)
-        m_state = e_disappear;
+        m_donnees.state = e_disappear;
 
       break;
     }

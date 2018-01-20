@@ -2,7 +2,7 @@
 
 /*explicit*/ CServeur::CServeur(void)
 {
-  LOG("CServeur constructor");
+  LOG("CServeur constructor\n");
 
   listenerSocket.listen(55001);
   listenerSocket.setBlocking(false);
@@ -15,7 +15,7 @@
 
 /*virtual*/ CServeur::~CServeur(void)
 {
-  LOG("CServeur destructor");
+  LOG("CServeur destructor\n");
 }
 
 // TCP
@@ -209,6 +209,9 @@ void CServeur::updateGame(float dt)
   // update des entites
   for (unsigned int i = 0; i < m_listEntite.size(); ++i)
   {
+
+    // suppression des CActor qui doivent disparaitre
+
     m_listEntite[i]->update(true, dt);
     m_DonneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
   }

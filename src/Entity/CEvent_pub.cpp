@@ -10,7 +10,7 @@
 
   m_sprite.setOrigin(sf::Vector2f(100, 100));
 
-  m_state = e_idle;
+  m_donnees.state = e_idle;
 
   setTexture();
   setAnimation();
@@ -25,7 +25,7 @@
 
   m_sprite.setOrigin(sf::Vector2f(100, 100));
 
-  m_state = e_idle;
+  m_donnees.state = e_idle;
 
   setPosition(sf::Vector2f(donnees.positionX, donnees.positionY));
   setTexture();
@@ -66,7 +66,7 @@ void CEvent_pub::update(bool isServer, float dt)
 {
   (void)dt;
   (void)isServer;
-  switch (m_state)
+  switch (m_donnees.state)
   {
     case e_idle :
     {

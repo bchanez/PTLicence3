@@ -29,15 +29,19 @@ class CEntity : public CDrawable
     struct Donnees getDonnees(void);
     void setDonnees(struct Donnees d);
 
+    bool getIsAlive(void);
+    void setIsAlive(bool isAlive);
+
   protected:
 
     struct DonneesInit m_donneesInit;
     struct Donnees m_donnees;
 
+    bool m_isAlive;
+
     unsigned int m_move_speed;
 
     enum Estate {e_idle};
-    unsigned int m_state;
 
     enum Eorientation {e_right, e_left};
     unsigned int m_orientation;

@@ -49,7 +49,8 @@ sf::Packet& operator >>(sf::Packet& packet, Donnees& d)
 
 bool operator != (const struct Donnees& d1, const struct Donnees& d2)
 {
-  return d1.keyLeft != d2.keyLeft
+  return d1.state != d2.state
+    || d1.keyLeft != d2.keyLeft
     || d1.keyRight != d2.keyRight
     || d1.keyUp != d2.keyUp
     || d1.keyDown != d2.keyDown

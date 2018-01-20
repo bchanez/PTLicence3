@@ -3,7 +3,7 @@
 /*explicit*/ CClient::CClient(void)
 : m_tSend(&CClient::send, this), m_tReceive(&CClient::receive, this)
 {
-  LOG("CClient constructor");
+  LOG("CClient constructor\n");
   m_UDPserver.bind(55003);
   m_UDPserver.setBlocking(false);
 
@@ -13,7 +13,7 @@
 
 /*virtual*/ CClient::~CClient(void)
 {
-  LOG("CClient destructor");
+  LOG("CClient destructor\n");
 }
 
 void CClient::connexion(void)
@@ -104,7 +104,7 @@ void CClient::removePacketReceivedFromBeginingToIndice(unsigned int indice)
 {
   for(unsigned int i = 0; i < indice; ++i)
   {
-    m_listPacketReceive.erase(m_listPacketReceive.begin() + i);
+    m_listPacketReceive.erase(m_listPacketReceive.begin());
   }
 }
 

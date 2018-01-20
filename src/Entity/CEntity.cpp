@@ -22,9 +22,11 @@
   m_donnees.positionX = m_donnees.positionY = 0.f;
   m_donnees.keyLeft = m_donnees.keyRight = m_donnees.keyUp = m_donnees.keyDown = m_donnees.keyShift = m_donnees.mouseLeft = false;
 
+  m_isAlive = true;
+
   m_sprite.setPosition(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
 
-  m_state = e_idle;
+  m_donnees.state = e_idle;
   m_orientation = e_right;
 }
 
@@ -71,4 +73,14 @@ void CEntity::setDonnees(struct Donnees d)
       m_donnees.positionX = d.positionX;
       m_donnees.positionY = d.positionY;
   }
+}
+
+bool CEntity::getIsAlive(void)
+{
+  return m_isAlive;
+}
+
+void CEntity::setIsAlive(bool isAlive)
+{
+  m_isAlive = isAlive;
 }
