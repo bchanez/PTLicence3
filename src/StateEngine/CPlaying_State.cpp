@@ -143,6 +143,7 @@ namespace State
 		//update de la scene
 		if (m_key.escape)
 		{
+			m_client->sendState(99);
 			m_application->initPauseState();
 			m_application->changeState(EState::e_pause);
 			return;

@@ -5,7 +5,6 @@
 {
   LOG("CClient constructor\n");
   m_UDPserver.bind(55003);
-  m_UDPserver.setBlocking(false);
 
   //m_serveur = "192.168.43.26";
   m_serveur = "localhost";
@@ -27,6 +26,11 @@ void CClient::connexion(void)
   {
     LOG("connexion erreur\n");
   }
+}
+
+void CClient::deconnexion(void)
+{
+  m_TCPserver.disconnect();
 }
 
 sf::Packet CClient::receiveInitgame(void)

@@ -93,7 +93,30 @@ void CServeur::send(void)
         m_listClient[i].etat = 99;
         break;
       }
-      case 1 : // envoie donnes normal
+      case 1 :
+      {
+        sf::Packet packetSynchro;
+        std::vector<struct Donnees> listeDonneesSynchro;
+
+        for (unsigned int i = 0; i < m_listEntite.size(); ++i)
+        {
+          m_Donnees[i] = m_listEntite[i].get()->getDonnees();
+          m_Donnees[i].mustUpdatePosition = true;
+          listeDonneesSynchro.push_back(m_Donnees[i]);
+
+          packet << (sf:: Uint16) listeDonneesSynchro.size();
+          for(unsigned int i = 0; i < listeDonneesSynchro.size(); ++i)
+          {
+            packet << listeDonneesSynchro[i];
+          }
+
+          udpSocket.send(packet, m_listClient[i].adresse, 55003);
+
+          m_listClient[i].etat = 2;
+        }
+        break;
+      }
+      case 2 : // envoie donnes normal
       {
         udpSocket.send(packet, m_listClient[i].adresse, 55003);
         break;
@@ -211,6 +234,12 @@ void CServeur::updateGame(float dt)
   {
 
     // suppression des CActor qui doivent disparaitre
+    if (m_listEntite[i]->getDonneesInit().classe == "CActor" && dynamic_cast<CActor *>(m_listEntite[i].get())->getMustDisappear())
+    {
+      std::cout  << "delete \n";
+      m_listEntite.erase(m_listEntite.begin() + i);
+      m_synchroPosition.erase(m_synchroPosition.begin() + i);
+    }
 
     m_listEntite[i]->update(true, dt);
     m_DonneesInit.push_back(m_listEntite[i].get()->getDonneesInit());

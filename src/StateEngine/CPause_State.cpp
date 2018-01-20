@@ -71,12 +71,14 @@ namespace State
     // update scene
     if (m_key.escape || m_listButton[e_quitter]->action())
     {
+      m_client->deconnexion();
       m_application->initMenuState();
       m_application->changeState(EState::e_menu);
     }
 
     if (m_listButton[e_retour]->action())
     {
+      m_client->sendState(1);
       m_application->initPlayingState();
       m_application->changeState(EState::e_playing);
     }
