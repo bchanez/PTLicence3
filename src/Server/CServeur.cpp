@@ -34,6 +34,9 @@ void CServeur::connection(void)
     c.indice = m_listClient.size();
     c.adresse = client->getRemoteAddress();
     c.port = client->getRemotePort();
+    for(unsigned int i = 0; i < m_everyDonnees.size(); ++i)
+      c.synchroPosition.push_back(0);
+
     m_listClient.push_back(c);
   }
   else
@@ -45,33 +48,6 @@ void CServeur::connection(void)
 // UDP
 void CServeur::send(void)
 {
-  // initialisation des donnees normal
-  sf::Packet packet;
-  std::vector<struct Donnees> listeDonnees;
-
-  for (unsigned int i = 0; i < m_listEntite.size(); ++i)
-  {
-    if(m_Donnees[i] != m_listEntite[i].get()->getDonnees())
-    {
-      m_Donnees[i] = m_listEntite[i].get()->getDonnees();
-
-      m_synchroPosition[i]++;
-      if(m_synchroPosition[i] == 8)
-      {
-        m_Donnees[i].mustUpdatePosition = true;
-        m_synchroPosition[i] = 0;
-      }
-
-      listeDonnees.push_back(m_Donnees[i]);
-    }
-  }
-
-  packet << (sf:: Uint16) listeDonnees.size();
-  for(unsigned int i = 0; i < listeDonnees.size(); ++i)
-  {
-    packet << listeDonnees[i];
-  }
-
   for (unsigned int i = 0; i < m_listClient.size(); ++i)
   {
     switch(m_listClient[i].etat)
@@ -83,46 +59,39 @@ void CServeur::send(void)
         sf::Packet packetInitGame;
         dynamic_cast<CActor *>(m_listEntite[m_listClient[i].indice].get())->setIsCharacter(true);
         packetInitGame << (sf:: Uint16) (m_listClient[i].indice);
-        packetInitGame << (sf:: Uint16) m_DonneesInit.size();
-        for(unsigned int i = 0; i < m_DonneesInit.size(); ++i)
-          packetInitGame << m_DonneesInit[i];
+        packetInitGame << (sf:: Uint16) m_donneesInit.size();
+        for(unsigned int i = 0; i < m_donneesInit.size(); ++i)
+          packetInitGame << m_donneesInit[i];
 
         // envoie
         while (m_listClient[i].socketTCP->send(packetInitGame) != sf::Socket::Done);
 
-        m_listClient[i].etat = 99;
+        m_listClient[i].etat = 1;
         break;
       }
-      case 1 :
+      case 1 : // nothing
       {
-        sf::Packet packetSynchro;
-        std::vector<struct Donnees> listeDonneesSynchro;
-
-        for (unsigned int i = 0; i < m_listEntite.size(); ++i)
-        {
-          m_Donnees[i] = m_listEntite[i].get()->getDonnees();
-          m_Donnees[i].mustUpdatePosition = true;
-          listeDonneesSynchro.push_back(m_Donnees[i]);
-
-          packet << (sf:: Uint16) listeDonneesSynchro.size();
-          for(unsigned int i = 0; i < listeDonneesSynchro.size(); ++i)
-          {
-            packet << listeDonneesSynchro[i];
-          }
-
-          udpSocket.send(packet, m_listClient[i].adresse, 55003);
-
-          m_listClient[i].etat = 2;
-        }
         break;
       }
       case 2 : // envoie donnes normal
       {
+        // initialisation des donnees normal
+        for(unsigned int j = 0; j < m_everyDonnees.size(); ++j)
+        {
+          m_donnees.push_back(m_everyDonnees[j]);
+          if(m_listClient[i].synchroPosition[j] >= 8)
+          {
+              m_donnees[m_donnees.size() - 1].mustUpdatePosition = true;
+              m_listClient[i].synchroPosition[j] = 0;
+          }
+        }
+
+        sf::Packet packet;
+        packet << (sf:: Uint16) m_donnees.size();
+        for(unsigned int j = 0; j < m_donnees.size(); ++j)
+          packet << m_donnees[j];
+
         udpSocket.send(packet, m_listClient[i].adresse, 55003);
-        break;
-      }
-      case 99 : // do nothing
-      {
         break;
       }
       default :
@@ -132,6 +101,9 @@ void CServeur::send(void)
       }
     }
   }
+
+  m_donneesInit.clear();
+  m_donnees.clear();
 }
 
 void CServeur::receive(void)
@@ -182,9 +154,8 @@ void CServeur::initGame(int nombre_pnj, int nombre_evenement)
   {
     m_listEntite.push_back(std::make_unique<CActor>(i, &m_listEntite));
     m_listEntite[i].get()->setPosition(sf::Vector2f(CRandom::floatInRange(0.f, SIZE_MAP_X*SIZE_TILE), CRandom::floatInRange(0.f, SIZE_MAP_Y*SIZE_TILE)));
-    m_DonneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
-    m_Donnees.push_back(m_listEntite[i].get()->getDonnees());
-    m_synchroPosition.push_back(0);
+    m_donneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
+    m_everyDonnees.push_back(m_listEntite[i].get()->getDonnees());
   }
 
   // ajout des evenement
@@ -193,9 +164,8 @@ void CServeur::initGame(int nombre_pnj, int nombre_evenement)
   {
     m_listEntite.push_back(std::make_unique<CEvent_pub>(i));
     m_listEntite[i].get()->setPosition(sf::Vector2f(CRandom::floatInRange(0.f, SIZE_MAP_X*SIZE_TILE), CRandom::floatInRange(0.f, SIZE_MAP_Y*SIZE_TILE)));
-    m_DonneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
-    m_Donnees.push_back(m_listEntite[i].get()->getDonnees());
-    m_synchroPosition.push_back(0);
+    m_donneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
+    m_everyDonnees.push_back(m_listEntite[i].get()->getDonnees());
   }
 }
 
@@ -227,21 +197,30 @@ void CServeur::loopServer(void)
 
 void CServeur::updateGame(float dt)
 {
-  m_DonneesInit.clear();
-
   // update des entites
   for (unsigned int i = 0; i < m_listEntite.size(); ++i)
   {
-
     // suppression des CActor qui doivent disparaitre
     if (m_listEntite[i]->getDonneesInit().classe == "CActor" && dynamic_cast<CActor *>(m_listEntite[i].get())->getMustDisappear())
     {
       std::cout  << "delete \n";
       m_listEntite.erase(m_listEntite.begin() + i);
-      m_synchroPosition.erase(m_synchroPosition.begin() + i);
+      m_everyDonnees.erase(m_everyDonnees.begin() + i);
+      for (unsigned int j = 0; j < m_listClient.size(); ++j)
+        m_listClient[j].synchroPosition.erase(m_listClient[j].synchroPosition.begin() + i);
     }
 
     m_listEntite[i]->update(true, dt);
-    m_DonneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
+
+    // met a jour les donnees d'envoie pour la creation d'une partie si un joueur se connecte
+    m_donneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
+
+    // met a jour les donnees d'envoie courrante
+    if(m_everyDonnees[i] != m_listEntite[i].get()->getDonnees())
+    {
+      m_everyDonnees[i] = m_listEntite[i].get()->getDonnees();
+      for (unsigned int j = 0; j < m_listClient.size(); ++j)
+        m_listClient[j].synchroPosition[i]++;
+    }
   }
 }

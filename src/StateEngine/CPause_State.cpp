@@ -78,7 +78,7 @@ namespace State
 
     if (m_listButton[e_retour]->action())
     {
-      m_client->sendState(1);
+      m_client->sendState(2);
       m_application->initPlayingState();
       m_application->changeState(EState::e_playing);
     }

@@ -61,7 +61,7 @@ namespace State
 		CDisplay::getView()->setCenter(m_listEntite[m_indiceCharacter]->getPosition());
 		CDisplay::getWindow()->setView(* CDisplay::getView());
 
-		m_client->sendState(1);
+		m_client->sendState(2);
 	}
 
 	void CPlaying::input(sf::Event * event)
@@ -143,7 +143,7 @@ namespace State
 		//update de la scene
 		if (m_key.escape)
 		{
-			m_client->sendState(99);
+			m_client->sendState(1);
 			m_application->initPauseState();
 			m_application->changeState(EState::e_pause);
 			return;

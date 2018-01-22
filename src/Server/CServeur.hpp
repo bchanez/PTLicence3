@@ -47,20 +47,17 @@ class CServeur
       unsigned int indice;
       sf::IpAddress adresse;
       unsigned short port;
+      std::vector<unsigned int> synchroPosition; //tab pour syncro la position des entites tous les temps de frame
     };
     std::vector<Client> m_listClient;
 
     //donnees
-    std::vector<struct DonneesInit> m_DonneesInit;
-    std::vector<struct Donnees> m_Donnees;
-
-    //tab pour syncro la position des entites tous les temps de frame
-    std::vector<unsigned int> m_synchroPosition;
+    std::vector<struct DonneesInit> m_donneesInit; // donnees pour initialiser une partie
+    std::vector<struct Donnees> m_everyDonnees; // toutes les donnees de chaque CEntity
+    std::vector<struct Donnees> m_donnees; // donnees d'envoie
 
     //game
     CMap m_map;
     std::vector<std::unique_ptr<CEntity>> m_listEntite; // joueur, pnj, evenement
-
-    void quickSort(std::vector<std::unique_ptr<CEntity>>& tableau, int debut, int fin);
 
 };
