@@ -7,6 +7,7 @@
 #include <SFML/Network.hpp>
 #include "../Tools/DEBUG.hpp"
 #include "CDonnees.hpp"
+#include "../CConfig.hpp"
 
 class CClient
 {
@@ -16,7 +17,7 @@ class CClient
 
     void connexion(void);
     void deconnexion(void);
-    
+
     sf::Packet receiveInitgame(void);
     void sendState(unsigned int state);
 
