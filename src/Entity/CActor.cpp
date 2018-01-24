@@ -648,7 +648,7 @@ void CActor::update(bool isServer, float dt)
 
     case e_disappear :
     {
-
+      m_mustDisappear = true;
       break;
     }
 
