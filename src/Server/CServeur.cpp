@@ -186,7 +186,6 @@ void CServeur::initGame(int nombre_pnj, int nombre_evenement)
 void CServeur::loopServer(void)
 {
   initGame(NB_PNJ, NB_STAND);
-
   while(1)
   {
     float dt = m_clock.restart().asSeconds();

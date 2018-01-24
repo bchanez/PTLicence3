@@ -59,6 +59,13 @@ struct Donnees CEntity::getDonnees(void)
 
 void CEntity::setDonnees(struct Donnees d)
 {
+  std::cout <<
+  d.indice << " " <<
+  d.state << " " <<
+  d.mustUpdatePosition << " " <<
+  d.positionX << " " << d.positionY << " " <<
+  d.keyLeft << " " << d.keyRight << " " << d.keyUp << " " << d.keyDown << " " << d.keyShift << " " << d.mouseLeft << std::endl;
+
   m_donnees.state = d.state;
 
   m_donnees.keyLeft = d.keyLeft;

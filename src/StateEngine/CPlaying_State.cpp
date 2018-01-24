@@ -132,7 +132,12 @@ namespace State
 		if(m_donnees != donnees)
 		{
 			sf::Packet p;
-			m_donnees = donnees;
+			m_donnees = donnees;std::cout <<
+			m_donnees.indice << " " <<
+			m_donnees.state << " " <<
+			m_donnees.mustUpdatePosition << " " <<
+			m_donnees.positionX << " " << m_donnees.positionY << " " <<
+			m_donnees.keyLeft << " " << m_donnees.keyRight << " " << m_donnees.keyUp << " " << m_donnees.keyDown << " " << m_donnees.keyShift << " " << m_donnees.mouseLeft << std::endl;
 			p << m_donnees;
 			m_client->addPacketToSend(p);
 		}

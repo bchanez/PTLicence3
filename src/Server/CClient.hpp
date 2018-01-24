@@ -16,7 +16,7 @@ class CClient
 
     void connexion(void);
     void deconnexion(void);
-    
+
     sf::Packet receiveInitgame(void);
     void sendState(unsigned int state);
 
