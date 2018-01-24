@@ -6,8 +6,8 @@
   LOG("CClient constructor\n");
   m_UDPserver.bind(55003);
 
-  //m_serveur = "192.168.43.49";
-  m_serveur = "localhost";
+  m_serveur = "192.168.43.26";
+  //m_serveur = "localhost";
 }
 
 /*virtual*/ CClient::~CClient(void)
