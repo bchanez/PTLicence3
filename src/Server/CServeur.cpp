@@ -75,23 +75,36 @@ void CServeur::send(void)
       }
       case 2 : // envoie donnes normal
       {
-        // initialisation des donnees normal
+        sf::Packet packet;
+        packet << (sf:: Uint16) m_listClient[i].donnees.size();
+        for(unsigned int j = 0; j < m_listClient[i].donnees.size(); ++j)
+          packet << m_listClient[i].donnees[j];
+
+        udpSocket.send(packet, m_listClient[i].adresse, 55003);
+        break;
+      }
+      case 3 : // envoie de toutes les donnees a synchro (debut de partie au pause)
+      {
+        m_listClient[i].donnees.clear();
+
         for(unsigned int j = 0; j < m_everyDonnees.size(); ++j)
         {
-          m_donnees.push_back(m_everyDonnees[j]);
           if(m_listClient[i].synchroPosition[j] >= 8)
           {
-              m_donnees[m_donnees.size() - 1].mustUpdatePosition = true;
+              m_listClient[i].donnees.push_back(m_everyDonnees[j]);
+              m_listClient[i].donnees[m_listClient[i].donnees.size() - 1].mustUpdatePosition = true;
               m_listClient[i].synchroPosition[j] = 0;
           }
         }
 
         sf::Packet packet;
-        packet << (sf:: Uint16) m_donnees.size();
-        for(unsigned int j = 0; j < m_donnees.size(); ++j)
-          packet << m_donnees[j];
+        packet << (sf:: Uint16) m_listClient[i].donnees.size();
+        for(unsigned int j = 0; j < m_listClient[i].donnees.size(); ++j)
+          packet << m_listClient[i].donnees[j];
 
         udpSocket.send(packet, m_listClient[i].adresse, 55003);
+
+        m_listClient[i].etat = 2;
         break;
       }
       default :
@@ -100,10 +113,11 @@ void CServeur::send(void)
         break;
       }
     }
+
+    m_listClient[i].donnees.clear();
   }
 
   m_donneesInit.clear();
-  m_donnees.clear();
 }
 
 void CServeur::receive(void)
@@ -220,7 +234,16 @@ void CServeur::updateGame(float dt)
     {
       m_everyDonnees[i] = m_listEntite[i].get()->getDonnees();
       for (unsigned int j = 0; j < m_listClient.size(); ++j)
+      {
+        m_listClient[j].donnees.push_back(m_everyDonnees[i]);
         m_listClient[j].synchroPosition[i]++;
+        if(m_listClient[j].synchroPosition[i] >= 8)
+        {
+            m_listClient[j].donnees[m_listClient[j].donnees.size() - 1].mustUpdatePosition = true;
+            if (m_listClient[j].etat == 2)
+              m_listClient[j].synchroPosition[i] = 0;
+        }
+      }
     }
   }
 }

@@ -48,13 +48,13 @@ class CServeur
       sf::IpAddress adresse;
       unsigned short port;
       std::vector<unsigned int> synchroPosition; //tab pour syncro la position des entites tous les temps de frame
+      std::vector<struct Donnees> donnees; // donnees d'envoie
     };
     std::vector<Client> m_listClient;
 
     //donnees
     std::vector<struct DonneesInit> m_donneesInit; // donnees pour initialiser une partie
     std::vector<struct Donnees> m_everyDonnees; // toutes les donnees de chaque CEntity
-    std::vector<struct Donnees> m_donnees; // donnees d'envoie
 
     //game
     CMap m_map;

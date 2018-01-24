@@ -61,7 +61,7 @@ namespace State
 		CDisplay::getView()->setCenter(m_listEntite[m_indiceCharacter]->getPosition());
 		CDisplay::getWindow()->setView(* CDisplay::getView());
 
-		m_client->sendState(2);
+		m_client->sendState(3);
 	}
 
 	void CPlaying::input(sf::Event * event)
