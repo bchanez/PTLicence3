@@ -7,6 +7,7 @@
 #include <SFML/Network.hpp>
 #include "../Tools/DEBUG.hpp"
 #include "CDonnees.hpp"
+#include "../CConfig.hpp"
 
 class CClient
 {
