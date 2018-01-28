@@ -1,6 +1,6 @@
 #include "CDonnees.hpp"
 
-sf::Packet& operator <<(sf::Packet& packet, const DonneesInit& d)
+sf::Packet& operator <<(sf::Packet& packet, const DonneesInit& d) //Données dans paquet
 {
   packet << d.indice << d.state << d.classe;
   for (int i = 0; i < 4; ++i)
@@ -14,7 +14,7 @@ sf::Packet& operator <<(sf::Packet& packet, const DonneesInit& d)
 }
 
 
-sf::Packet& operator >>(sf::Packet& packet, DonneesInit& d)
+sf::Packet& operator >>(sf::Packet& packet, DonneesInit& d) //Paquet dans données
 {
   packet >> d.indice >> d.state >> d.classe;
   for (int i = 0; i < 4; ++i)
@@ -27,7 +27,7 @@ sf::Packet& operator >>(sf::Packet& packet, DonneesInit& d)
   return packet;
 }
 
-sf::Packet& operator <<(sf::Packet& packet, const Donnees& d)
+sf::Packet& operator <<(sf::Packet& packet, const Donnees& d) //idem
 {
     return packet <<
       d.indice <<

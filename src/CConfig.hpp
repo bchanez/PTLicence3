@@ -1,4 +1,5 @@
 #pragma once
+//Eviter de faire le ifdefine (depuis C++ 11)
 
 #define SIZE_TILE 40
 #define SIZE_MAP_X 25

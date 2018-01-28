@@ -8,7 +8,7 @@ namespace State
   {
     LOG("CMenu Constructor\n");
 
-    m_menu.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Menu));
+    m_menu.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Menu)); //Init texture
 
     // bouton jouer
     m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_Jouer), sf::Vector2f(860,500), sf::Vector2f(200,80)));

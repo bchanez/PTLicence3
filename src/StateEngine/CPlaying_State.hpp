@@ -35,12 +35,12 @@ namespace State
 			// client pour connecter avec le serveur
 			CClient * m_client;
 
-			struct Donnees m_donnees;
-			void receive(void);
+			struct Donnees m_donnees; //Pour les données du client
+			void receive(void); //Nani?! 
 
 			Key m_key;
 
-			void quickSort(std::vector<std::unique_ptr<CEntity>>& tableau, int debut, int fin);
+			void quickSort(std::vector<std::unique_ptr<CEntity>>& tableau, int debut, int fin); //Pour gérer la profondeur 
 
 
 			CMap m_map;

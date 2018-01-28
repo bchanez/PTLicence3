@@ -7,7 +7,7 @@ namespace State
   {
     LOG("CPause Constructor\n");
 
-    m_client = client;
+    m_client = client;  //ajout du client
 
     m_pause.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Pause));
 
@@ -31,6 +31,7 @@ namespace State
       for (unsigned int i = 0; i < m_listButton.size(); ++i)
         m_listButton[i]->init();
 
+      //Recentre la vue (différente de en jeu)
       CDisplay::getView()->setSize(1920.f, 1080.f);
       CDisplay::getView()->setCenter(1920.f/2, 1080.f/2);
       CDisplay::getWindow()->setView(* CDisplay::getView());
@@ -71,7 +72,7 @@ namespace State
     // update scene
     if (m_key.escape || m_listButton[e_quitter]->action())
     {
-      m_client->deconnexion();
+      m_client->deconnexion();  //Déco du client si quitter
       m_application->initMenuState();
       m_application->changeState(EState::e_menu);
     }
@@ -79,8 +80,8 @@ namespace State
     if (m_listButton[e_retour]->action())
     {
       m_application->initPlayingState();
-      m_application->changeState(EState::e_playing);
-      m_client->sendState(3);
+      m_application->changeState(EState::e_playing); //Etat en jeu
+      m_client->sendState(3); //En jeu, synchro totale pour le serveur
     }
   }
 

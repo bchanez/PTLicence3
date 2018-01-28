@@ -52,5 +52,5 @@ class CActor : public CEntity
     sf::Vector2f m_stop;
     sf::Vector2i m_goal_point;
 
-    std::vector<std::unique_ptr<CEntity>> * m_listEntite;
+    std::vector<std::unique_ptr<CEntity>> * m_listEntite; //Le joueur a accès à chaque entité
 };

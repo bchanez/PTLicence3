@@ -1,7 +1,7 @@
 #include "CClient.hpp"
 
 /*explicit*/ CClient::CClient(void)
-: m_tSend(&CClient::send, this), m_tReceive(&CClient::receive, this)
+: m_tSend(&CClient::send, this), m_tReceive(&CClient::receive, this) //Init des threads du clients
 {
   LOG("CClient constructor\n");
   m_UDPserver.bind(55003);
@@ -50,7 +50,7 @@ sf::Packet CClient::receiveInitgame(void)
 void CClient::sendState(unsigned int state)
 {
   sf::Packet packet;
-  packet << (sf::Uint16) state;
+  packet << (sf::Uint16) state; //Envoie Etat par paquet (TCP car important)
   if (m_TCPserver.send(packet) == sf::Socket::Done)
   {
     LOG("envoie etat tcp ok\n");
@@ -63,7 +63,7 @@ void CClient::sendState(unsigned int state)
 
 void CClient::send(void)
 {
-  while(1)
+  while(1) //Boucle while car thread
   {
     for (unsigned int i = 0; i < m_listPacketToSend.size(); ++i)
     {
@@ -76,7 +76,7 @@ void CClient::send(void)
 
 void CClient::receive(void)
 {
-  while(1)
+  while(1) //Pareil que send
   {
     sf::Packet packet;
     sf::IpAddress serveur;
@@ -88,22 +88,22 @@ void CClient::receive(void)
   }
 }
 
-void CClient::addPacketToSend(sf::Packet p)
+void CClient::addPacketToSend(sf::Packet p) //Ajoute le paquet au tableau
 {
   m_listPacketToSend.push_back(p);
 }
 
-void CClient::addPacketReceive(sf::Packet p)
+void CClient::addPacketReceive(sf::Packet p) //Idem
 {
   m_listPacketReceive.push_back(p);
 }
 
-std::vector<sf::Packet> CClient::getListPacketReceive(void)
+std::vector<sf::Packet> CClient::getListPacketReceive(void) //On renvoit la liste de paquets
 {
   return m_listPacketReceive;
 }
 
-void CClient::removePacketReceivedFromBeginingToIndice(unsigned int indice)
+void CClient::removePacketReceivedFromBeginingToIndice(unsigned int indice) // supprime l sous-liste de paquet à partir de l'indice indice
 {
   for(unsigned int i = 0; i < indice; ++i)
   {
@@ -111,12 +111,12 @@ void CClient::removePacketReceivedFromBeginingToIndice(unsigned int indice)
   }
 }
 
-sf::Thread * CClient::getThreadSend(void)
+sf::Thread * CClient::getThreadSend(void) //Thread (CApplication)
 {
   return &m_tSend;
 }
 
-sf::Thread * CClient::getThreadReceive(void)
+sf::Thread * CClient::getThreadReceive(void) //Idem
 {
   return &m_tReceive;
 }

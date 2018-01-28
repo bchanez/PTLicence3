@@ -20,9 +20,9 @@ namespace State
 			void draw() override;
 
 		private:
-			bool m_key;
+			bool m_key;		//On utilise une touche
 
-			sf::Sprite m_intro;
-			CAnimation m_animation;
+			sf::Sprite m_intro;	//Image de fond
+			CAnimation m_animation; //Animation (tourne en boucle)
 	};
 }

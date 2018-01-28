@@ -34,10 +34,10 @@ class CApplication
 {
 public:
 
-	explicit CApplication(void);
-	virtual ~CApplication(void);
+	explicit CApplication(void);	//Constructeur
+	virtual ~CApplication(void);	//Destructeur
 
-	void runMainLoop(void);
+	void runMainLoop(void);				//Lance en boucle
 
 	void initIntroState(void);
 	void initMenuState(void);
@@ -49,9 +49,9 @@ public:
 
 private:
 	std::map <EState, std::unique_ptr<State::CGame_State>> m_state;
-	EState m_currentScene;
+	EState m_currentScene;		//Scene courant (pause, menu, jeu, etc...)
 
 	sf::Clock m_clock;
 
-	CClient m_client;
+	CClient m_client;		//Quand on va init le côté client
 };

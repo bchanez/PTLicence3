@@ -14,14 +14,14 @@ namespace State
 	{
 		LOG("CPlaying Destructor\n");
 
-		m_listEntite.clear();
+		m_listEntite.clear(); //Au cas où si ce ce n'est pas détruit ou en cas d'erreurs
 	}
 
 	void CPlaying::init(void)
 	{
 		 m_key.escape = false;
 
-		// centre la vue sur la position du personnage
+		// centre la vue sur la position du personnage (Diviser par deux et zoomé)
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
 	  CDisplay::getView()->setCenter(m_listEntite[m_indiceCharacter].get()->getPosition());
 	  CDisplay::getWindow()->setView(* CDisplay::getView());
@@ -42,7 +42,7 @@ namespace State
 		for(unsigned int i = 0; i < tailleDonnee; ++i)
 		{
 			struct DonneesInit donneesInit;
-			packetInitGame >> donneesInit;
+			packetInitGame >> donneesInit; //On met le paquet dans les donnes
 
 			if((donneesInit.classe).compare("CActor") == 0)
 			{
@@ -54,19 +54,19 @@ namespace State
 			}
 		}
 
-		dynamic_cast<CActor *>(m_listEntite[m_indiceCharacter].get())->setIsCharacter(true);
+		dynamic_cast<CActor *>(m_listEntite[m_indiceCharacter].get())->setIsCharacter(true); //Cast; Pour le PNJ à l'indice du joueur, on dit que c'est un joueur
 
 		// centre la vue sur la position du personnage
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
 		CDisplay::getView()->setCenter(m_listEntite[m_indiceCharacter]->getPosition());
 		CDisplay::getWindow()->setView(* CDisplay::getView());
 
-		m_client->sendState(3);
+		m_client->sendState(3); //Synchro totale pour le temps qu'il a mis a créer
 	}
 
 	void CPlaying::input(sf::Event * event)
 	{
-		m_donnees = m_listEntite[m_indiceCharacter].get()->getDonnees();
+		m_donnees = m_listEntite[m_indiceCharacter].get()->getDonnees(); //On prend les données du perso qu'on dirige
 		struct Donnees donnees = m_donnees;
 
     if((* event).type == sf::Event::KeyPressed)
@@ -143,13 +143,13 @@ namespace State
 		//update de la scene
 		if (m_key.escape)
 		{
-			m_client->sendState(1);
+			m_client->sendState(1); //On ne fait rien (pas de réception de données)
 			m_application->initPauseState();
 			m_application->changeState(EState::e_pause);
 			return;
 		}
 
-		// met a jour par rapport au donnees recu
+		// met a jour par rapport aux donnees recues
 		std::vector<sf::Packet> listePacket = m_client->getListPacketReceive();
 		for(unsigned int k = 0; k < listePacket.size(); ++k)
 		{
@@ -175,7 +175,7 @@ namespace State
 				{
 					std::cout  << "delete \n";
 					m_listEntite.erase(m_listEntite.begin() + i);
-					if (m_indiceCharacter > i)
+					if (m_indiceCharacter > i) //On décale si le perso est après le mort
 						m_indiceCharacter--;
 				}
 

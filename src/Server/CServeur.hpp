@@ -16,11 +16,11 @@
 class CServeur
 {
   public:
-    explicit CServeur(void);
-    virtual ~CServeur(void);
+    explicit CServeur(void);  //Constructeur
+    virtual ~CServeur(void);  //Destructeur (avec le ~ devant)
 
-    void connection(void);
-    void send(void);
+    void connection(void);    //Créer la conneciont (attend un client et s'il est accepté l'ajoute à un tableau de clients)
+    void send(void);          //Envoyer des paquets soit en UDP soit en TCP
     void receive(void);
 
     // methode pour la partie
@@ -50,7 +50,7 @@ class CServeur
       std::vector<unsigned int> synchroPosition; //tab pour syncro la position des entites tous les temps de frame
       std::vector<struct Donnees> donnees; // donnees d'envoie
     };
-    std::vector<Client> m_listClient;
+    std::vector<Client> m_listClient;   //Tableau de clients
 
     //donnees
     std::vector<struct DonneesInit> m_donneesInit; // donnees pour initialiser une partie

@@ -23,9 +23,9 @@ namespace State
 			void draw() override;
 
 		private:
-			// client pour connecter avec le serveur
+			// client pour connecter avec le serveur (pointeur)
 			CClient * m_client;
-			
+
 			Key m_key;
 
 			sf::Sprite m_pause;

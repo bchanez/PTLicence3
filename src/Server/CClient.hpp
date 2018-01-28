@@ -18,7 +18,7 @@ class CClient
     void connexion(void);
     void deconnexion(void);
 
-    sf::Packet receiveInitgame(void);
+    sf::Packet receiveInitgame(void); //Reçoie les paquets
     void sendState(unsigned int state);
 
     void send(void);
@@ -39,8 +39,8 @@ class CClient
     sf::TcpSocket m_TCPserver;
     sf::UdpSocket m_UDPserver;
 
-    std::vector<sf::Packet> m_listPacketToSend;
-    std::vector<sf::Packet> m_listPacketReceive;
+    std::vector<sf::Packet> m_listPacketToSend;   //Liste de paquets
+    std::vector<sf::Packet> m_listPacketReceive;  //Liste de paquets
 
     sf::Thread m_tSend;
     sf::Thread m_tReceive;

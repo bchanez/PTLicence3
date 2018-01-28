@@ -7,6 +7,7 @@
 #include "Tools/CRandom.hpp"
 #include "CConfig.hpp"
 
+//ARG=r => Serveur
 int main(int argc, char *argv[])
 {
 
@@ -25,6 +26,7 @@ int main(int argc, char *argv[])
 					break;
 			}
 
+	//Seed du random
 	CRandom::init();
 
 	if (!choice)
