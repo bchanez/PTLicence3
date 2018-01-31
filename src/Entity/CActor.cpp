@@ -377,7 +377,7 @@ void CActor::update(bool isServer, float dt)
 
       if (isServer && !m_evenement && !m_isCharacter)
         if (CRandom::intInRange(0, 1000) == 0)
-          m_goal_point = sf::Vector2i(CRandom::intInRange(0, SIZE_MAP_X*SIZE_TILE), CRandom::intInRange(0, SIZE_MAP_Y*SIZE_TILE));
+          m_goal_point = sf::Vector2i(CRandom::intInRange(SIZE_TILE, (SIZE_MAP_X-1)*SIZE_TILE), CRandom::intInRange(SIZE_TILE, (SIZE_MAP_Y-1)*SIZE_TILE));
 
 
       if (!isServer)
@@ -405,16 +405,16 @@ void CActor::update(bool isServer, float dt)
       m_move_speed = WALK_SPEED;
 
       if(m_donnees.keyLeft)
-        position.x += ((position.x - (m_move_speed * dt)) >= 0.f) ? -(m_move_speed * dt) : 0.f;
+        position.x += ((position.x - (m_move_speed * dt)) >= SIZE_TILE) ? -(m_move_speed * dt) : 0.f;
 
       if(m_donnees.keyRight)
-        position.x += ((position.x + m_move_speed * dt) < SIZE_MAP_X*SIZE_TILE) ? m_move_speed * dt : 0.f;
+        position.x += ((position.x + m_move_speed * dt) < (SIZE_MAP_X-1)*SIZE_TILE) ? m_move_speed * dt : 0.f;
 
       if(m_donnees.keyUp)
-        position.y += ((position.y - (m_move_speed * dt)) >= 0.f) ? -(m_move_speed * dt) : 0.f;
+        position.y += ((position.y - (m_move_speed * dt)) >= SIZE_TILE) ? -(m_move_speed * dt) : 0.f;
 
       if(m_donnees.keyDown)
-        position.y += ((position.y + m_move_speed * dt) < SIZE_MAP_Y*SIZE_TILE) ? m_move_speed * dt : 0.f;
+        position.y += ((position.y + m_move_speed * dt) < (SIZE_MAP_Y-1)*SIZE_TILE) ? m_move_speed * dt : 0.f;
 
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {
@@ -471,16 +471,16 @@ void CActor::update(bool isServer, float dt)
       m_move_speed = RUN_SPEED;
 
       if(m_donnees.keyLeft)
-        position.x += ((position.x - (m_move_speed * dt)) >= 0.f) ? -(m_move_speed * dt) : 0.f;
+        position.x += ((position.x - (m_move_speed * dt)) >= SIZE_TILE) ? -(m_move_speed * dt) : 0.f;
 
       if(m_donnees.keyRight)
-        position.x += ((position.x + m_move_speed * dt) < SIZE_MAP_X*SIZE_TILE) ? m_move_speed * dt : 0.f;
+        position.x += ((position.x + m_move_speed * dt) < (SIZE_MAP_X-1)*SIZE_TILE) ? m_move_speed * dt : 0.f;
 
       if(m_donnees.keyUp)
-        position.y += ((position.y - (m_move_speed * dt)) >= 0.f) ? -(m_move_speed * dt) : 0.f;
+        position.y += ((position.y - (m_move_speed * dt)) >= SIZE_TILE) ? -(m_move_speed * dt) : 0.f;
 
       if(m_donnees.keyDown)
-        position.y += ((position.y + m_move_speed * dt) < SIZE_MAP_Y*SIZE_TILE) ? m_move_speed * dt : 0.f;
+        position.y += ((position.y + m_move_speed * dt) < (SIZE_MAP_Y-1)*SIZE_TILE) ? m_move_speed * dt : 0.f;
 
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {
@@ -555,8 +555,7 @@ void CActor::update(bool isServer, float dt)
 
       m_knife.update(false, dt);
 
-      if (m_knife.isLoopDone()){
-        m_attack = false;
+      if (isServer && m_knife.isLoopDone()){
         m_timer = 0.f;
         m_donnees.state = e_slow;
       }
@@ -566,6 +565,8 @@ void CActor::update(bool isServer, float dt)
 
     case e_slow :
     {
+      m_attack = false;
+
       m_timer += dt;
 
       sf::Vector2f position = sf::Vector2f(m_donnees.positionX, m_donnees.positionY);
@@ -573,16 +574,16 @@ void CActor::update(bool isServer, float dt)
       m_move_speed = WALK_SPEED/2;
 
       if(m_donnees.keyLeft)
-        position.x += ((position.x - (m_move_speed * dt)) >= 0.f) ? -(m_move_speed * dt) : 0.f;
+        position.x += ((position.x - (m_move_speed * dt)) >= SIZE_TILE) ? -(m_move_speed * dt) : 0.f;
 
       if(m_donnees.keyRight)
-        position.x += ((position.x + m_move_speed * dt) < SIZE_MAP_X*SIZE_TILE) ? m_move_speed * dt : 0.f;
+        position.x += ((position.x + m_move_speed * dt) < (SIZE_MAP_X-1)*SIZE_TILE) ? m_move_speed * dt : 0.f;
 
       if(m_donnees.keyUp)
-        position.y += ((position.y - (m_move_speed * dt)) >= 0.f) ? -(m_move_speed * dt) : 0.f;
+        position.y += ((position.y - (m_move_speed * dt)) >= SIZE_TILE) ? -(m_move_speed * dt) : 0.f;
 
       if(m_donnees.keyDown)
-        position.y += ((position.y + m_move_speed * dt) < SIZE_MAP_Y*SIZE_TILE) ? m_move_speed * dt : 0.f;
+        position.y += ((position.y + m_move_speed * dt) < (SIZE_MAP_Y-1)*SIZE_TILE) ? m_move_speed * dt : 0.f;
 
       if(!(m_donnees.keyRight && m_donnees.keyLeft))
       {

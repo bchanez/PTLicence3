@@ -8,6 +8,7 @@
 #include "../Tools/DEBUG.hpp"
 #include "CDonnees.hpp"
 #include "../CConfig.hpp"
+#include <exception>
 
 class CClient
 {

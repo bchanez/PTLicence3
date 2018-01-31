@@ -12,6 +12,7 @@
 #include "../Entity/CEvent_pub.hpp"
 #include "CDonnees.hpp"
 #include "../CConfig.hpp"
+#include <exception>
 
 class CServeur
 {

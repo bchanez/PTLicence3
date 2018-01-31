@@ -68,7 +68,12 @@ void CClient::send(void)
     for (unsigned int i = 0; i < m_listPacketToSend.size(); ++i)
     {
       m_UDPserver.send(m_listPacketToSend[i], m_serveur, 55002);
+      try {
       m_listPacketToSend.erase(m_listPacketToSend.begin() + i);
+    }
+    catch (std::exception const& e){
+      std::cout << "---------- Error in Send Function of Client : " << e.what() << std::endl;
+    }
       i--;
     }
   }
@@ -107,7 +112,12 @@ void CClient::removePacketReceivedFromBeginingToIndice(unsigned int indice) // s
 {
   for(unsigned int i = 0; i < indice; ++i)
   {
-    m_listPacketReceive.erase(m_listPacketReceive.begin());
+    try {
+      m_listPacketReceive.erase(m_listPacketReceive.begin());
+    }
+    catch (std::exception const& e){
+      std::cout << "---------- Error in Client Thread : " << e.what() << std::endl;
+    }
   }
 }
 

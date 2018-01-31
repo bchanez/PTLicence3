@@ -6,6 +6,7 @@
 #include "CApplication.hpp"
 #include "Tools/CRandom.hpp"
 #include "CConfig.hpp"
+#include <exception>
 
 //ARG=r => Serveur
 int main(int argc, char *argv[])
@@ -33,6 +34,7 @@ int main(int argc, char *argv[])
 	{
 		CApplication game;
 		game.runMainLoop();	// Lancement du jeu
+
 	}
 	else
 	{

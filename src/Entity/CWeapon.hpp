@@ -5,6 +5,7 @@
 #include "../Tools/DEBUG.hpp"
 #include "../Tools/CDisplay.hpp"
 
+
 class CWeapon : public CEntity
 {
   public:

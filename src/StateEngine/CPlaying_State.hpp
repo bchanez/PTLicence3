@@ -12,6 +12,7 @@
 #include "../Entity/CEvent_pub.hpp"
 #include "../Server/CClient.hpp"
 #include "../Server/CDonnees.hpp"
+#include <exception>
 
 namespace State
 {
@@ -36,11 +37,11 @@ namespace State
 			CClient * m_client;
 
 			struct Donnees m_donnees; //Pour les données du client
-			void receive(void); //Nani?! 
+			void receive(void); //Nani?!
 
 			Key m_key;
 
-			void quickSort(std::vector<std::unique_ptr<CEntity>>& tableau, int debut, int fin); //Pour gérer la profondeur 
+			void quickSort(std::vector<std::unique_ptr<CEntity>>& tableau, int debut, int fin); //Pour gérer la profondeur
 
 
 			CMap m_map;
