@@ -176,7 +176,7 @@ void CServeur::initGame(int nombre_pnj, int nombre_evenement)
   unsigned int indiceDecalage = m_listEntite.size();
   for(unsigned int i = indiceDecalage; i < nombre_evenement + indiceDecalage; ++i)
   {
-    m_listEntite.push_back(std::make_unique<CEvent_pub>(i)); //Pub (éviter d'avoir deux pointeurs sur le même objet)
+    m_listEntite.push_back(std::make_unique<CEvent_pub>(i, &m_listEntite)); //Pub (éviter d'avoir deux pointeurs sur le même objet)
     m_listEntite[i].get()->setPosition(sf::Vector2f(CRandom::floatInRange(0.f, SIZE_MAP_X*SIZE_TILE), CRandom::floatInRange(0.f, SIZE_MAP_Y*SIZE_TILE)));
     m_donneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
     m_everyDonnees.push_back(m_listEntite[i].get()->getDonnees());

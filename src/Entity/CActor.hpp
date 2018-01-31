@@ -4,10 +4,7 @@
 #include "../ResourceManager/CResourceHolder.hpp"
 #include "../Tools/DEBUG.hpp"
 #include "../Tools/CDisplay.hpp"
-#include "../Tools/CRandom.hpp"
-#include "../Tools/CCollision.hpp"
 #include "CWeapon.hpp"
-#include <vector>
 
 class CActor : public CEntity
 {
@@ -26,6 +23,8 @@ class CActor : public CEntity
 
     void setIsCharacter(bool isCharacter);
     bool getMustDisappear(void);
+
+    void setGoalPoint(sf::Vector2i dot);
 
   private:
 
@@ -51,6 +50,4 @@ class CActor : public CEntity
 
     sf::Vector2f m_stop;
     sf::Vector2i m_goal_point;
-
-    std::vector<std::unique_ptr<CEntity>> * m_listEntite; //Le joueur a accès à chaque entité
 };

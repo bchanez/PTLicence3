@@ -2,6 +2,7 @@
 
 #include "CEntity.hpp"
 #include "../ResourceManager/CResourceHolder.hpp"
+#include "CActor.hpp"
 #include "../Tools/DEBUG.hpp"
 
 class CEvent: public CEntity

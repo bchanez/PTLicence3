@@ -9,7 +9,7 @@ class CEvent_pub: public CEvent
 
   public:
 
-    explicit CEvent_pub(unsigned int indice);
+    explicit CEvent_pub(unsigned int indice, std::vector<std::unique_ptr<CEntity>> * listEntite);
     explicit CEvent_pub(struct DonneesInit donnees);
     virtual ~CEvent_pub(void);
 

@@ -370,7 +370,8 @@ void CActor::update(bool isServer, float dt)
       if(m_donnees.mouseLeft)
         m_donnees.state = e_attack;
 
-      if (!m_isCharacter)
+
+      if (isServer && !m_isCharacter)
         if (CRandom::intInRange(0, 1000) == 0)
           m_goal_point = sf::Vector2i(CRandom::intInRange(0, SIZE_MAP_X*SIZE_TILE), CRandom::intInRange(0, SIZE_MAP_Y*SIZE_TILE));
 
@@ -538,7 +539,6 @@ void CActor::update(bool isServer, float dt)
           if ((*m_listEntite)[i]->getIsAlive() && getDonnees().indice != (*m_listEntite)[i]->getDonnees().indice)
             if (CCollision::collision(sf::FloatRect(getPosition().x - 20.f, getPosition().y - 20.f, 40.f, 40.f), (*m_listEntite)[i]->getPosition()))
             {
-              std::cout << "tue cible\n";
               dynamic_cast<CActor *>((*m_listEntite)[i].get())->m_donnees.state = e_dead;
             }
         }
@@ -665,4 +665,9 @@ void CActor::setIsCharacter(bool isCharacter)
 bool CActor::getMustDisappear(void)
 {
   return m_mustDisappear;
+}
+
+void CActor::setGoalPoint(sf::Vector2i dot)
+{
+  m_goal_point = dot;
 }

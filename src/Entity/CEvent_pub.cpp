@@ -1,8 +1,10 @@
 #include "CEvent_pub.hpp"
 
-/*explicit*/ CEvent_pub::CEvent_pub(unsigned int indice)
+/*explicit*/ CEvent_pub::CEvent_pub(unsigned int indice, std::vector<std::unique_ptr<CEntity>> * listEntite)
 {
   LOG("CEvent_pub Constructor\n");
+
+  m_listEntite = listEntite;
 
   m_donneesInit.classe = "CEvent_pub";
   m_donneesInit.indice = indice;
@@ -11,9 +13,6 @@
   m_sprite.setOrigin(sf::Vector2f(100, 100));
 
   m_donnees.state = e_idle;
-
-  setTexture();
-  setAnimation();
 }
 
 /*explicit*/ CEvent_pub::CEvent_pub(struct DonneesInit donnees)
@@ -64,25 +63,67 @@ void CEvent_pub::input(void)
 
 void CEvent_pub::update(bool isServer, float dt)
 {
-  (void)dt;
-  (void)isServer;
+  (void) dt;
+
   switch (m_donnees.state)
   {
     case e_idle :
     {
-      m_sprite.setTextureRect(m_animation[e_idle].getFrame());
+      if(isServer)
+      {
+        if (CRandom::intInRange(0, 1000) == 0)
+          m_donnees.state = e_call;
+      }
+      else
+      {
+        m_sprite.setTextureRect(m_animation[e_idle].getFrame());
+      }
     }
     break;
 
     case e_call :
     {
-      m_sprite.setTextureRect(m_animation[e_call].getFrame());
+      if(isServer)
+      {
+        if (CRandom::intInRange(0, 1000) == 0)
+            m_donnees.state = e_active;
+
+        for (unsigned int i = 0; i < (*m_listEntite).size(); ++i)
+        {
+          if ((*m_listEntite)[i]->getIsAlive())
+            if (CCollision::collision(sf::FloatRect(getPosition().x - 200.f, getPosition().y - 160.f, 400.f, 320.f), (*m_listEntite)[i]->getPosition()))
+            {
+              std::cout << "test1\n";//dynamic_cast<CActor *>((*m_listEntite)[i].get())->setGoalPoint(sf::Vector2i(CRandom::floatInRange(getPosition().x - 100.f, getPosition().x + 100.f), CRandom::floatInRange(getPosition().y, getPosition().y + 60.f)));
+            }
+        }
+      }
+      else
+      {
+        m_sprite.setTextureRect(m_animation[e_call].getFrame());
+      }
     }
     break;
 
     case e_active :
     {
-      m_sprite.setTextureRect(m_animation[e_active].getFrame());
+      if(isServer)
+      {
+        if (CRandom::intInRange(0, 2000) == 0)
+            m_donnees.state = e_idle;
+
+        for (unsigned int i = 0; i < (*m_listEntite).size(); ++i)
+        {
+          if ((*m_listEntite)[i]->getIsAlive())
+            if (CCollision::collision(sf::FloatRect(getPosition().x - 100.f, getPosition().y, 200.f, 60.f), (*m_listEntite)[i]->getPosition()))
+            {
+                std::cout << "test2\n";//dynamic_cast<CActor *>((*m_listEntite)[i].get())->setGoalPoint(sf::Vector2i(CRandom::floatInRange(getPosition().x - 100.f, getPosition().x + 100.f), CRandom::floatInRange(getPosition().y, getPosition().y + 60.f)));
+            }
+        }
+      }
+      else
+      {
+        m_sprite.setTextureRect(m_animation[e_active].getFrame());
+      }
     }
     break;
 

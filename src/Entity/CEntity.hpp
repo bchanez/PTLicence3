@@ -1,9 +1,12 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <vector>
 #include "../Tools/CDrawable.hpp"
 #include "../Tools/CAnimation.hpp"
 #include "../Tools/DEBUG.hpp"
+#include "../Tools/CRandom.hpp"
+#include "../Tools/CCollision.hpp"
 #include "../Server/CDonnees.hpp"
 #include "../CConfig.hpp"
 
@@ -49,4 +52,6 @@ class CEntity : public CDrawable
     enum EAnimation {};
     unsigned int m_nb_animation;
     std::vector<CAnimation> m_animation;
+
+    std::vector<std::unique_ptr<CEntity>> * m_listEntite; //chaque entite peut acceder au autre entite
 };
