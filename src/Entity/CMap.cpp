@@ -165,14 +165,19 @@ void CMap::setTexture(void)
             tileSprite.setTextureRect(sf::IntRect(CMap::map[i][j].x * SIZE_TILE, CMap::map[i][j].y * SIZE_TILE, SIZE_TILE, SIZE_TILE));
 
             m_prerender.draw(tileSprite);
-
-            if(CRandom::intInRange(0, 30) == 1 && (CMap::map[i][j].x == 1 && CMap::map[i][j].y == 1))
-            {
-              tileSprite.setTextureRect(sf::IntRect(4 * SIZE_TILE, 1 * SIZE_TILE, SIZE_TILE, SIZE_TILE));
-              m_prerender.draw(tileSprite);
-            }
         }
       }
+  }
+
+  //PLANTING FLOWERS
+  tileSprite.setTextureRect(sf::IntRect(4 * SIZE_TILE, 1 * SIZE_TILE, SIZE_TILE, SIZE_TILE));
+  tileSprite.setScale(sf::Vector2f(0.5f, 0.5f));
+
+  for (int i = 0; i < SIZE_MAP_X*SIZE_MAP_Y/2; i++){
+    tileSprite.setPosition(sf::Vector2f(CRandom::intInRange(SIZE_TILE, SIZE_TILE+((((SIZE_MAP_X-2)*SIZE_TILE)/2)*2)),
+                                        CRandom::intInRange(SIZE_TILE, SIZE_TILE+((((SIZE_MAP_Y-2)*SIZE_TILE)/2)*2))));
+    //tileSprite.setPosition(sf::Vector2f(i, i));
+    m_prerender.draw(tileSprite);
   }
 
   m_prerender.display();

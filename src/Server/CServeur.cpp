@@ -138,7 +138,7 @@ void CServeur::receive(void)  //recoie
         m_listEntite.at(donnees.indice).get()->setDonnees(donnees);
       }
       catch (std::exception const& e){
-        std::cout << "Error : " << e.what() << std::endl;
+        std::cout << "------------------------ Error : " << e.what() << std::endl;
       }
     }
 
@@ -173,7 +173,7 @@ void CServeur::initGame(int nombre_pnj, int nombre_evenement)
   for(int i = 0; i < nombre_pnj; ++i)
   {
     m_listEntite.push_back(std::make_unique<CActor>(i, &m_listEntite));
-    m_listEntite.at(i).get()->setPosition(sf::Vector2f(CRandom::floatInRange(0.f, SIZE_MAP_X*SIZE_TILE), CRandom::floatInRange(0.f, SIZE_MAP_Y*SIZE_TILE))); // PNJ Apparait à tel endroit
+    m_listEntite.at(i).get()->setPosition(sf::Vector2f(CRandom::floatInRange(SIZE_TILE, (SIZE_MAP_X-1)*SIZE_TILE), CRandom::floatInRange(SIZE_TILE, (SIZE_MAP_Y-1)*SIZE_TILE))); // PNJ Apparait à tel endroit
     m_donneesInit.push_back(m_listEntite.at(i).get()->getDonneesInit()); //On ajoute les données de base quand on créer la partie
     m_everyDonnees.push_back(m_listEntite.at(i).get()->getDonnees()); // Données actuelles
   }
@@ -183,7 +183,7 @@ void CServeur::initGame(int nombre_pnj, int nombre_evenement)
   for(unsigned int i = indiceDecalage; i < nombre_evenement + indiceDecalage; ++i)
   {
     m_listEntite.push_back(std::make_unique<CEvent_pub>(i, &m_listEntite)); //Pub (éviter d'avoir deux pointeurs sur le même objet)
-    m_listEntite.at(i).get()->setPosition(sf::Vector2f(CRandom::floatInRange(0.f, SIZE_MAP_X*SIZE_TILE), CRandom::floatInRange(0.f, SIZE_MAP_Y*SIZE_TILE)));
+    m_listEntite.at(i).get()->setPosition(sf::Vector2f(CRandom::floatInRange(SIZE_TILE*2, (SIZE_MAP_X-2)*SIZE_TILE), CRandom::floatInRange(SIZE_TILE*2, (SIZE_MAP_Y-2)*SIZE_TILE)));
     m_donneesInit.push_back(m_listEntite.at(i).get()->getDonneesInit());
     m_everyDonnees.push_back(m_listEntite.at(i).get()->getDonnees());
   }
