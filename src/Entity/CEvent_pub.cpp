@@ -93,7 +93,7 @@ void CEvent_pub::update(bool isServer, float dt)
           if ((*m_listEntite)[i]->getIsAlive())
             if (CCollision::collision(sf::FloatRect(getPosition().x - 200.f, getPosition().y - 160.f, 400.f, 320.f), (*m_listEntite)[i]->getPosition()))
             {
-              std::cout << "test1\n";//dynamic_cast<CActor *>((*m_listEntite)[i].get())->setGoalPoint(sf::Vector2i(CRandom::floatInRange(getPosition().x - 100.f, getPosition().x + 100.f), CRandom::floatInRange(getPosition().y, getPosition().y + 60.f)));
+              dynamic_cast<CActor *>((*m_listEntite)[i].get())->setGoalPoint(sf::Vector2i(CRandom::floatInRange(getPosition().x - 100.f, getPosition().x + 100.f), CRandom::floatInRange(getPosition().y, getPosition().y + 60.f)));
             }
         }
       }
@@ -116,7 +116,7 @@ void CEvent_pub::update(bool isServer, float dt)
           if ((*m_listEntite)[i]->getIsAlive())
             if (CCollision::collision(sf::FloatRect(getPosition().x - 100.f, getPosition().y, 200.f, 60.f), (*m_listEntite)[i]->getPosition()))
             {
-                std::cout << "test2\n";//dynamic_cast<CActor *>((*m_listEntite)[i].get())->setGoalPoint(sf::Vector2i(CRandom::floatInRange(getPosition().x - 100.f, getPosition().x + 100.f), CRandom::floatInRange(getPosition().y, getPosition().y + 60.f)));
+              dynamic_cast<CActor *>((*m_listEntite)[i].get())->setGoalPoint(sf::Vector2i(CRandom::floatInRange(getPosition().x - 100.f, getPosition().x + 100.f), CRandom::floatInRange(getPosition().y, getPosition().y + 60.f)));
             }
         }
       }
