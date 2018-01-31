@@ -50,23 +50,23 @@ void CServeur::send(void)
 {
   for (unsigned int i = 0; i < m_listClient.size(); ++i) //Pour tout les clients du tableau ajouté précedemment
   {
-    switch(m_listClient[i].etat)  // Etat dess clients (créer la partie, en cours de jeu, reviens d'un état pause; )
+    switch(m_listClient.at(i).etat)  // Etat dess clients (créer la partie, en cours de jeu, reviens d'un état pause; )
     {
       case 0 : // envoie donnees d'initialisation de partie envoyer tout (position, CActor, Events) dans un tableau
       {
         // initialisation des donnees
-        std::cout << "le serveur envoie au client " << m_listClient[i].indice << " les donnees d'init de partie" << std::endl;
+        std::cout << "le serveur envoie au client " << m_listClient.at(i).indice << " les donnees d'init de partie" << std::endl;
         sf::Packet packetInitGame;
-        dynamic_cast<CActor *>(m_listEntite[m_listClient[i].indice].get())->setIsCharacter(true);
-        packetInitGame << (sf:: Uint16) (m_listClient[i].indice);
+        dynamic_cast<CActor *>(m_listEntite[m_listClient.at(i).indice].get())->setIsCharacter(true);
+        packetInitGame << (sf:: Uint16) (m_listClient.at(i).indice);
         packetInitGame << (sf:: Uint16) m_donneesInit.size(); //Taille du tableau
         for(unsigned int i = 0; i < m_donneesInit.size(); ++i) //Envoi du tableau
-          packetInitGame << m_donneesInit[i];
+          packetInitGame << m_donneesInit.at(i);
 
         // envoie
-        while (m_listClient[i].socketTCP->send(packetInitGame) != sf::Socket::Done);  //Envoi données en TCP (while pour tout envoyer) While pour bien tout envoyer
+        while (m_listClient.at(i).socketTCP->send(packetInitGame) != sf::Socket::Done);  //Envoi données en TCP (while pour tout envoyer) While pour bien tout envoyer
 
-        m_listClient[i].etat = 1; //Ne fait plus rien
+        m_listClient.at(i).etat = 1; //Ne fait plus rien
         break;
       }
       case 1 : // nothing
@@ -76,45 +76,45 @@ void CServeur::send(void)
       case 2 : // envoi donnes normales (indice entité, état)
       {
         sf::Packet packet;
-        packet << (sf:: Uint16) m_listClient[i].donnees.size(); //Met la taille dans le paquet
-        for(unsigned int j = 0; j < m_listClient[i].donnees.size(); ++j)
-          packet << m_listClient[i].donnees[j];                 //Tableau dans le paquet
+        packet << (sf:: Uint16) m_listClient.at(i).donnees.size(); //Met la taille dans le paquet
+        for(unsigned int j = 0; j < m_listClient.at(i).donnees.size(); ++j)
+          packet << m_listClient.at(i).donnees[j];                 //Tableau dans le paquet
 
-        udpSocket.send(packet, m_listClient[i].adresse, 55003);    //Envoi
+        udpSocket.send(packet, m_listClient.at(i).adresse, 55003);    //Envoi
         break;
       }
       case 3 : // envoie de toutes les donnees a synchro (debut de partie au pause) Tant que ça tourne, on va augmenter l'indice de synchro, si l'indice dépasse 8, on synchro
       {
-        m_listClient[i].donnees.clear();
+        m_listClient.at(i).donnees.clear();
 
         for(unsigned int j = 0; j < m_everyDonnees.size(); ++j)
         {
-          if(m_listClient[i].synchroPosition[j] >= 8)
+          if(m_listClient.at(i).synchroPosition[j] >= 8)
           {
-              m_listClient[i].donnees.push_back(m_everyDonnees[j]);
-              m_listClient[i].donnees[m_listClient[i].donnees.size() - 1].mustUpdatePosition = true;
-              m_listClient[i].synchroPosition[j] = 0;   //Eviter d'envoyer tout le temps
+              m_listClient.at(i).donnees.push_back(m_everyDonnees[j]);
+              m_listClient.at(i).donnees[m_listClient.at(i).donnees.size() - 1].mustUpdatePosition = true;
+              m_listClient.at(i).synchroPosition[j] = 0;   //Eviter d'envoyer tout le temps
           }
         }
 
         sf::Packet packet;
-        packet << (sf:: Uint16) m_listClient[i].donnees.size();
-        for(unsigned int j = 0; j < m_listClient[i].donnees.size(); ++j)
-          packet << m_listClient[i].donnees[j];
+        packet << (sf:: Uint16) m_listClient.at(i).donnees.size();
+        for(unsigned int j = 0; j < m_listClient.at(i).donnees.size(); ++j)
+          packet << m_listClient.at(i).donnees[j];
 
-        udpSocket.send(packet, m_listClient[i].adresse, 55003);
+        udpSocket.send(packet, m_listClient.at(i).adresse, 55003);
 
-        m_listClient[i].etat = 2; //Il est en jeu
+        m_listClient.at(i).etat = 2; //Il est en jeu
         break;
       }
       default :
       {
-        std::cout << "PROBLEME le client " << m_listClient[i].indice << " est a l'etat " << m_listClient[i].etat << std::endl; //Debug
+        std::cout << "PROBLEME le client " << m_listClient.at(i).indice << " est a l'etat " << m_listClient.at(i).etat << std::endl; //Debug
         break;
       }
     }
 
-    m_listClient[i].donnees.clear(); //Supprime tout
+    m_listClient.at(i).donnees.clear(); //Supprime tout
   }
 
   m_donneesInit.clear(); //Supprime les données d'initialisation de partie (une fois que c'est envoyé ou à chaque tour de frame)
@@ -133,24 +133,30 @@ void CServeur::receive(void)  //recoie
     if(udpSocket.receive(packet, serveur, port) == sf::Socket::Done)
     {
       packet >> donnees; //Recoie le paquet
-      m_listEntite[donnees.indice].get()->setDonnees(donnees);
+
+      try {
+        m_listEntite.at(donnees.indice).get()->setDonnees(donnees);
+      }
+      catch (std::exception const& e){
+        std::cout << "Error : " << e.what() << std::endl;
+      }
     }
 
     // recoie un ordre du client (client veut changer d'état)
-    if (m_listClient[i].socketTCP->receive(packet) == sf::Socket::Done)
+    if (m_listClient.at(i).socketTCP->receive(packet) == sf::Socket::Done)
     {
       sf:: Uint16 etat;
       packet >> etat;
-      std::cout << "le client " << m_listClient[i].indice << " se passe a l'etat " << etat << std::endl;
-      m_listClient[i].etat = etat;
+      std::cout << "le client " << m_listClient.at(i).indice << " se passe a l'etat " << etat << std::endl;
+      m_listClient.at(i).etat = etat;
     }
 
     // detruit client si deconnecte
-    if(m_listClient[i].socketTCP->receive(packet) == sf::Socket::Disconnected)
+    if(m_listClient.at(i).socketTCP->receive(packet) == sf::Socket::Disconnected)
     {
        std::cout<<"Client disconnected"<<std::endl;
-       m_listClient[i].socketTCP->disconnect();
-       delete(m_listClient[i].socketTCP);
+       m_listClient.at(i).socketTCP->disconnect();
+       delete(m_listClient.at(i).socketTCP);
        m_listClient.erase(m_listClient.begin() + i);
        i--;
        break;
@@ -167,9 +173,9 @@ void CServeur::initGame(int nombre_pnj, int nombre_evenement)
   for(int i = 0; i < nombre_pnj; ++i)
   {
     m_listEntite.push_back(std::make_unique<CActor>(i, &m_listEntite));
-    m_listEntite[i].get()->setPosition(sf::Vector2f(CRandom::floatInRange(0.f, SIZE_MAP_X*SIZE_TILE), CRandom::floatInRange(0.f, SIZE_MAP_Y*SIZE_TILE))); // PNJ Apparait à tel endroit
-    m_donneesInit.push_back(m_listEntite[i].get()->getDonneesInit()); //On ajoute les données de base quand on créer la partie
-    m_everyDonnees.push_back(m_listEntite[i].get()->getDonnees()); // Données actuelles
+    m_listEntite.at(i).get()->setPosition(sf::Vector2f(CRandom::floatInRange(0.f, SIZE_MAP_X*SIZE_TILE), CRandom::floatInRange(0.f, SIZE_MAP_Y*SIZE_TILE))); // PNJ Apparait à tel endroit
+    m_donneesInit.push_back(m_listEntite.at(i).get()->getDonneesInit()); //On ajoute les données de base quand on créer la partie
+    m_everyDonnees.push_back(m_listEntite.at(i).get()->getDonnees()); // Données actuelles
   }
 
   // ajout des evenement
@@ -177,9 +183,9 @@ void CServeur::initGame(int nombre_pnj, int nombre_evenement)
   for(unsigned int i = indiceDecalage; i < nombre_evenement + indiceDecalage; ++i)
   {
     m_listEntite.push_back(std::make_unique<CEvent_pub>(i, &m_listEntite)); //Pub (éviter d'avoir deux pointeurs sur le même objet)
-    m_listEntite[i].get()->setPosition(sf::Vector2f(CRandom::floatInRange(0.f, SIZE_MAP_X*SIZE_TILE), CRandom::floatInRange(0.f, SIZE_MAP_Y*SIZE_TILE)));
-    m_donneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
-    m_everyDonnees.push_back(m_listEntite[i].get()->getDonnees());
+    m_listEntite.at(i).get()->setPosition(sf::Vector2f(CRandom::floatInRange(0.f, SIZE_MAP_X*SIZE_TILE), CRandom::floatInRange(0.f, SIZE_MAP_Y*SIZE_TILE)));
+    m_donneesInit.push_back(m_listEntite.at(i).get()->getDonneesInit());
+    m_everyDonnees.push_back(m_listEntite.at(i).get()->getDonnees());
   }
 }
 
@@ -189,23 +195,30 @@ void CServeur::loopServer(void)
 
   while(1)
   {
-    float dt = m_clock.restart().asSeconds();
-    fps_timer += dt;
 
-    if (fps_timer >= (1.f/70.f)) //Limiter les FPS
-    {
-      connection(); //Connecter les clients
+      float dt = m_clock.restart().asSeconds();
+      fps_timer += dt;
 
-      // met a jour les events
-      for (unsigned int i = 0; i < m_listEntite.size(); ++i)
-        m_listEntite[i]->input();
+      if (fps_timer >= (1.f/70.f)) //Limiter les FPS
+      {
+        connection(); //Connecter les clients
 
-      receive();
-      send();
+        // met a jour les events
+        for (unsigned int i = 0; i < m_listEntite.size(); ++i){
+          try {
+            m_listEntite.at(i)->input();
+          }
+          catch (std::exception const& e){
+            std::cout << "Error : " << e.what() << std::endl;
+          }
+        }
 
-      updateGame(fps_timer);
-      fps_timer = 0.f; //reset FPS
-    }
+        receive();
+        send();
+
+        updateGame(fps_timer);
+        fps_timer = 0.f; //reset FPS
+      }
   }
 }
 
@@ -215,7 +228,7 @@ void CServeur::updateGame(float dt)
   for (unsigned int i = 0; i < m_listEntite.size(); ++i) //Parcours tout le tableau d'entité (pub, PNJ, etc...)
   {
     // suppression des CActor qui doivent disparaitre
-    if (m_listEntite[i]->getDonneesInit().classe == "CActor" && dynamic_cast<CActor *>(m_listEntite[i].get())->getMustDisappear()) //Seul CActor peut disparaître
+    if (m_listEntite.at(i)->getDonneesInit().classe == "CActor" && dynamic_cast<CActor *>(m_listEntite.at(i).get())->getMustDisappear()) //Seul CActor peut disparaître
     {
       std::cout  << "delete \n";
       m_listEntite.erase(m_listEntite.begin() + i); //Supprime de la liste
@@ -224,24 +237,24 @@ void CServeur::updateGame(float dt)
         m_listClient[j].synchroPosition.erase(m_listClient[j].synchroPosition.begin() + i); //Supprime de chaque tableau de chaque client
     }
 
-    m_listEntite[i]->update(true, dt);
+    m_listEntite.at(i)->update(true, dt);
 
     // met a jour les donnees d'envoie pour la creation d'une partie si un joueur se connecte
-    m_donneesInit.push_back(m_listEntite[i].get()->getDonneesInit());
+    m_donneesInit.push_back(m_listEntite.at(i).get()->getDonneesInit());
 
     // met a jour les donnees d'envois courantes
-    if(m_everyDonnees[i] != m_listEntite[i].get()->getDonnees()) //Si un joueur se connecte, il aura ces infos là
+    if(m_everyDonnees.at(i) != m_listEntite.at(i).get()->getDonnees()) //Si un joueur se connecte, il aura ces infos là
     {
-      m_everyDonnees[i] = m_listEntite[i].get()->getDonnees();
+      m_everyDonnees.at(i) = m_listEntite.at(i).get()->getDonnees();
       for (unsigned int j = 0; j < m_listClient.size(); ++j)
       {
-        m_listClient[j].donnees.push_back(m_everyDonnees[i]);
-        m_listClient[j].synchroPosition[i]++;
-        if(m_listClient[j].synchroPosition[i] >= 8)
+        m_listClient[j].donnees.push_back(m_everyDonnees.at(i));
+        m_listClient[j].synchroPosition.at(i)++;
+        if(m_listClient[j].synchroPosition.at(i) >= 8)
         {
             m_listClient[j].donnees[m_listClient[j].donnees.size() - 1].mustUpdatePosition = true;
             if (m_listClient[j].etat == 2)
-              m_listClient[j].synchroPosition[i] = 0;
+              m_listClient[j].synchroPosition.at(i) = 0;
         }
       }
     }

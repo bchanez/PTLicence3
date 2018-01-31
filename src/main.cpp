@@ -6,6 +6,7 @@
 #include "CApplication.hpp"
 #include "Tools/CRandom.hpp"
 #include "CConfig.hpp"
+#include <exception>
 
 //ARG=r => Serveur
 int main(int argc, char *argv[])
@@ -32,12 +33,21 @@ int main(int argc, char *argv[])
 	if (!choice)
 	{
 		CApplication game;
+
 		game.runMainLoop();	// Lancement du jeu
+
 	}
 	else
 	{
 		CServeur serveur;
+
+		    try {
 		serveur.loopServer();
+	}
+	catch (std::exception const& e){
+		std::cerr << "Error : " << e.what() << std::endl;
+	}
+
 	}
 
 	return EXIT_SUCCESS;
