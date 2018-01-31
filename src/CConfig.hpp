@@ -9,3 +9,4 @@
 #define NB_STAND 3
 
 #define IP_SERV "localhost"
+//#define IP_SERV "192.168.43.26"
