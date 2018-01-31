@@ -25,6 +25,10 @@ class CActor : public CEntity
     bool getMustDisappear(void);
 
     void setGoalPoint(sf::Vector2i dot);
+    sf::Vector2i getGoalPoint(void);
+
+    void setEvenement(bool evenement);
+    bool getEvenement(void);
 
   private:
 
@@ -50,4 +54,6 @@ class CActor : public CEntity
 
     sf::Vector2f m_stop;
     sf::Vector2i m_goal_point;
+
+    bool m_evenement;
 };

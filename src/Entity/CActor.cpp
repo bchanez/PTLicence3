@@ -22,6 +22,8 @@
   m_attack = false;
   m_mustDisappear = false;
 
+  m_evenement = false;
+
   setTexture();
 }
 
@@ -43,6 +45,8 @@
 
   m_attack = false;
   m_mustDisappear = false;
+
+  m_evenement = false;
 
   setPosition(sf::Vector2f(donnees.positionX, donnees.positionY));
   setTexture(donnees);
@@ -371,7 +375,7 @@ void CActor::update(bool isServer, float dt)
         m_donnees.state = e_attack;
 
 
-      if (isServer && !m_isCharacter)
+      if (isServer && !m_evenement && !m_isCharacter)
         if (CRandom::intInRange(0, 1000) == 0)
           m_goal_point = sf::Vector2i(CRandom::intInRange(0, SIZE_MAP_X*SIZE_TILE), CRandom::intInRange(0, SIZE_MAP_Y*SIZE_TILE));
 
@@ -670,4 +674,19 @@ bool CActor::getMustDisappear(void)
 void CActor::setGoalPoint(sf::Vector2i dot)
 {
   m_goal_point = dot;
+}
+
+sf::Vector2i CActor::getGoalPoint(void)
+{
+  return m_goal_point;
+}
+
+void CActor::setEvenement(bool evenement)
+{
+  m_evenement = evenement;
+}
+
+bool CActor::getEvenement(void)
+{
+  return m_evenement;
 }

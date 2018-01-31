@@ -71,7 +71,7 @@ void CEvent_pub::update(bool isServer, float dt)
     {
       if(isServer)
       {
-        if (CRandom::intInRange(0, 1000) == 0)
+        if (CRandom::intInRange(0, 3000) == 0)
           m_donnees.state = e_call;
       }
       else
@@ -91,10 +91,19 @@ void CEvent_pub::update(bool isServer, float dt)
         for (unsigned int i = 0; i < (*m_listEntite).size(); ++i)
         {
           if ((*m_listEntite)[i]->getIsAlive())
-            if (CCollision::collision(sf::FloatRect(getPosition().x - 200.f, getPosition().y - 160.f, 400.f, 320.f), (*m_listEntite)[i]->getPosition()))
+          {
+            if (!dynamic_cast<CActor *>((*m_listEntite)[i].get())->getEvenement()
+              && CCollision::collision(sf::FloatRect(getPosition().x - 150.f, getPosition().y - 160.f, 300.f, 320.f), (*m_listEntite)[i]->getPosition()))
             {
-              dynamic_cast<CActor *>((*m_listEntite)[i].get())->setGoalPoint(sf::Vector2i(CRandom::floatInRange(getPosition().x - 100.f, getPosition().x + 100.f), CRandom::floatInRange(getPosition().y, getPosition().y + 60.f)));
+              dynamic_cast<CActor *>((*m_listEntite)[i].get())->setEvenement(true);
+              dynamic_cast<CActor *>((*m_listEntite)[i].get())->setGoalPoint(sf::Vector2i(CRandom::floatInRange(getPosition().x - 70.f, getPosition().x + 100.f), CRandom::floatInRange(getPosition().y, getPosition().y + 40.f)));
             }
+            else if (dynamic_cast<CActor *>((*m_listEntite)[i].get())->getEvenement())
+            {
+              if (CRandom::intInRange(0, 1000) == 0)
+                dynamic_cast<CActor *>((*m_listEntite)[i].get())->setGoalPoint(sf::Vector2i(CRandom::floatInRange(getPosition().x - 70.f, getPosition().x + 100.f), CRandom::floatInRange(getPosition().y, getPosition().y + 40.f)));
+            }
+          }
         }
       }
       else
@@ -109,14 +118,22 @@ void CEvent_pub::update(bool isServer, float dt)
       if(isServer)
       {
         if (CRandom::intInRange(0, 2000) == 0)
-            m_donnees.state = e_idle;
+        {
+          m_donnees.state = e_idle;
+
+          for (unsigned int i = 0; i < (*m_listEntite).size(); ++i)
+            if ((*m_listEntite)[i]->getIsAlive())
+              dynamic_cast<CActor *>((*m_listEntite)[i].get())->setEvenement(false);
+        }
+
 
         for (unsigned int i = 0; i < (*m_listEntite).size(); ++i)
         {
           if ((*m_listEntite)[i]->getIsAlive())
-            if (CCollision::collision(sf::FloatRect(getPosition().x - 100.f, getPosition().y, 200.f, 60.f), (*m_listEntite)[i]->getPosition()))
+            if (dynamic_cast<CActor *>((*m_listEntite)[i].get())->getEvenement())
             {
-                dynamic_cast<CActor *>((*m_listEntite)[i].get())->setGoalPoint(sf::Vector2i(CRandom::floatInRange(getPosition().x - 100.f, getPosition().x + 100.f), CRandom::floatInRange(getPosition().y, getPosition().y + 60.f)));
+              if (CRandom::intInRange(0, 1000) == 0)
+                dynamic_cast<CActor *>((*m_listEntite)[i].get())->setGoalPoint(sf::Vector2i(CRandom::floatInRange(getPosition().x - 70.f, getPosition().x + 100.f), CRandom::floatInRange(getPosition().y, getPosition().y + 40.f)));
             }
         }
       }
