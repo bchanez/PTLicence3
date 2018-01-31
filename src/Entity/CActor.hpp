@@ -5,7 +5,7 @@
 #include "../Tools/DEBUG.hpp"
 #include "../Tools/CDisplay.hpp"
 #include "CWeapon.hpp"
-#include "CObject.hpp"
+//#include "CObject.hpp"
 
 class CActor : public CEntity
 {
