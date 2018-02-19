@@ -6,7 +6,7 @@
   LOG("CClient constructor\n");
   m_UDPserver.bind(55003);
 
-  m_serveur = IP_SERV;
+  m_server = IP_SERV;
 }
 
 /*virtual*/ CClient::~CClient(void)
@@ -14,20 +14,20 @@
   LOG("CClient destructor\n");
 }
 
-void CClient::connexion(void)
+void CClient::connection(void)
 {
-  sf::Socket::Status status = m_TCPserver.connect(m_serveur, 55001);
+  sf::Socket::Status status = m_TCPserver.connect(m_server, 55001);
   if (status == sf::Socket::Done)
   {
-      LOG("connexion ok\n");
+      LOG("connection ok\n");
   }
   else
   {
-    LOG("connexion erreur\n");
+    LOG("connection error\n");
   }
 }
 
-void CClient::deconnexion(void)
+void CClient::disconnection(void)
 {
   m_TCPserver.disconnect();
 }
@@ -67,7 +67,7 @@ void CClient::send(void)
   {
     for (unsigned int i = 0; i < m_listPacketToSend.size(); ++i)
     {
-      m_UDPserver.send(m_listPacketToSend[i], m_serveur, 55002);
+      m_UDPserver.send(m_listPacketToSend[i], m_server, 55002);
       try {
       m_listPacketToSend.erase(m_listPacketToSend.begin() + i);
     }
@@ -81,12 +81,12 @@ void CClient::send(void)
 
 void CClient::receive(void)
 {
-  while(1) //Pareil que send
+  while(1) //same as send
   {
     sf::Packet packet;
-    sf::IpAddress serveur;
+    sf::IpAddress server;
     unsigned short port;
-    if(m_UDPserver.receive(packet, serveur, port) == sf::Socket::Done)
+    if(m_UDPserver.receive(packet, server, port) == sf::Socket::Done)
     {
       addPacketReceive(packet);
     }
@@ -108,9 +108,9 @@ std::vector<sf::Packet> CClient::getListPacketReceive(void) //On renvoit la list
   return m_listPacketReceive;
 }
 
-void CClient::removePacketReceivedFromBeginingToIndice(unsigned int indice) // supprime l sous-liste de paquet à partir de l'indice indice
+void CClient::removePacketReceivedFromBeginingToIndex(unsigned int index) // supprime l sous-liste de paquet à partir de l'indice indice
 {
-  for(unsigned int i = 0; i < indice; ++i)
+  for(unsigned int i = 0; i < index; ++i)
   {
     try {
       m_listPacketReceive.erase(m_listPacketReceive.begin());

@@ -12,10 +12,10 @@ namespace State
     m_pause.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Pause));
 
     // bouton retour
-    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_Retour), sf::Vector2f(860,500), sf::Vector2f(200,80)));
+    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_Return), sf::Vector2f(860,500), sf::Vector2f(200,80)));
 
     // bouton quitter
-    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_Quitter), sf::Vector2f(860,700), sf::Vector2f(200,80)));
+    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_Quit), sf::Vector2f(860,700), sf::Vector2f(200,80)));
 
   }
 
@@ -72,7 +72,7 @@ namespace State
     // update scene
     if (m_key.escape || m_listButton[e_quitter]->action())
     {
-      m_client->deconnexion();  //Déco du client si quitter
+      m_client->disconnection();  //Déco du client si quitter
       m_application->initMenuState();
       m_application->changeState(EState::e_menu);
     }

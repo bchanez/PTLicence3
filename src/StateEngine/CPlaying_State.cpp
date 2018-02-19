@@ -14,7 +14,7 @@ namespace State
 	{
 		LOG("CPlaying Destructor\n");
 
-		m_listEntite.clear(); //Au cas où si ce ce n'est pas détruit ou en cas d'erreurs
+		m_listEntities.clear(); //Au cas où si ce ce n'est pas détruit ou en cas d'erreurs
 	}
 
 	void CPlaying::init(void)
@@ -23,7 +23,7 @@ namespace State
 
 		// centre la vue sur la position du personnage (Diviser par deux et zoomé)
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
-		CDisplay::getView()->setCenter(m_listEntite[m_indiceCharacter].get()->getPosition());
+		CDisplay::getView()->setCenter(m_listEntities[m_indexCharacter].get()->getPosition());
 		CDisplay::getWindow()->setView(* CDisplay::getView());
 	}
 
@@ -31,34 +31,34 @@ namespace State
 	{
 		m_key.escape = false;
 
-		m_listEntite.clear();
+		m_listEntities.clear();
 
-		m_client->connexion();
+		m_client->connection();
 		sf::Packet packetInitGame = m_client->receiveInitgame();
 
-		sf::Uint16 tailleDonnee;
-		packetInitGame >>  m_indiceCharacter;
-		packetInitGame >>  tailleDonnee;
-		for(unsigned int i = 0; i < tailleDonnee; ++i)
+		sf::Uint16 sizeData;
+		packetInitGame >>  m_indexCharacter;
+		packetInitGame >>  sizeData;
+		for(unsigned int i = 0; i < sizeData; ++i)
 		{
-			struct DonneesInit donneesInit;
-			packetInitGame >> donneesInit; //On met le paquet dans les donnes
+			struct DataInit dataInit;
+			packetInitGame >> dataInit; //On met le paquet dans les donnes
 
-			if((donneesInit.classe).compare("CActor") == 0)
+			if((dataInit.cclass).compare("CActor") == 0)
 			{
-				m_listEntite.push_back(std::make_unique<CActor>(donneesInit));
+				m_listEntities.push_back(std::make_unique<CActor>(dataInit));
 			}
-			else if ((donneesInit.classe).compare("CEvent_pub") == 0)
+			else if ((dataInit.cclass).compare("CEvent_pub") == 0)
 			{
-				m_listEntite.push_back(std::make_unique<CEvent_pub>(donneesInit));
+				m_listEntities.push_back(std::make_unique<CEvent_pub>(dataInit));
 			}
 		}
 
-		dynamic_cast<CActor *>(m_listEntite[m_indiceCharacter].get())->setIsCharacter(true); //Cast; Pour le PNJ à l'indice du joueur, on dit que c'est un joueur
+		dynamic_cast<CActor *>(m_listEntities[m_indexCharacter].get())->setIsCharacter(true); //Cast; Pour le PNJ à l'index du joueur, on dit que c'est un joueur
 
 		// centre la vue sur la position du personnage
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
-		CDisplay::getView()->setCenter(m_listEntite[m_indiceCharacter]->getPosition());
+		CDisplay::getView()->setCenter(m_listEntities[m_indexCharacter]->getPosition());
 		CDisplay::getWindow()->setView(* CDisplay::getView());
 
 		m_client->sendState(3); //Synchro totale pour le temps qu'il a mis a créer
@@ -66,27 +66,27 @@ namespace State
 
 	void CPlaying::input(sf::Event * event)
 	{
-		m_donnees = m_listEntite[m_indiceCharacter].get()->getDonnees(); //On prend les données du perso qu'on dirige
-		struct Donnees donnees = m_donnees;
+		m_data = m_listEntities[m_indexCharacter].get()->getData(); //On prend les données du perso qu'on dirige
+		struct Data data = m_data;
 
 		if((* event).type == sf::Event::KeyPressed)
 		{
 			if ((* event).key.code == sf::Keyboard::Z
 			|| (* event).key.code == sf::Keyboard::W)
-			donnees.keyUp = true;
+			data.keyUp = true;
 
 			if ((* event).key.code == sf::Keyboard::Q
 			|| (* event).key.code == sf::Keyboard::A)
-			donnees.keyLeft = true;
+			data.keyLeft = true;
 
 			if ((* event).key.code == sf::Keyboard::S)
-			donnees.keyDown = true;
+			data.keyDown = true;
 
 			if ((* event).key.code == sf::Keyboard::D)
-			donnees.keyRight = true;
+			data.keyRight = true;
 
 			if ((* event).key.code == sf::Keyboard::LShift)
-			donnees.keyShift = true;
+			data.keyShift = true;
 
 			if((* event).key.code == sf::Keyboard::Escape)
 			m_key.escape = true;
@@ -97,20 +97,20 @@ namespace State
 		{
 			if ((* event).key.code == sf::Keyboard::Z
 			|| (* event).key.code == sf::Keyboard::W)
-			donnees.keyUp = false;
+			data.keyUp = false;
 
 			if ((* event).key.code == sf::Keyboard::Q
 			|| (* event).key.code == sf::Keyboard::A)
-			donnees.keyLeft = false;
+			data.keyLeft = false;
 
 			if ((* event).key.code == sf::Keyboard::S)
-			donnees.keyDown = false;
+			data.keyDown = false;
 
 			if ((* event).key.code == sf::Keyboard::D)
-			donnees.keyRight = false;
+			data.keyRight = false;
 
 			if ((* event).key.code == sf::Keyboard::LShift)
-			donnees.keyShift = false;
+			data.keyShift = false;
 
 			if ((* event).key.code == sf::Keyboard::Escape)
 			m_key.escape = false;
@@ -119,21 +119,21 @@ namespace State
 		if ((* event).type == sf::Event::MouseButtonPressed)
 		{
 			if ((* event).mouseButton.button == sf::Mouse::Left)
-			donnees.mouseLeft = true;
+			data.mouseLeft = true;
 		}
 
 		if ((* event).type == sf::Event::MouseButtonReleased)
 		{
 			if((* event).mouseButton.button == sf::Mouse::Left)
-			donnees.mouseLeft = false;
+			data.mouseLeft = false;
 		}
 
-		//envoie uniquement les touches si changements par rapport au ancienne donnees envoye
-		if(m_donnees != donnees)
+		//envoie uniquement les touches si changements par rapport au ancienne data envoye
+		if(m_data != data)
 		{
 			sf::Packet p;
-			m_donnees = donnees;
-			p << m_donnees;
+			m_data = data;
+			p << m_data;
 			m_client->addPacketToSend(p);
 		}
 	}
@@ -150,21 +150,21 @@ namespace State
 		}
 
 		// met a jour par rapport aux donnees recues
-		std::vector<sf::Packet> listePacket = m_client->getListPacketReceive();
-		for(unsigned int k = 0; k < listePacket.size(); ++k)
+		std::vector<sf::Packet> listPacket = m_client->getListPacketReceive();
+		for(unsigned int k = 0; k < listPacket.size(); ++k)
 		{
-			sf::Uint16 tailleDonnee;
-			listePacket[k] >> tailleDonnee;
-			for (unsigned int i = 0; i < tailleDonnee; ++i)
+			sf::Uint16 sizeData;
+			listPacket[k] >> sizeData;
+			for (unsigned int i = 0; i < sizeData; ++i)
 			{
-				struct Donnees donnees;
-				listePacket[k] >> donnees;
+				struct Data data;
+				listPacket[k] >> data;
 
-				for (unsigned int j = 0; j < m_listEntite.size(); ++j)
+				for (unsigned int j = 0; j < m_listEntities.size(); ++j)
 				try {
-					if(m_listEntite.at(j)->getDonnees().indice == donnees.indice)
+					if(m_listEntities.at(j)->getData().index == data.index)
 					{
-						m_listEntite.at(j)->setDonnees(donnees);
+						m_listEntities.at(j)->setData(data);
 						break;
 					}
 				}
@@ -174,18 +174,18 @@ namespace State
 			}
 
 			// update des entites
-			for (unsigned int i = 0; i < m_listEntite.size(); ++i)
+			for (unsigned int i = 0; i < m_listEntities.size(); ++i)
 			{
 				try {
-					if (m_listEntite.at(i)->getDonneesInit().classe == "CActor" && dynamic_cast<CActor *>(m_listEntite[i].get())->getMustDisappear())
+					if (m_listEntities.at(i)->getDataInit().cclass == "CActor" && dynamic_cast<CActor *>(m_listEntities[i].get())->getMustDisappear())
 					{
 						std::cout  << "delete \n";
-						m_listEntite.erase(m_listEntite.begin() + i);
-						if (m_indiceCharacter > i) //On décale si le perso est après le mort
-						m_indiceCharacter--;
+						m_listEntities.erase(m_listEntities.begin() + i);
+						if (m_indexCharacter > i) //On décale si le perso est après le mort
+						m_indexCharacter--;
 					}
 
-					m_listEntite.at(i)->update(false, dt);
+					m_listEntities.at(i)->update(false, dt);
 				}
 				catch (std::exception const& e){
 					std::cout << "---------- Error Update Client : " << e.what() << std::endl;
@@ -193,10 +193,10 @@ namespace State
 			}
 		}
 
-		m_client->removePacketReceivedFromBeginingToIndice(listePacket.size());
+		m_client->removePacketReceivedFromBeginingToIndex(listPacket.size());
 
 		// update de la profondeur des Entity
-		quickSort(m_listEntite, 0, (int)m_listEntite.size() - 1);
+		quickSort(m_listEntities, 0, (int)m_listEntities.size() - 1);
 	}
 
 	void CPlaying::draw()
@@ -205,39 +205,39 @@ namespace State
 		CDisplay::draw(m_map);
 
 		// dessines toutes les entites
-		for (unsigned int i = 0; i < m_listEntite.size(); ++i)
-		CDisplay::draw(*(m_listEntite[i].get()));
+		for (unsigned int i = 0; i < m_listEntities.size(); ++i)
+		CDisplay::draw(*(m_listEntities[i].get()));
 	}
 
 	// trie rapide des entites par rapport a leurs positions sur l'axe y
-	void CPlaying::quickSort(std::vector<std::unique_ptr<CEntity>>& tableau, int debut, int fin)
+	void CPlaying::quickSort(std::vector<std::unique_ptr<CEntity>>& tab, int begining, int ending)
 	{
-		int gauche = debut-1;
-		int droite = fin+1;
-		const float pivot = tableau[debut]->getPosition().y;
+		int left = begining-1;
+		int right = ending+1;
+		const float pivot = tab[begining]->getPosition().y;
 
-		if(debut >= fin)
+		if(begining >= ending)
 		return;
 
 		while(1)
 		{
-			do droite--; while(tableau[droite]->getPosition().y > pivot);
-			do gauche++; while(tableau[gauche]->getPosition().y < pivot);
+			do right--; while(tab[right]->getPosition().y > pivot);
+			do left++; while(tab[left]->getPosition().y < pivot);
 
-			if(gauche < droite)
+			if(left < right)
 			{
-				std::swap(tableau[gauche], tableau[droite]);
+				std::swap(tab[left], tab[right]);
 
-				// change l'indice de la position du character dans le tableau
-				if (gauche == m_indiceCharacter)
-				m_indiceCharacter = droite;
-				else if (droite == m_indiceCharacter)
-				m_indiceCharacter = gauche;
+				// change l'indice de la position du character dans le tab
+				if (left == m_indexCharacter)
+				m_indexCharacter = right;
+				else if (right == m_indexCharacter)
+				m_indexCharacter = left;
 			}
 			else break;
 		}
 
-		quickSort(tableau, debut, droite);
-		quickSort(tableau, droite+1, fin);
+		quickSort(tab, begining, right);
+		quickSort(tab, right+1, ending);
 	}
 }

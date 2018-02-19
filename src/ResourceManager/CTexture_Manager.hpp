@@ -13,9 +13,9 @@ enum class ETexture_Name
 	e_Pause,
 
 	//button
-	e_Jouer,
-	e_Retour,
-	e_Quitter,
+	e_Play,
+	e_Return,
+	e_Quit,
 
 	//armes
 	e_Knife,

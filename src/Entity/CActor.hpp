@@ -11,12 +11,12 @@ class CActor : public CEntity
 {
   public:
 
-    explicit CActor(unsigned int indice, std::vector<std::unique_ptr<CEntity>> * listEntite);
-    explicit CActor(struct DonneesInit donnees);
+    explicit CActor(unsigned int index, std::vector<std::unique_ptr<CEntity>> * listEntities);
+    explicit CActor(struct DataInit data);
     virtual ~CActor(void);
 
     void setTexture(void);
-    void setTexture(struct DonneesInit donnees);
+    void setTexture(struct DataInit data);
 
     void setAnimation(void) override;
     void input(void) override;
@@ -28,8 +28,8 @@ class CActor : public CEntity
     void setGoalPoint(sf::Vector2i dot);
     sf::Vector2i getGoalPoint(void);
 
-    void setEvenement(bool evenement);
-    bool getEvenement(void);
+    void setEvent(bool event);
+    bool getEvent(void);
 
   private:
 
@@ -56,5 +56,5 @@ class CActor : public CEntity
     sf::Vector2f m_stop;
     sf::Vector2i m_goal_point;
 
-    bool m_evenement;
+    bool m_event;
 };

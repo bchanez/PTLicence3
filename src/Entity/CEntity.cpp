@@ -4,29 +4,29 @@
 {
   LOG("CEntity Constructor\n");
 
-  m_donneesInit.classe = "";
+  m_dataInit.cclass = "";
   for (unsigned int i = 0; i < 4; ++i)
   {
-    m_donneesInit.textures[i] = 0;
+    m_dataInit.textures[i] = 0;
     for (unsigned int j = 0; j < 3; ++j)
     {
-      m_donneesInit.textures_color[i][j] = 0;
+      m_dataInit.textures_color[i][j] = 0;
     }
   }
-  m_donneesInit.positionX = m_donneesInit.positionY = 0.f;
+  m_dataInit.positionX = m_dataInit.positionY = 0.f;
 
 
-  m_donnees.indice = 0;
-  m_donnees.state = 0;
-  m_donnees.mustUpdatePosition = false;
-  m_donnees.positionX = m_donnees.positionY = 0.f;
-  m_donnees.keyLeft = m_donnees.keyRight = m_donnees.keyUp = m_donnees.keyDown = m_donnees.keyShift = m_donnees.mouseLeft = false;
+  m_data.index = 0;
+  m_data.state = 0;
+  m_data.mustUpdatePosition = false;
+  m_data.positionX = m_data.positionY = 0.f;
+  m_data.keyLeft = m_data.keyRight = m_data.keyUp = m_data.keyDown = m_data.keyShift = m_data.mouseLeft = false;
 
   m_isAlive = true;
 
-  m_sprite.setPosition(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
+  m_sprite.setPosition(sf::Vector2f(m_data.positionX, m_data.positionY));
 
-  m_donnees.state = e_idle;
+  m_data.state = e_idle;
   m_orientation = e_right;
 }
 
@@ -37,41 +37,41 @@
 
 sf::Vector2f CEntity::getPosition(void)
 {
-  return sf::Vector2f(m_donnees.positionX, m_donnees.positionY);
+  return sf::Vector2f(m_data.positionX, m_data.positionY);
 }
 
 void CEntity::setPosition(sf::Vector2f pos)
 {
-  m_donneesInit.positionX = pos.x; m_donneesInit.positionY = pos.y;
-  m_donnees.positionX = pos.x; m_donnees.positionY = pos.y;
-  m_sprite.setPosition(sf::Vector2f(m_donnees.positionX, m_donnees.positionY));
+  m_dataInit.positionX = pos.x; m_dataInit.positionY = pos.y;
+  m_data.positionX = pos.x; m_data.positionY = pos.y;
+  m_sprite.setPosition(sf::Vector2f(m_data.positionX, m_data.positionY));
 }
 
-struct DonneesInit CEntity::getDonneesInit(void)
+struct DataInit CEntity::getDataInit(void)
 {
-  return m_donneesInit;
+  return m_dataInit;
 }
 
-struct Donnees CEntity::getDonnees(void)
+struct Data CEntity::getData(void)
 {
-  return m_donnees;
+  return m_data;
 }
 
-void CEntity::setDonnees(struct Donnees d)
+void CEntity::setData(struct Data d)
 {
-  m_donnees.state = d.state;
+  m_data.state = d.state;
 
-  m_donnees.keyLeft = d.keyLeft;
-  m_donnees.keyRight = d.keyRight;
-  m_donnees.keyUp = d.keyUp;
-  m_donnees.keyDown = d.keyDown;
-  m_donnees.keyShift = d.keyShift;
-  m_donnees.mouseLeft = d.mouseLeft;
+  m_data.keyLeft = d.keyLeft;
+  m_data.keyRight = d.keyRight;
+  m_data.keyUp = d.keyUp;
+  m_data.keyDown = d.keyDown;
+  m_data.keyShift = d.keyShift;
+  m_data.mouseLeft = d.mouseLeft;
 
   if(d.mustUpdatePosition)
   {
-      m_donnees.positionX = d.positionX;
-      m_donnees.positionY = d.positionY;
+      m_data.positionX = d.positionX;
+      m_data.positionY = d.positionY;
   }
 }
 

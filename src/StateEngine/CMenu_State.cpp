@@ -11,10 +11,10 @@ namespace State
     m_menu.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Menu)); //Init texture
 
     // bouton jouer
-    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_Jouer), sf::Vector2f(860,500), sf::Vector2f(200,80)));
+    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_Play), sf::Vector2f(860,500), sf::Vector2f(200,80)));
 
     // bouton quitter
-    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_Quitter), sf::Vector2f(860,700), sf::Vector2f(200,80)));
+    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_Quit), sf::Vector2f(860,700), sf::Vector2f(200,80)));
 
   }
 
@@ -65,10 +65,10 @@ namespace State
       m_listButton[i]->update(dt);
 
     // update scene
-    if (m_key.escape || m_listButton[e_quitter]->action())
+    if (m_key.escape || m_listButton[e_quit]->action())
       CDisplay::getWindow()->close();
 
-    if (m_listButton[e_jouer]->action())
+    if (m_listButton[e_play]->action())
     {
       m_application->initPlayingStateNewGame();
       m_application->changeState(EState::e_playing);

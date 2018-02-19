@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <stdio.h>
 #include <string.h>
-#include "Server/CServeur.hpp"
+#include "Server/CServer.hpp"
 #include "CApplication.hpp"
 #include "Tools/CRandom.hpp"
 #include "CConfig.hpp"
@@ -38,8 +38,8 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		CServeur serveur;
-		serveur.loopServer();
+		CServer server;
+		server.loopServer();
 	}
 
 	return EXIT_SUCCESS;

@@ -10,13 +10,13 @@
   LOG("CEvent_concert Destructor\n");
 }
 
-// donne la texture a l'evenemnt
+//Give the event a texture
 void CEvent_concert::setTexture(void)
 {
 
 }
 
-// definie les animations de l'evenement
+// Define the event's animation
 void CEvent_concert::setAnimation(void)
 {
 

@@ -1,32 +1,32 @@
 #include "CEvent_pub.hpp"
 
-/*explicit*/ CEvent_pub::CEvent_pub(unsigned int indice, std::vector<std::unique_ptr<CEntity>> * listEntite)
+/*explicit*/ CEvent_pub::CEvent_pub(unsigned int index, std::vector<std::unique_ptr<CEntity>> * listEntities)
 {
   LOG("CEvent_pub Constructor\n");
 
-  m_listEntite = listEntite;
+  m_listEntities = listEntities;
 
-  m_donneesInit.classe = "CEvent_pub";
-  m_donneesInit.indice = indice;
-  m_donnees.indice = indice;
+  m_dataInit.cclass = "CEvent_pub";
+  m_dataInit.index = index;
+  m_data.index = index;
 
   m_sprite.setOrigin(sf::Vector2f(100, 100));
 
-  m_donnees.state = e_idle;
+  m_data.state = e_idle;
 }
 
-/*explicit*/ CEvent_pub::CEvent_pub(struct DonneesInit donnees)
+/*explicit*/ CEvent_pub::CEvent_pub(struct DataInit m_data)
 {
   LOG("CEvent_pub Constructor\n");
 
-  m_donneesInit.indice = donnees.indice;
-  m_donnees.indice = donnees.indice;
+  m_dataInit.index = m_data.index;
+  m_data.index = m_data.index;
 
   m_sprite.setOrigin(sf::Vector2f(100, 100));
 
-  m_donnees.state = e_idle;
+  m_data.state = e_idle;
 
-  setPosition(sf::Vector2f(donnees.positionX, donnees.positionY));
+  setPosition(sf::Vector2f(m_data.positionX, m_data.positionY));
   setTexture();
   setAnimation();
 }
@@ -36,13 +36,13 @@
   LOG("CEvent_pub Destructor\n");
 }
 
-// donne la texture a l'evenemnt
+// Give the event a texture
 void CEvent_pub::setTexture(void)
 {
   m_sprite.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Pub));
 }
 
-// definie les animations de l'evenement
+//Define the event's textures
 void CEvent_pub::setAnimation(void)
 {
   for (unsigned int i = 0; i < m_nb_animation ; ++i)
@@ -65,14 +65,14 @@ void CEvent_pub::update(bool isServer, float dt)
 {
   (void) dt;
 
-  switch (m_donnees.state)
+  switch (m_data.state)
   {
     case e_idle :
     {
       if(isServer)
       {
         if (CRandom::intInRange(0, 3000) == 0)
-          m_donnees.state = e_call;
+          m_data.state = e_call;
       }
       else
       {
@@ -86,22 +86,22 @@ void CEvent_pub::update(bool isServer, float dt)
       if(isServer)
       {
         if (CRandom::intInRange(0, 1000) == 0)
-            m_donnees.state = e_active;
+            m_data.state = e_active;
 
-        for (unsigned int i = 0; i < (*m_listEntite).size(); ++i)
+        for (unsigned int i = 0; i < (*m_listEntities).size(); ++i)
         {
-          if ((*m_listEntite)[i]->getIsAlive())
+          if ((*m_listEntities)[i]->getIsAlive())
           {
-            if (!dynamic_cast<CActor *>((*m_listEntite)[i].get())->getEvenement()
-              && CCollision::collision(sf::FloatRect(getPosition().x - 150.f, getPosition().y - 160.f, 300.f, 320.f), (*m_listEntite)[i]->getPosition()))
+            if (!dynamic_cast<CActor *>((*m_listEntities)[i].get())->getEvent()
+              && CCollision::collision(sf::FloatRect(getPosition().x - 150.f, getPosition().y - 160.f, 300.f, 320.f), (*m_listEntities)[i]->getPosition()))
             {
-              dynamic_cast<CActor *>((*m_listEntite)[i].get())->setEvenement(true);
-              dynamic_cast<CActor *>((*m_listEntite)[i].get())->setGoalPoint(sf::Vector2i(CRandom::floatInRange(getPosition().x - 70.f, getPosition().x + 100.f), CRandom::floatInRange(getPosition().y, getPosition().y + 40.f)));
+              dynamic_cast<CActor *>((*m_listEntities)[i].get())->setEvent(true);
+              dynamic_cast<CActor *>((*m_listEntities)[i].get())->setGoalPoint(sf::Vector2i(CRandom::floatInRange(getPosition().x - 70.f, getPosition().x + 100.f), CRandom::floatInRange(getPosition().y, getPosition().y + 40.f)));
             }
-            else if (dynamic_cast<CActor *>((*m_listEntite)[i].get())->getEvenement())
+            else if (dynamic_cast<CActor *>((*m_listEntities)[i].get())->getEvent())
             {
               if (CRandom::intInRange(0, 1000) == 0)
-                dynamic_cast<CActor *>((*m_listEntite)[i].get())->setGoalPoint(sf::Vector2i(CRandom::floatInRange(getPosition().x - 70.f, getPosition().x + 100.f), CRandom::floatInRange(getPosition().y, getPosition().y + 40.f)));
+                dynamic_cast<CActor *>((*m_listEntities)[i].get())->setGoalPoint(sf::Vector2i(CRandom::floatInRange(getPosition().x - 70.f, getPosition().x + 100.f), CRandom::floatInRange(getPosition().y, getPosition().y + 40.f)));
             }
           }
         }
@@ -119,21 +119,21 @@ void CEvent_pub::update(bool isServer, float dt)
       {
         if (CRandom::intInRange(0, 2000) == 0)
         {
-          m_donnees.state = e_idle;
+          m_data.state = e_idle;
 
-          for (unsigned int i = 0; i < (*m_listEntite).size(); ++i)
-            if ((*m_listEntite)[i]->getIsAlive())
-              dynamic_cast<CActor *>((*m_listEntite)[i].get())->setEvenement(false);
+          for (unsigned int i = 0; i < (*m_listEntities).size(); ++i)
+            if ((*m_listEntities)[i]->getIsAlive())
+              dynamic_cast<CActor *>((*m_listEntities)[i].get())->setEvent(false);
         }
 
 
-        for (unsigned int i = 0; i < (*m_listEntite).size(); ++i)
+        for (unsigned int i = 0; i < (*m_listEntities).size(); ++i)
         {
-          if ((*m_listEntite)[i]->getIsAlive())
-            if (dynamic_cast<CActor *>((*m_listEntite)[i].get())->getEvenement())
+          if ((*m_listEntities)[i]->getIsAlive())
+            if (dynamic_cast<CActor *>((*m_listEntities)[i].get())->getEvent())
             {
               if (CRandom::intInRange(0, 1000) == 0)
-                dynamic_cast<CActor *>((*m_listEntite)[i].get())->setGoalPoint(sf::Vector2i(CRandom::floatInRange(getPosition().x - 70.f, getPosition().x + 100.f), CRandom::floatInRange(getPosition().y, getPosition().y + 40.f)));
+                dynamic_cast<CActor *>((*m_listEntities)[i].get())->setGoalPoint(sf::Vector2i(CRandom::floatInRange(getPosition().x - 70.f, getPosition().x + 100.f), CRandom::floatInRange(getPosition().y, getPosition().y + 40.f)));
             }
         }
       }

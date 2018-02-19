@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <SFML/Network.hpp>
 #include "../Tools/DEBUG.hpp"
-#include "CDonnees.hpp"
+#include "CData.hpp"
 #include "../CConfig.hpp"
 #include <exception>
 
@@ -16,8 +16,8 @@ class CClient
     explicit CClient(void);
     virtual ~CClient(void);
 
-    void connexion(void);
-    void deconnexion(void);
+    void connection(void);
+    void disconnection(void);
 
     sf::Packet receiveInitgame(void); //Reçoie les paquets
     void sendState(unsigned int state);
@@ -29,13 +29,13 @@ class CClient
     void addPacketReceive(sf::Packet p);
 
     std::vector<sf::Packet> getListPacketReceive(void);
-    void removePacketReceivedFromBeginingToIndice(unsigned int indice);
+    void removePacketReceivedFromBeginingToIndex(unsigned int index);
 
     sf::Thread * getThreadSend(void);
     sf::Thread * getThreadReceive(void);
 
   private:
-    sf::IpAddress m_serveur;
+    sf::IpAddress m_server;
 
     sf::TcpSocket m_TCPserver;
     sf::UdpSocket m_UDPserver;

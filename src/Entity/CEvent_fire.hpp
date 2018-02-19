@@ -4,13 +4,13 @@
 #include "../ResourceManager/CResourceHolder.hpp"
 #include "../Tools/DEBUG.hpp"
 
-class CEvent_feu: public CEvent
+class CEvent_fire: public CEvent
 {
 
   public:
 
-    explicit CEvent_feu(void);
-    virtual ~CEvent_feu(void);
+    explicit CEvent_fire(void);
+    virtual ~CEvent_fire(void);
 
     void setTexture(void) override;
     void setAnimation(void) override;

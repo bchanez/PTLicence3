@@ -1,14 +1,14 @@
 #include "CActor.hpp"
 
-/*explicit*/ CActor::CActor(unsigned int indice, std::vector<std::unique_ptr<CEntity>> * listEntite)
+/*explicit*/ CActor::CActor(unsigned int index, std::vector<std::unique_ptr<CEntity>> * listEntities)
 {
   LOG("CActor Constructor\n");
 
-  m_listEntite = listEntite;
+  m_listEntities = listEntities;
 
-  m_donneesInit.classe = "CActor";
-  m_donneesInit.indice = (sf:: Uint16) indice;
-  m_donnees.indice = (sf:: Uint16) indice;
+  m_dataInit.cclass = "CActor";
+  m_dataInit.index = (sf:: Uint16) index;
+  m_dataInit.index = (sf:: Uint16) index;
 
   m_isCharacter = false;
 
@@ -22,17 +22,17 @@
   m_attack = false;
   m_mustDisappear = false;
 
-  m_evenement = false;
+  m_event = false;
 
   setTexture();
 }
 
-/*explicit*/ CActor::CActor(struct DonneesInit donnees)
+/*explicit*/ CActor::CActor(struct DataInit data)
 {
   LOG("CActor Constructor\n");
 
-  m_donneesInit = donnees;
-  m_donnees.indice = donnees.indice;
+  m_dataInit = data;
+  m_data.index = data.index;
 
   m_isCharacter = false;
 
@@ -46,10 +46,10 @@
   m_attack = false;
   m_mustDisappear = false;
 
-  m_evenement = false;
+  m_event = false;
 
-  setPosition(sf::Vector2f(donnees.positionX, donnees.positionY));
-  setTexture(donnees);
+  setPosition(sf::Vector2f(data.positionX, data.positionY));
+  setTexture(data);
   setAnimation();
 }
 
@@ -58,51 +58,51 @@
   LOG("CActor Destructor\n");
 }
 
-// donne la texture au personnage
+// Set the character's texture
 void CActor::setTexture(void)
 {
   sf::Color newColor, hairColor;
 
   switch(CRandom::intInRange(0,3)){
     case 0 :
-    { //Normale
+    { //Normal
       newColor = sf::Color(254, 211, 186);
-      m_donneesInit.textures[1] = 0;
-      m_donneesInit.textures_color[1][0] = 254;
-      m_donneesInit.textures_color[1][1] = 211;
-      m_donneesInit.textures_color[1][2] = 186;
+      m_dataInit.textures[1] = 0;
+      m_dataInit.textures_color[1][0] = 254;
+      m_dataInit.textures_color[1][1] = 211;
+      m_dataInit.textures_color[1][2] = 186;
 
       switch(CRandom::intInRange(0,4)){
         case 0 :
         {
-          hairColor = sf::Color(210, 160, 110); //Blond
-          m_donneesInit.textures_color[0][0] = 210;
-          m_donneesInit.textures_color[0][1] = 160;
-          m_donneesInit.textures_color[0][2] = 110;
+          hairColor = sf::Color(210, 160, 110); //Blonde
+          m_dataInit.textures_color[0][0] = 210;
+          m_dataInit.textures_color[0][1] = 160;
+          m_dataInit.textures_color[0][2] = 110;
           break;
         }
         case 1 :
         {
-          hairColor = sf::Color(50, 50, 50);  //Noir
-          m_donneesInit.textures_color[0][0] = 50;
-          m_donneesInit.textures_color[0][1] = 50;
-          m_donneesInit.textures_color[0][2] = 50;
+          hairColor = sf::Color(50, 50, 50);  //Black
+          m_dataInit.textures_color[0][0] = 50;
+          m_dataInit.textures_color[0][1] = 50;
+          m_dataInit.textures_color[0][2] = 50;
           break;
         }
         case 2 :
         {
-          hairColor = sf::Color(140, 80, 60); //Chatain
-          m_donneesInit.textures_color[0][0] = 140;
-          m_donneesInit.textures_color[0][1] = 80;
-          m_donneesInit.textures_color[0][2] = 60;
+          hairColor = sf::Color(140, 80, 60); //Dark Blond
+          m_dataInit.textures_color[0][0] = 140;
+          m_dataInit.textures_color[0][1] = 80;
+          m_dataInit.textures_color[0][2] = 60;
           break;
         }
         case 3 :
         {
-          hairColor = sf::Color(80, 40, 20); //Brun
-          m_donneesInit.textures_color[0][0] = 80;
-          m_donneesInit.textures_color[0][1] = 40;
-          m_donneesInit.textures_color[0][2] = 20;
+          hairColor = sf::Color(80, 40, 20); //Brown
+          m_dataInit.textures_color[0][0] = 80;
+          m_dataInit.textures_color[0][1] = 40;
+          m_dataInit.textures_color[0][2] = 20;
           break;
         }
         default : break;
@@ -111,42 +111,42 @@ void CActor::setTexture(void)
       break;
     }
     case 1 :
-    { //Jaune
+    { //Yellow
       newColor = sf::Color(254, 235, 190);
-      m_donneesInit.textures[1] = 0;
-      m_donneesInit.textures_color[1][0] = 254;
-      m_donneesInit.textures_color[1][1] = 235;
-      m_donneesInit.textures_color[1][2] = 190;
+      m_dataInit.textures[1] = 0;
+      m_dataInit.textures_color[1][0] = 254;
+      m_dataInit.textures_color[1][1] = 235;
+      m_dataInit.textures_color[1][2] = 190;
 
-      hairColor = sf::Color(50, 50, 50);  //Noir
-      m_donneesInit.textures_color[0][0] = 50;
-      m_donneesInit.textures_color[0][1] = 50;
-      m_donneesInit.textures_color[0][2] = 50;
+      hairColor = sf::Color(50, 50, 50);  //Black
+      m_dataInit.textures_color[0][0] = 50;
+      m_dataInit.textures_color[0][1] = 50;
+      m_dataInit.textures_color[0][2] = 50;
       break;
     }
     case 2 :
-    { //Noire
+    { //Black
       newColor = sf::Color(100, 80, 50);
-      m_donneesInit.textures[1] = 0;
-      m_donneesInit.textures_color[1][0] = 100;
-      m_donneesInit.textures_color[1][1] = 80;
-      m_donneesInit.textures_color[1][2] = 50;
+      m_dataInit.textures[1] = 0;
+      m_dataInit.textures_color[1][0] = 100;
+      m_dataInit.textures_color[1][1] = 80;
+      m_dataInit.textures_color[1][2] = 50;
 
       switch(CRandom::intInRange(0,1)){
         case 0 :
         {
-          hairColor = sf::Color(50, 50, 50);  //Noir
-          m_donneesInit.textures_color[0][0] = 50;
-          m_donneesInit.textures_color[0][1] = 50;
-          m_donneesInit.textures_color[0][2] = 50;
+          hairColor = sf::Color(50, 50, 50);  //Black
+          m_dataInit.textures_color[0][0] = 50;
+          m_dataInit.textures_color[0][1] = 50;
+          m_dataInit.textures_color[0][2] = 50;
           break;
         }
         case 1 :
         {
-          hairColor = sf::Color(80, 40, 20); //Brun
-          m_donneesInit.textures_color[0][0] = 80;
-          m_donneesInit.textures_color[0][1] = 40;
-          m_donneesInit.textures_color[0][2] = 20;
+          hairColor = sf::Color(80, 40, 20); //Brown
+          m_dataInit.textures_color[0][0] = 80;
+          m_dataInit.textures_color[0][1] = 40;
+          m_dataInit.textures_color[0][2] = 20;
           break;
         }
         default : break;
@@ -155,44 +155,44 @@ void CActor::setTexture(void)
       break;
     }
     case 3 :
-    { //Pâle
+    { //Pale
       newColor = sf::Color(254, 230, 215);
-      m_donneesInit.textures[1] = 0;
-      m_donneesInit.textures_color[1][0] = 254;
-      m_donneesInit.textures_color[1][1] = 230;
-      m_donneesInit.textures_color[1][2] = 215;
+      m_dataInit.textures[1] = 0;
+      m_dataInit.textures_color[1][0] = 254;
+      m_dataInit.textures_color[1][1] = 230;
+      m_dataInit.textures_color[1][2] = 215;
 
       switch(CRandom::intInRange(0,4)){
         case 0 :
         {
-          hairColor = sf::Color(140, 80, 60); //Chatain
-          m_donneesInit.textures_color[0][0] = 140;
-          m_donneesInit.textures_color[0][1] = 80;
-          m_donneesInit.textures_color[0][2] = 60;
+          hairColor = sf::Color(140, 80, 60); //Dark Blond
+          m_dataInit.textures_color[0][0] = 140;
+          m_dataInit.textures_color[0][1] = 80;
+          m_dataInit.textures_color[0][2] = 60;
           break;
         }
         case 1 :
         {
-          hairColor = sf::Color(200, 110, 50); //Roux
-          m_donneesInit.textures_color[0][0] = 200;
-          m_donneesInit.textures_color[0][1] = 110;
-          m_donneesInit.textures_color[0][2] = 50;
+          hairColor = sf::Color(200, 110, 50); //Redhead
+          m_dataInit.textures_color[0][0] = 200;
+          m_dataInit.textures_color[0][1] = 110;
+          m_dataInit.textures_color[0][2] = 50;
           break;
         }
         case 2 :
         {
-          hairColor = sf::Color(100, 40, 20); //Brun
-          m_donneesInit.textures_color[0][0] = 100;
-          m_donneesInit.textures_color[0][1] = 40;
-          m_donneesInit.textures_color[0][2] = 20;
+          hairColor = sf::Color(100, 40, 20); //Brown
+          m_dataInit.textures_color[0][0] = 100;
+          m_dataInit.textures_color[0][1] = 40;
+          m_dataInit.textures_color[0][2] = 20;
           break;
         }
         case 3 :
         {
-          hairColor = sf::Color(50, 50, 50); //Noir
-          m_donneesInit.textures_color[0][0] = 50;
-          m_donneesInit.textures_color[0][1] = 50;
-          m_donneesInit.textures_color[0][2] = 50;
+          hairColor = sf::Color(50, 50, 50); //Black
+          m_dataInit.textures_color[0][0] = 50;
+          m_dataInit.textures_color[0][1] = 50;
+          m_dataInit.textures_color[0][2] = 50;
           break;
         }
         case 4 :
@@ -208,10 +208,10 @@ void CActor::setTexture(void)
   }
 
   //Hair
-  m_donneesInit.textures[0] = CRandom::intInRange(2, 9);
+  m_dataInit.textures[0] = CRandom::intInRange(2, 9);
 }
 
-void CActor::setTexture(struct DonneesInit donnees)
+void CActor::setTexture(struct DataInit data)
 {
   //Texture
   m_prerender.create(160, 80);
@@ -223,8 +223,8 @@ void CActor::setTexture(struct DonneesInit donnees)
   sf::Image i_Body = CResourceHolder::get().image(EImage_Name::e_Body_White);
   sf::Color newColor, hairColor;
 
-  newColor = sf::Color(donnees.textures_color[1][0], donnees.textures_color[1][1], donnees.textures_color[1][2]);
-  hairColor = sf::Color(donnees.textures_color[0][0], donnees.textures_color[0][1], donnees.textures_color[0][2]);
+  newColor = sf::Color(data.textures_color[1][0], data.textures_color[1][1], data.textures_color[1][2]);
+  hairColor = sf::Color(data.textures_color[0][0], data.textures_color[0][1], data.textures_color[0][2]);
 
   //newColor = sf::Color(200,200,200);
 
@@ -249,7 +249,7 @@ void CActor::setTexture(struct DonneesInit donnees)
   m_prerender.draw(spr);
 
   //Hair
-  size_t hair_nb = donnees.textures[0];
+  size_t hair_nb = data.textures[0];
   sf::Image i_Hair = CResourceHolder::get().image((EImage_Name)hair_nb);
 
 
@@ -280,7 +280,7 @@ void CActor::setTexture(struct DonneesInit donnees)
   m_sprite.setTexture(m_prerender.getTexture());
 }
 
-// definie les animations du personnage
+// Define the character's animations
 void CActor::setAnimation(void)
 {
   for (unsigned int i = 0; i < m_nb_animation ; ++i)
@@ -295,16 +295,16 @@ void CActor::setAnimation(void)
 
 void CActor::input(void)
 {
-  if (!m_isCharacter) // pnj
+  if (!m_isCharacter) // npc
   {
-    m_donnees.keyLeft = m_donnees.keyRight = m_donnees.keyUp = m_donnees.keyDown = m_donnees.keyShift = false;
+    m_data.keyLeft = m_data.keyRight = m_data.keyUp = m_data.keyDown = m_data.keyShift = false;
 
-    if ((m_goal_point.x != (int) m_donnees.positionX || m_goal_point.y != (int) m_donnees.positionY) && m_goal_point != sf::Vector2i(0, 0)) // si point de destination
+    if ((m_goal_point.x != (int) m_data.positionX || m_goal_point.y != (int) m_data.positionY) && m_goal_point != sf::Vector2i(0, 0)) // if destination point
     {
-      m_donnees.keyLeft = (m_goal_point.x < (int) m_donnees.positionX);
-      m_donnees.keyRight = (m_goal_point.x > (int) m_donnees.positionX);
-      m_donnees.keyUp = (m_goal_point.y < (int) m_donnees.positionY);
-      m_donnees.keyDown = (m_goal_point.y > (int) m_donnees.positionY);
+      m_data.keyLeft = (m_goal_point.x < (int) m_data.positionX);
+      m_data.keyRight = (m_goal_point.x > (int) m_data.positionX);
+      m_data.keyUp = (m_goal_point.y < (int) m_data.positionY);
+      m_data.keyDown = (m_goal_point.y > (int) m_data.positionY);
 
       if (CRandom::intInRange(0, 10) == 0){
         if (CRandom::intInRange(0, 20) == 0){
@@ -317,38 +317,38 @@ void CActor::input(void)
 
       if(m_stop.x)
       {
-        m_donnees.keyLeft = false;
-        m_donnees.keyRight = false;
+        m_data.keyLeft = false;
+        m_data.keyRight = false;
       }
       if(m_stop.y)
       {
-        m_donnees.keyUp = false;
-        m_donnees.keyDown = false;
+        m_data.keyUp = false;
+        m_data.keyDown = false;
       }
 
     }
-    else // si pas de point de destination
+    else // if no destination point
     {
       switch(CRandom::intInRange(0, 100))
       {
-        case 0 : // gauche
+        case 0 : // left
         {
-          m_donnees.keyLeft = true;
+          m_data.keyLeft = true;
           break;
         }
-        case 1 : // haut
+        case 1 : // up
         {
-          m_donnees.keyUp = true;
+          m_data.keyUp = true;
           break;
         }
-        case 2 : // droite
+        case 2 : // right
         {
-          m_donnees.keyRight = true;
+          m_data.keyRight = true;
           break;
         }
-        case 3 : // bas
+        case 3 : // down
         {
-          m_donnees.keyDown = true;
+          m_data.keyDown = true;
           break;
         }
         default: break;
@@ -359,30 +359,30 @@ void CActor::input(void)
 
 void CActor::update(bool isServer, float dt)
 {
-  switch (m_donnees.state)
+  switch (m_data.state)
   {
     case e_idle :
     {
-      if(m_donnees.keyLeft || m_donnees.keyRight || m_donnees.keyUp || m_donnees.keyDown)
+      if(m_data.keyLeft || m_data.keyRight || m_data.keyUp || m_data.keyDown)
       {
-        if (!m_donnees.keyShift)
-          m_donnees.state = e_walk;
+        if (!m_data.keyShift)
+          m_data.state = e_walk;
         else
-          m_donnees.state = e_run;
+          m_data.state = e_run;
       }
 
-      if(m_donnees.mouseLeft)
-        m_donnees.state = e_attack;
+      if(m_data.mouseLeft)
+        m_data.state = e_attack;
 
 
-      if (isServer && !m_evenement && !m_isCharacter)
+      if (isServer && !m_event && !m_isCharacter)
         if (CRandom::intInRange(0, 1000) == 0)
           m_goal_point = sf::Vector2i(CRandom::intInRange(SIZE_TILE, (SIZE_MAP_X-1)*SIZE_TILE), CRandom::intInRange(SIZE_TILE, (SIZE_MAP_Y-1)*SIZE_TILE));
 
 
       if (!isServer)
       {
-        // mise a jour de l'animation
+        // Animation update
         if (m_orientation == e_right)
         {
           m_animation[e_walk_right].restart();
@@ -400,47 +400,47 @@ void CActor::update(bool isServer, float dt)
 
     case e_walk :
     {
-      sf::Vector2f position = sf::Vector2f(m_donnees.positionX, m_donnees.positionY);
+      sf::Vector2f position = sf::Vector2f(m_data.positionX, m_data.positionY);
 
       m_move_speed = WALK_SPEED;
 
-      if(m_donnees.keyLeft)
+      if(m_data.keyLeft)
         position.x += ((position.x - (m_move_speed * dt)) >= SIZE_TILE) ? -(m_move_speed * dt) : 0.f;
 
-      if(m_donnees.keyRight)
+      if(m_data.keyRight)
         position.x += ((position.x + m_move_speed * dt) < (SIZE_MAP_X-1)*SIZE_TILE) ? m_move_speed * dt : 0.f;
 
-      if(m_donnees.keyUp)
+      if(m_data.keyUp)
         position.y += ((position.y - (m_move_speed * dt)) >= SIZE_TILE) ? -(m_move_speed * dt) : 0.f;
 
-      if(m_donnees.keyDown)
+      if(m_data.keyDown)
         position.y += ((position.y + m_move_speed * dt) < (SIZE_MAP_Y-1)*SIZE_TILE) ? m_move_speed * dt : 0.f;
 
-      if(!(m_donnees.keyRight && m_donnees.keyLeft))
+      if(!(m_data.keyRight && m_data.keyLeft))
       {
-          if(m_donnees.keyLeft)  m_orientation = e_left;
-          if(m_donnees.keyRight) m_orientation = e_right;
+          if(m_data.keyLeft)  m_orientation = e_left;
+          if(m_data.keyRight) m_orientation = e_right;
       }
 
       if(position == getPosition())
-        m_donnees.state = e_idle;
+        m_data.state = e_idle;
       else
-        if(m_donnees.keyShift)
-          m_donnees.state = e_run;
+        if(m_data.keyShift)
+          m_data.state = e_run;
 
-      if(m_donnees.mouseLeft)
-        m_donnees.state = e_attack;
+      if(m_data.mouseLeft)
+        m_data.state = e_attack;
 
 
       if (position != getPosition())
       {
-        // mise a jour de la position
+        //Position update
         setPosition(position);
         m_knife.setPosition(position);
 
         if (!isServer)
         {
-          // mise a jour de l'animation
+          //Animation update
           if (m_orientation == e_right)
           {
             m_animation[e_walk_left].restart();
@@ -452,7 +452,7 @@ void CActor::update(bool isServer, float dt)
             m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
           }
 
-          // centre la vue sur la position du personnage si c'est un character
+          //Center view on character if not an NPC
           if (m_isCharacter)
           {
             CDisplay::getView()->setCenter(getPosition());
@@ -466,46 +466,46 @@ void CActor::update(bool isServer, float dt)
 
     case e_run :
     {
-      sf::Vector2f position = sf::Vector2f(m_donnees.positionX, m_donnees.positionY);
+      sf::Vector2f position = sf::Vector2f(m_data.positionX, m_data.positionY);
 
       m_move_speed = RUN_SPEED;
 
-      if(m_donnees.keyLeft)
+      if(m_data.keyLeft)
         position.x += ((position.x - (m_move_speed * dt)) >= SIZE_TILE) ? -(m_move_speed * dt) : 0.f;
 
-      if(m_donnees.keyRight)
+      if(m_data.keyRight)
         position.x += ((position.x + m_move_speed * dt) < (SIZE_MAP_X-1)*SIZE_TILE) ? m_move_speed * dt : 0.f;
 
-      if(m_donnees.keyUp)
+      if(m_data.keyUp)
         position.y += ((position.y - (m_move_speed * dt)) >= SIZE_TILE) ? -(m_move_speed * dt) : 0.f;
 
-      if(m_donnees.keyDown)
+      if(m_data.keyDown)
         position.y += ((position.y + m_move_speed * dt) < (SIZE_MAP_Y-1)*SIZE_TILE) ? m_move_speed * dt : 0.f;
 
-      if(!(m_donnees.keyRight && m_donnees.keyLeft))
+      if(!(m_data.keyRight && m_data.keyLeft))
       {
-          if(m_donnees.keyLeft)  m_orientation = e_left;
-          if(m_donnees.keyRight) m_orientation = e_right;
+          if(m_data.keyLeft)  m_orientation = e_left;
+          if(m_data.keyRight) m_orientation = e_right;
       }
 
       if(position == getPosition())
-        m_donnees.state = e_idle;
+        m_data.state = e_idle;
       else
-        if(!m_donnees.keyShift)
-          m_donnees.state = e_walk;
+        if(!m_data.keyShift)
+          m_data.state = e_walk;
 
-      if(m_donnees.mouseLeft)
-        m_donnees.state = e_attack;
+      if(m_data.mouseLeft)
+        m_data.state = e_attack;
 
       if (position != getPosition())
       {
-        // mise a jour de la position
+        // Update position
         setPosition(position);
         m_knife.setPosition(position);
 
         if (!isServer)
         {
-          // mise a jour de l'animation
+          //Update animation
           if (m_orientation == e_right)
           {
             m_animation[e_walk_left].restart();
@@ -517,7 +517,7 @@ void CActor::update(bool isServer, float dt)
             m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
           }
 
-          // centre la vue sur la position du personnage si c'est un character
+          //Center view on character if not a NPC
           if (m_isCharacter)
           {
             CDisplay::getView()->setCenter(getPosition());
@@ -538,12 +538,12 @@ void CActor::update(bool isServer, float dt)
     {
       if(isServer)
       {
-        for (unsigned int i = 0; i < (*m_listEntite).size(); ++i)
+        for (unsigned int i = 0; i < (*m_listEntities).size(); ++i)
         {
-          if ((*m_listEntite)[i]->getIsAlive() && getDonnees().indice != (*m_listEntite)[i]->getDonnees().indice)
-            if (CCollision::collision(sf::FloatRect(getPosition().x - 20.f, getPosition().y - 20.f, 40.f, 40.f), (*m_listEntite)[i]->getPosition()))
+          if ((*m_listEntities)[i]->getIsAlive() && getData().index != (*m_listEntities)[i]->getData().index)
+            if (CCollision::collision(sf::FloatRect(getPosition().x - 20.f, getPosition().y - 20.f, 40.f, 40.f), (*m_listEntities)[i]->getPosition()))
             {
-              dynamic_cast<CActor *>((*m_listEntite)[i].get())->m_donnees.state = e_dead;
+              dynamic_cast<CActor *>((*m_listEntities)[i].get())->m_data.state = e_dead;
             }
         }
       }
@@ -557,7 +557,7 @@ void CActor::update(bool isServer, float dt)
 
       if (isServer && m_knife.isLoopDone()){
         m_timer = 0.f;
-        m_donnees.state = e_slow;
+        m_data.state = e_slow;
       }
 
       break;
@@ -569,37 +569,37 @@ void CActor::update(bool isServer, float dt)
 
       m_timer += dt;
 
-      sf::Vector2f position = sf::Vector2f(m_donnees.positionX, m_donnees.positionY);
+      sf::Vector2f position = sf::Vector2f(m_data.positionX, m_data.positionY);
 
       m_move_speed = WALK_SPEED/2;
 
-      if(m_donnees.keyLeft)
+      if(m_data.keyLeft)
         position.x += ((position.x - (m_move_speed * dt)) >= SIZE_TILE) ? -(m_move_speed * dt) : 0.f;
 
-      if(m_donnees.keyRight)
+      if(m_data.keyRight)
         position.x += ((position.x + m_move_speed * dt) < (SIZE_MAP_X-1)*SIZE_TILE) ? m_move_speed * dt : 0.f;
 
-      if(m_donnees.keyUp)
+      if(m_data.keyUp)
         position.y += ((position.y - (m_move_speed * dt)) >= SIZE_TILE) ? -(m_move_speed * dt) : 0.f;
 
-      if(m_donnees.keyDown)
+      if(m_data.keyDown)
         position.y += ((position.y + m_move_speed * dt) < (SIZE_MAP_Y-1)*SIZE_TILE) ? m_move_speed * dt : 0.f;
 
-      if(!(m_donnees.keyRight && m_donnees.keyLeft))
+      if(!(m_data.keyRight && m_data.keyLeft))
       {
-          if(m_donnees.keyLeft)  m_orientation = e_left;
-          if(m_donnees.keyRight) m_orientation = e_right;
+          if(m_data.keyLeft)  m_orientation = e_left;
+          if(m_data.keyRight) m_orientation = e_right;
       }
 
       if (position != getPosition())
       {
-        // mise a jour de la position
+        //Update position
         setPosition(position);
         m_knife.setPosition(position);
 
         if (!isServer)
         {
-          // mise a jour de l'animation
+          //Update animation
           if (m_orientation == e_right)
           {
             m_animation[e_walk_left].restart();
@@ -611,7 +611,7 @@ void CActor::update(bool isServer, float dt)
             m_sprite.setTextureRect(m_animation[e_walk_left].getFrame());
           }
 
-          // centre la vue sur la position du personnage si c'est un character
+          //Center view on character if not a NPC
           if (m_isCharacter)
           {
             CDisplay::getView()->setCenter(getPosition());
@@ -621,7 +621,7 @@ void CActor::update(bool isServer, float dt)
       }
 
       if (m_timer > 1)
-        m_donnees.state = e_idle;
+        m_data.state = e_idle;
 
       break;
     }
@@ -646,7 +646,7 @@ void CActor::update(bool isServer, float dt)
       m_timer += dt;
 
       if (m_timer > 2)
-        m_donnees.state = e_disappear;
+        m_data.state = e_disappear;
 
       break;
     }
@@ -664,7 +664,7 @@ void CActor::update(bool isServer, float dt)
 void CActor::setIsCharacter(bool isCharacter)
 {
   m_isCharacter = isCharacter;
-  m_donnees.keyLeft = m_donnees.keyRight = m_donnees.keyUp = m_donnees.keyDown = m_donnees.keyShift = m_donnees.mouseLeft = false;
+  m_data.keyLeft = m_data.keyRight = m_data.keyUp = m_data.keyDown = m_data.keyShift = m_data.mouseLeft = false;
 }
 
 bool CActor::getMustDisappear(void)
@@ -682,12 +682,12 @@ sf::Vector2i CActor::getGoalPoint(void)
   return m_goal_point;
 }
 
-void CActor::setEvenement(bool evenement)
+void CActor::setEvent(bool event)
 {
-  m_evenement = evenement;
+  m_event = event;
 }
 
-bool CActor::getEvenement(void)
+bool CActor::getEvent(void)
 {
-  return m_evenement;
+  return m_event;
 }

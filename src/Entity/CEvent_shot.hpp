@@ -4,13 +4,13 @@
 #include "../ResourceManager/CResourceHolder.hpp"
 #include "../Tools/DEBUG.hpp"
 
-class CEvent_tir: public CEvent
+class CEvent_shot: public CEvent
 {
 
   public:
 
-    explicit CEvent_tir(void);
-    virtual ~CEvent_tir(void);
+    explicit CEvent_shot(void);
+    virtual ~CEvent_shot(void);
 
     void setTexture(void) override;
     void setAnimation(void) override;

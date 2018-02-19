@@ -9,8 +9,8 @@ class CEvent_pub: public CEvent
 
   public:
 
-    explicit CEvent_pub(unsigned int indice, std::vector<std::unique_ptr<CEntity>> * listEntite);
-    explicit CEvent_pub(struct DonneesInit donnees);
+    explicit CEvent_pub(unsigned int index, std::vector<std::unique_ptr<CEntity>> * listEntities);
+    explicit CEvent_pub(struct DataInit data);
     virtual ~CEvent_pub(void);
 
     void setTexture(void) override;

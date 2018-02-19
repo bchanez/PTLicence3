@@ -7,7 +7,7 @@
 #include "../Tools/DEBUG.hpp"
 #include "../Tools/CRandom.hpp"
 #include "../Tools/CCollision.hpp"
-#include "../Server/CDonnees.hpp"
+#include "../Server/CData.hpp"
 #include "../CConfig.hpp"
 
 #define WALK_SPEED 60
@@ -28,17 +28,17 @@ class CEntity : public CDrawable
     virtual void update(bool isServer, float dt) = 0;
     virtual void input(void) = 0;
 
-    struct DonneesInit getDonneesInit(void);
-    struct Donnees getDonnees(void);
-    void setDonnees(struct Donnees d);
+    struct DataInit getDataInit(void);
+    struct Data getData(void);
+    void setData(struct Data d);
 
     bool getIsAlive(void);
     void setIsAlive(bool isAlive);
 
   protected:
 
-    struct DonneesInit m_donneesInit;
-    struct Donnees m_donnees;
+    struct DataInit m_dataInit;
+    struct Data m_data;
 
     bool m_isAlive;
 
@@ -53,5 +53,5 @@ class CEntity : public CDrawable
     unsigned int m_nb_animation;
     std::vector<CAnimation> m_animation;
 
-    std::vector<std::unique_ptr<CEntity>> * m_listEntite; //chaque entite peut acceder au autre entite
+    std::vector<std::unique_ptr<CEntity>> * m_listEntities; //Each entity can access another entity
 };

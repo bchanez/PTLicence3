@@ -1,8 +1,8 @@
-#include "CDonnees.hpp"
+#include "CData.hpp"
 
-sf::Packet& operator <<(sf::Packet& packet, const DonneesInit& d) //Données dans paquet
+sf::Packet& operator <<(sf::Packet& packet, const DataInit& d) //Données dans paquet
 {
-  packet << d.indice << d.state << d.classe;
+  packet << d.index << d.state << d.cclass;
   for (int i = 0; i < 4; ++i)
     packet << d.textures[i];
   for (int i = 0; i < 4; ++i)
@@ -14,9 +14,9 @@ sf::Packet& operator <<(sf::Packet& packet, const DonneesInit& d) //Données dan
 }
 
 
-sf::Packet& operator >>(sf::Packet& packet, DonneesInit& d) //Paquet dans données
+sf::Packet& operator >>(sf::Packet& packet, DataInit& d) //Paquet dans données
 {
-  packet >> d.indice >> d.state >> d.classe;
+  packet >> d.index >> d.state >> d.cclass;
   for (int i = 0; i < 4; ++i)
     packet >> d.textures[i];
   for (int i = 0; i < 4; ++i)
@@ -27,27 +27,27 @@ sf::Packet& operator >>(sf::Packet& packet, DonneesInit& d) //Paquet dans donné
   return packet;
 }
 
-sf::Packet& operator <<(sf::Packet& packet, const Donnees& d) //idem
+sf::Packet& operator <<(sf::Packet& packet, const Data& d) //idem
 {
     return packet <<
-      d.indice <<
+      d.index <<
       d.state <<
       d.mustUpdatePosition <<
       d.positionX << d.positionY <<
       d.keyLeft << d.keyRight << d.keyUp << d.keyDown << d.keyShift << d.mouseLeft;
 }
 
-sf::Packet& operator >>(sf::Packet& packet, Donnees& d)
+sf::Packet& operator >>(sf::Packet& packet, Data& d)
 {
   return packet >>
-    d.indice >>
+    d.index >>
     d.state >>
     d.mustUpdatePosition >>
     d.positionX >> d.positionY >>
     d.keyLeft >> d.keyRight >> d.keyUp >> d.keyDown >> d.keyShift >> d.mouseLeft;
 }
 
-bool operator != (const struct Donnees& d1, const struct Donnees& d2)
+bool operator != (const struct Data& d1, const struct Data& d2)
 {
   return d1.state != d2.state
     || d1.keyLeft != d2.keyLeft

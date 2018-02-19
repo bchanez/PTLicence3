@@ -1,12 +1,12 @@
 #include "CButton.hpp"
 
-/* explicit */ CButton::CButton(const sf::Texture * texture, sf::Vector2f position, sf::Vector2f taille)
+/* explicit */ CButton::CButton(const sf::Texture * texture, sf::Vector2f position, sf::Vector2f size)
 {
   LOG("CButton Constructor\n");
 
   m_position = position;
   m_sprite.setPosition(m_position);
-  m_taille = taille;
+  m_size = size;
 
   setTexture(texture);
   setAnimation();
@@ -29,9 +29,9 @@ void CButton::setAnimation(void)
   for (unsigned int i = 0; i < m_nb_animation ; ++i)
     m_animation.push_back(CAnimation());
 
-  m_animation[e_normal].addFrame(sf::IntRect(0, m_taille.y * 0, m_taille.x, m_taille.y), 0.1f);
-  m_animation[e_hovered].addFrame(sf::IntRect(0, m_taille.y * 1, m_taille.x, m_taille.y), 0.1f);
-  m_animation[e_cliked].addFrame(sf::IntRect(0, m_taille.y * 2, m_taille.x, m_taille.y), 0.1f);
+  m_animation[e_normal].addFrame(sf::IntRect(0, m_size.y * 0, m_size.x, m_size.y), 0.1f);
+  m_animation[e_hovered].addFrame(sf::IntRect(0, m_size.y * 1, m_size.x, m_size.y), 0.1f);
+  m_animation[e_cliked].addFrame(sf::IntRect(0, m_size.y * 2, m_size.x, m_size.y), 0.1f);
 
   m_sprite.setTextureRect(m_animation[e_normal].getCurrentFrame());
 }
@@ -48,7 +48,7 @@ void CButton::inputMouseclicked(bool clicked)
 
 bool CButton::action(void)
 {
-  return m_action && m_state == e_hovered && CCollision::collision(sf::FloatRect(m_position, m_taille), mouse.position);
+  return m_action && m_state == e_hovered && CCollision::collision(sf::FloatRect(m_position, m_size), mouse.position);
 }
 
 void CButton::init(void)
@@ -67,7 +67,7 @@ void CButton::update(float dt)
   {
     case e_normal :
     {
-      if(CCollision::collision(sf::FloatRect(m_position, m_taille), mouse.position))
+      if(CCollision::collision(sf::FloatRect(m_position, m_size), mouse.position))
         m_state = e_hovered;
 
       m_action = false;
@@ -80,7 +80,7 @@ void CButton::update(float dt)
     {
       if(mouse.clicked)
         m_state = e_cliked;
-      else if(!CCollision::collision(sf::FloatRect(m_position, m_taille), mouse.position))
+      else if(!CCollision::collision(sf::FloatRect(m_position, m_size), mouse.position))
         m_state = e_normal;
 
       m_sprite.setTextureRect(m_animation[e_hovered].getFrame());

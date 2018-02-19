@@ -6,13 +6,13 @@
 
 	// stats
 	addResource(ETexture_Name::e_Titlescreen, "rsc/graphics/titlescreen.png");
-	addResource(ETexture_Name::e_Menu, "rsc/graphics/menu_screen.png");
-	addResource(ETexture_Name::e_Pause, "rsc/graphics/pause_screen.png");
+	addResource(ETexture_Name::e_Menu, "rsc/graphics/screen_menu.png");
+	addResource(ETexture_Name::e_Pause, "rsc/graphics/screen_pause.png");
 
 	// button
-	addResource(ETexture_Name::e_Jouer, "rsc/graphics/jouer.png");
-	addResource(ETexture_Name::e_Retour, "rsc/graphics/retour.png");
-	addResource(ETexture_Name::e_Quitter, "rsc/graphics/quitter.png");
+	addResource(ETexture_Name::e_Play, "rsc/graphics/play.png");
+	addResource(ETexture_Name::e_Return, "rsc/graphics/return.png");
+	addResource(ETexture_Name::e_Quit, "rsc/graphics/quit.png");
 
 	//armes
 	addResource(ETexture_Name::e_Knife, "rsc/graphics/knife.png");

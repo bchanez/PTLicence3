@@ -11,7 +11,7 @@
 #include "../Entity/CActor.hpp"
 #include "../Entity/CEvent_pub.hpp"
 #include "../Server/CClient.hpp"
-#include "../Server/CDonnees.hpp"
+#include "../Server/CData.hpp"
 #include <exception>
 
 namespace State
@@ -36,7 +36,7 @@ namespace State
 			// client pour connecter avec le serveur
 			CClient * m_client;
 
-			struct Donnees m_donnees; //Pour les données du client
+			struct Data m_data; //Pour les données du client
 			void receive(void); //Nani?!
 
 			Key m_key;
@@ -46,8 +46,8 @@ namespace State
 
 			CMap m_map;
 
-			std::vector<std::unique_ptr<CEntity>> m_listEntite; // joueur, pnj, evenement
+			std::vector<std::unique_ptr<CEntity>> m_listEntities; // joueur, pnj, evenement
 
-			sf:: Uint16 m_indiceCharacter; // variable qui stocke l'indice du character dans le tableau
+			sf:: Uint16 m_indexCharacter; // variable qui stocke l'indice du character dans le tableau
 	};
 }

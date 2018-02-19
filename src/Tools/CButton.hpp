@@ -12,7 +12,7 @@ class CButton : public CDrawable
   struct Mouse { bool clicked; sf::Vector2f position; };
 
   public:
-    explicit CButton(const sf::Texture * texture, sf::Vector2f position,  sf::Vector2f taille);
+    explicit CButton(const sf::Texture * texture, sf::Vector2f position,  sf::Vector2f size);
     virtual ~CButton(void);
 
     void setTexture(const sf::Texture * texture);
@@ -35,7 +35,7 @@ class CButton : public CDrawable
     unsigned int m_nb_animation = 3;
 
     sf::Vector2f m_position;
-    sf::Vector2f m_taille;
+    sf::Vector2f m_size;
 
     Mouse mouse;
 };

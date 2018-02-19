@@ -26,7 +26,7 @@ namespace State
 
 			sf::Sprite m_menu;
 
-			enum EButton {e_jouer, e_quitter}; //Boutons affichés
+			enum EButton {e_play, e_quit}; //Boutons affichés
 			std::vector<std::unique_ptr<CButton>> m_listButton;
 	};
 }
