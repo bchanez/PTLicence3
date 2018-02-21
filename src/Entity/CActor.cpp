@@ -8,7 +8,7 @@
 
   m_dataInit.cclass = "CActor";
   m_dataInit.index = (sf:: Uint16) index;
-  m_dataInit.index = (sf:: Uint16) index;
+  m_data.index = (sf:: Uint16) index;
 
   m_isCharacter = false;
 
