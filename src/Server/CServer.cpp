@@ -175,6 +175,7 @@ void CServer::receive(void)  //recoie
     if(m_listClient.at(i).socketTCP->receive(packet) == sf::Socket::Disconnected)
     {
        std::cout<<"Client disconnected"<<std::endl;
+       dynamic_cast<CActor *>(m_listEntities[m_listClient.at(i).index].get())->setIsCharacter(false);
        m_listClient.at(i).socketTCP->disconnect();
        break;
     }
@@ -200,7 +201,20 @@ void CServer::initGame(int nb_npc, int nb_event)
   for(unsigned int i = shiftIndex; i < nb_event + shiftIndex; ++i)
   {
     m_listEntities.push_back(std::make_unique<CEvent_pub>(i, &m_listEntities)); //Pub (éviter d'avoir deux pointeurs sur le même objet)
-    m_listEntities.at(i).get()->setPosition(sf::Vector2f(CRandom::floatInRange(SIZE_TILE*2, (SIZE_MAP_X-2)*SIZE_TILE), CRandom::floatInRange(SIZE_TILE*2, (SIZE_MAP_Y-2)*SIZE_TILE)));
+
+    //evite d'avoir 2 pubs au meme endroit
+    float positionX = CRandom::floatInRange(SIZE_TILE*2, (SIZE_MAP_X-2)*SIZE_TILE);
+    float positionY = CRandom::floatInRange(SIZE_TILE*2, (SIZE_MAP_Y-2)*SIZE_TILE);
+    while(shiftIndex<m_listEntities.size() &&
+          CCollision::collision(
+            sf::FloatRect(m_listEntities.at(m_listEntities.size()-1).get()->getPosition().x, m_listEntities.at(i).get()->getPosition().y, 200.f, 160.f),
+            sf::FloatRect(positionX, positionY, 200.f, 160.f)))
+    {
+      positionX = CRandom::floatInRange(SIZE_TILE*2, (SIZE_MAP_X-2)*SIZE_TILE);
+      positionY = CRandom::floatInRange(SIZE_TILE*2, (SIZE_MAP_Y-2)*SIZE_TILE);
+    }
+
+    m_listEntities.at(i).get()->setPosition(sf::Vector2f(positionX, positionY));
     m_dataInit.push_back(m_listEntities.at(i).get()->getDataInit());
     m_everyData.push_back(m_listEntities.at(i).get()->getData());
   }

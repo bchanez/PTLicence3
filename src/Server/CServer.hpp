@@ -7,6 +7,7 @@
 #include <SFML/Network.hpp>
 #include "../Tools/DEBUG.hpp"
 #include "../Tools/CRandom.hpp"
+#include "../Tools/CCollision.hpp"
 #include "../Entity/CMap.hpp"
 #include "../Entity/CActor.hpp"
 #include "../Entity/CEvent_pub.hpp"
