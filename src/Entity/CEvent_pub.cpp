@@ -15,18 +15,18 @@
   m_data.state = e_idle;
 }
 
-/*explicit*/ CEvent_pub::CEvent_pub(struct DataInit m_data)
+/*explicit*/ CEvent_pub::CEvent_pub(struct DataInit data)
 {
   LOG("CEvent_pub Constructor\n");
 
-  m_dataInit.index = m_data.index;
-  m_data.index = m_data.index;
+  m_dataInit.index = data.index;
+  m_data.index = data.index;
 
   m_sprite.setOrigin(sf::Vector2f(100, 100));
 
   m_data.state = e_idle;
 
-  setPosition(sf::Vector2f(m_data.positionX, m_data.positionY));
+  setPosition(sf::Vector2f(data.positionX, data.positionY));
   setTexture();
   setAnimation();
 }

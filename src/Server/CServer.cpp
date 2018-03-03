@@ -33,6 +33,7 @@ void CServer::connection(void)
       if(client->getRemoteAddress() == m_listClient.at(i).adress)
       {
         std::cout << "Client " <<  m_listClient.at(i).index << " reconnected" << std::endl;
+        std::cout << "le client " << m_listClient.at(i).index << " passe a l'etat 0" << std::endl;
         exist = true;
         m_listClient.at(i).state = 0;
         m_listClient.at(i).socketTCP = client;
@@ -84,6 +85,7 @@ void CServer::send(void)
         // envoie
         while (m_listClient.at(i).socketTCP->send(packetInitGame) != sf::Socket::Done);  //Envoi données en TCP (while pour tout envoyer) While pour bien tout envoyer
 
+        std::cout << "le client " << m_listClient.at(i).index << " passe a l'etat 1" << std::endl;
         m_listClient.at(i).state = 1; //Ne fait plus rien
         break;
       }
@@ -122,6 +124,7 @@ void CServer::send(void)
 
         udpSocket.send(packet, m_listClient.at(i).adress, 55003);
 
+        std::cout << "le client " << m_listClient.at(i).index << " passe a l'etat 2" << std::endl;
         m_listClient.at(i).state = 2; //Il est en jeu
         break;
       }
@@ -259,6 +262,9 @@ void CServer::updateGame(float dt)
     // met a jour les donnees d'envois courantes
     if(m_everyData.at(i) != m_listEntities.at(i).get()->getData()) //Si un joueur se connecte, il aura ces infos là
     {
+
+
+
       m_everyData.at(i) = m_listEntities.at(i).get()->getData();
       for (unsigned int j = 0; j < m_listClient.size(); ++j)
       {
