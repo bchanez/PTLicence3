@@ -133,6 +133,7 @@ namespace State
 		{
 			sf::Packet p;
 			m_data = data;
+			m_listEntities.at(m_indexCharacter)->setData(m_data);
 			p << m_data;
 			m_client->addPacketToSend(p);
 		}
@@ -162,7 +163,7 @@ namespace State
 
 				for (unsigned int j = 0; j < m_listEntities.size(); ++j)
 				try {
-					if(m_listEntities.at(j)->getData().index == data.index)
+					if(m_listEntities.at(j)->getData().index == data.index && m_listEntities.at(m_indexCharacter)->getData().index != data.index)
 					{
 						m_listEntities.at(j)->setData(data);
 						break;

@@ -555,7 +555,7 @@ void CActor::update(bool isServer, float dt)
 
       m_knife.update(false, dt);
 
-      if (isServer && m_knife.isLoopDone()){
+      if (m_knife.isLoopDone()){
         m_timer = 0.f;
         m_data.state = e_slow;
       }

@@ -24,20 +24,38 @@ void CServer::connection(void)
   sf::TcpSocket* client = new sf::TcpSocket;    //Varable client (client qui va se connecter)
   if (listenerSocket.accept(*client) == sf::Socket::Done)
   {
-    std::cout << "New client connected: " << client->getRemoteAddress() << std::endl;
     client->setBlocking(false);               //Mettre en non bloquant (éviter de ralentir le serveur)
 
-    // Cree un client (Voir struct Client CServeur.hpp)
-    Client c;
-    c.state = 0;
-    c.socketTCP = client;
-    c.index = m_listClient.size();     //Indice du client (1er client sera le PNJ 0, 2eme sera le PNJ 1 etc...)
-    c.adress = client->getRemoteAddress();
-    c.port = client->getRemotePort();
-    for(unsigned int i = 0; i < m_everyData.size(); ++i)
-      c.synchroPosition.push_back(0);     //Pour chaque client, on met a jour la position des clients tout les 8 frames
+    //test si client c'est deja connecte a la partie
+    bool exist = false;
+    for (unsigned int i = 0; i < m_listClient.size(); ++i)
+    {
+      if(client->getRemoteAddress() == m_listClient.at(i).adress)
+      {
+        std::cout << "Client " <<  m_listClient.at(i).index << " reconnected" << std::endl;
+        exist = true;
+        m_listClient.at(i).state = 0;
+        m_listClient.at(i).socketTCP = client;
+        break;
+      }
+    }
 
-    m_listClient.push_back(c);
+    // Cree un client si nouveau client (Voir struct Client CServeur.hpp)
+
+    if(!exist)
+    {
+      std::cout << "New client connected: " << client->getRemoteAddress() << std::endl;
+      Client c;
+      c.state = 0;
+      c.socketTCP = client;
+      c.index = m_listClient.size();     //Indice du client (1er client sera le PNJ 0, 2eme sera le PNJ 1 etc...)
+      c.adress = client->getRemoteAddress();
+      c.port = client->getRemotePort();
+      for(unsigned int i = 0; i < m_everyData.size(); ++i)
+        c.synchroPosition.push_back(0);     //Pour chaque client, on met a jour la position des clients tout les 8 frames
+
+      m_listClient.push_back(c);
+    }
   }
   else
   {
@@ -133,7 +151,6 @@ void CServer::receive(void)  //recoie
     if(udpSocket.receive(packet, server, port) == sf::Socket::Done)
     {
       packet >> data; //Recoie le paquet
-
       try {
         m_listEntities.at(data.index).get()->setData(data);
       }
@@ -151,14 +168,11 @@ void CServer::receive(void)  //recoie
       m_listClient.at(i).state = state;
     }
 
-    // detruit client si deconnecte
+    // deconnecte client si deconnecte
     if(m_listClient.at(i).socketTCP->receive(packet) == sf::Socket::Disconnected)
     {
        std::cout<<"Client disconnected"<<std::endl;
        m_listClient.at(i).socketTCP->disconnect();
-       delete(m_listClient.at(i).socketTCP);
-       m_listClient.erase(m_listClient.begin() + i);
-       i--;
        break;
     }
   }

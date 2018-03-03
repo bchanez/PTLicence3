@@ -30,7 +30,6 @@ class CServer
     void updateGame(float dt);
 
   private:
-
     sf::Clock m_clock;
     float fps_timer;
 
