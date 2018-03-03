@@ -13,7 +13,7 @@
 	m_state.insert(std::make_pair(EState::e_result, std::make_unique<State::CResult>(*this)));
 
 	m_currentScene = EState::e_intro;	//Premier état = intro
-	dynamic_cast<State::CIntro *>(m_state[m_currentScene].get())->init();	//Init intro
+	m_state[m_currentScene]->init();	//Init intro
 }
 
 /*virtual*/ CApplication::~CApplication(void)
@@ -48,7 +48,7 @@ void CApplication::runMainLoop(void)
 
 void CApplication::initState(EState state)
 {
-	m_state[state].get()->init();
+	m_state[state]->init();
 }
 
 void CApplication::changeState(EState state)

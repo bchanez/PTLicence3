@@ -8,7 +8,7 @@ namespace State
     LOG("CResult Constructor\n");
 
     // bouton retour
-    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_Return), sf::Vector2f(860,500), sf::Vector2f(200,80)));
+    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_Return), sf::Vector2f(860,700), sf::Vector2f(200,80)));
 
   }
 

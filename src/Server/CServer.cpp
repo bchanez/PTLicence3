@@ -30,7 +30,7 @@ void CServer::connection(void)
     bool exist = false;
     for (unsigned int i = 0; i < m_listClient.size(); ++i)
     {
-      if(client->getRemoteAddress() == m_listClient.at(i).adress)
+      if(client->getRemoteAddress() == m_listClient.at(i).adress && m_listClient.at(i).state != -1)
       {
         std::cout << "Client " <<  m_listClient.at(i).index << " reconnected" << std::endl;
         std::cout << "le client " << m_listClient.at(i).index << " passe a l'etat 0" << std::endl;

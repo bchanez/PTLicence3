@@ -170,26 +170,36 @@ namespace State
 			int numberCActor = 0;
 			for (unsigned int i = 0; i < m_listEntities.size(); ++i)
 			{
-				numberCActor++;
 				try {
-					if (m_listEntities.at(i)->getDataInit().cclass == "CActor" && dynamic_cast<CActor *>(m_listEntities[i].get())->getMustDisappear())
+					if (m_listEntities.at(i)->getDataInit().cclass == "CActor")
 					{
-						std::cout  << "delete \n";
-						m_listEntities.erase(m_listEntities.begin() + i);
-						if (m_indexCharacter > i) //On décale si le perso est après le mort
-							m_indexCharacter--;
+						numberCActor++;
 
-						//le perso est mort donc scene perdu
-						if (m_indexCharacter == i)
+						if(dynamic_cast<CActor *>(m_listEntities[i].get())->getMustDisappear())
 						{
-							m_client->disconnection();  //Déco du client
-							m_application->setResult("lose");
-							m_application->initState(EState::e_result);
-							m_application->changeState(EState::e_result);
+							std::cout  << "delete \n";
+							m_listEntities.erase(m_listEntities.begin() + i);
+
+							//le perso est mort donc scene perdu
+							if (m_indexCharacter == i)
+							{
+								std::cout << "perdu" << std::endl;
+								m_client->sendState(-1);
+								m_client->disconnection();  //Déco du client
+								m_application->setResult("lose");
+								m_application->initState(EState::e_result);
+								m_application->changeState(EState::e_result);
+							}
+
+							//On décale si le perso est après le mort
+							if (m_indexCharacter > i)
+								m_indexCharacter--;
 						}
+
 						// il ne reste que le joueur donc scene gagne
-						else if (numberCActor == 1)
+						if (numberCActor == 1 && i == m_listEntities.size() - 1)
 						{
+							std::cout << "gagner" << std::endl;
 							m_client->disconnection();  //Déco du client
 							m_application->setResult("win");
 							m_application->initState(EState::e_result);
