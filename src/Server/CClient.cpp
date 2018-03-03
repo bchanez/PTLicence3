@@ -7,6 +7,8 @@
   m_UDPserver.bind(55003);
 
   m_server = IP_SERV;
+
+  m_isConnected = false;
 }
 
 /*virtual*/ CClient::~CClient(void)
@@ -20,6 +22,7 @@ void CClient::connection(void)
   if (status == sf::Socket::Done)
   {
       LOG("connection ok\n");
+      m_isConnected = true;
   }
   else
   {
@@ -27,8 +30,14 @@ void CClient::connection(void)
   }
 }
 
+bool CClient::getIsConnected(void)
+{
+  return m_isConnected;
+}
+
 void CClient::disconnection(void)
 {
+  m_isConnected = false;
   m_TCPserver.disconnect();
 }
 

@@ -1,34 +1,24 @@
-#include "CPause_State.hpp"
+#include "CResult_State.hpp"
 
 namespace State
 {
-  /*explicit*/ CPause::CPause(CApplication & application, CClient * client)
+  /*explicit*/ CResult::CResult(CApplication & application)
     : CGame_State(application)
   {
-    LOG("CPause Constructor\n");
-
-    m_client = client;  //ajout du client
-
-    m_pause.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Pause));
+    LOG("CResult Constructor\n");
 
     // bouton retour
     m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_Return), sf::Vector2f(860,500), sf::Vector2f(200,80)));
 
-    // bouton quitter
-    m_listButton.push_back(std::make_unique<CButton>(& CResourceHolder::get().texture(ETexture_Name::e_Quit), sf::Vector2f(860,700), sf::Vector2f(200,80)));
-
   }
 
-  /*virtual*/ CPause::~CPause()
+  /*virtual*/ CResult::~CResult()
   {
-    LOG("CPause Destructor\n");
+    LOG("CResult Destructor\n");
   }
 
-  void CPause::init(void)
+  void CResult::init(void)
   {
-
-			m_client->sendState(1); //On ne fait rien (pas de réception de données)
-
       m_key.escape = false;
 
       for (unsigned int i = 0; i < m_listButton.size(); ++i)
@@ -40,7 +30,7 @@ namespace State
       CDisplay::getWindow()->setView(* CDisplay::getView());
   }
 
-  void CPause::input(sf::Event * event)
+  void CResult::input(sf::Event * event)
   {
     if((* event).type == sf::Event::KeyPressed)
       if ((* event).key.code == sf::Keyboard::Escape)
@@ -65,7 +55,7 @@ namespace State
             m_listButton[i]->inputMouseclicked(false);
   }
 
-  void CPause::update(float dt)
+  void CResult::update(float dt)
   {
     (void)dt;
     // update button
@@ -73,27 +63,28 @@ namespace State
       m_listButton[i]->update(dt);
 
     // update scene
-    if (m_key.escape || m_listButton[e_quitter]->action())
+    if (m_key.escape || m_listButton[e_retour]->action())
     {
-      m_client->disconnection();  //Déco du client si quitter
       m_application->initState(EState::e_menu);
       m_application->changeState(EState::e_menu);
     }
-
-    if (m_listButton[e_retour]->action())
-    {
-      m_application->initState(EState::e_playing);
-      m_application->changeState(EState::e_playing); //Etat en jeu
-    }
   }
 
-  void CPause::draw()
+  void CResult::draw()
   {
-    // dessine l'image de la pause
-    CDisplay::draw(m_pause);
+    // dessine l'image de resultat
+    CDisplay::draw(m_result);
 
     //dessine les boutons
     for (unsigned int i = 0; i < m_listButton.size(); ++i)
       CDisplay::draw(* (m_listButton[i].get()));
+  }
+
+  void CResult::setResult(std::string str)
+  {
+    // if("lose" == str)
+    //   m_result.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Win));
+    // else
+    //   m_result.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Lose));
   }
 }

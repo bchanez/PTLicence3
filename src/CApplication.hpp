@@ -10,6 +10,7 @@
 #include "StateEngine/CMenu_State.hpp"
 #include "StateEngine/CPlaying_State.hpp"
 #include "StateEngine/CPause_State.hpp"
+#include "StateEngine/CResult_State.hpp"
 #include "Server/CClient.hpp"
 
 // Inclusion cyclique
@@ -20,6 +21,7 @@ namespace State {
 	class CMenu;
 	class CPlaying;
 	class CPause;
+	class CResult;
 }
 
 enum class EState
@@ -27,7 +29,8 @@ enum class EState
 	e_intro,
 	e_menu,
 	e_playing,
-	e_pause
+	e_pause,
+	e_result
 };
 
 class CApplication
@@ -38,14 +41,10 @@ public:
 	virtual ~CApplication(void);	//Destructeur
 
 	void runMainLoop(void);				//Lance en boucle
-
-	void initIntroState(void);
-	void initMenuState(void);
-	void initPlayingStateNewGame(void);
-	void initPlayingState(void);
-	void initPauseState(void);
-
+	void initState(EState state);
 	void changeState(EState state);
+
+	void setResult(std::string str);
 
 private:
 	std::map <EState, std::unique_ptr<State::CGame_State>> m_state;

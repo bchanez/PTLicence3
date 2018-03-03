@@ -21,47 +21,40 @@ namespace State
 	{
 		m_key.escape = false;
 
+		if(!m_client->getIsConnected())
+		{
+			m_listEntities.clear();
+
+			m_client->connection();
+			sf::Packet packetInitGame = m_client->receiveInitgame();
+
+			sf::Uint16 sizeData;
+			packetInitGame >>  m_indexCharacter;
+			packetInitGame >>  sizeData;
+			for(unsigned int i = 0; i < sizeData; ++i)
+			{
+				struct DataInit dataInit;
+				packetInitGame >> dataInit; //On met le paquet dans les donnes
+
+				if((dataInit.cclass).compare("CActor") == 0)
+				{
+					m_listEntities.push_back(std::make_unique<CActor>(dataInit));
+				}
+				else if ((dataInit.cclass).compare("CEvent_pub") == 0)
+				{
+					m_listEntities.push_back(std::make_unique<CEvent_pub>(dataInit));
+				}
+			}
+
+			dynamic_cast<CActor *>(m_listEntities[m_indexCharacter].get())->setIsCharacter(true); //Cast; Pour le PNJ à l'index du joueur, on dit que c'est un joueur
+		}
+
 		// centre la vue sur la position du personnage (Diviser par deux et zoomé)
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
 		CDisplay::getView()->setCenter(m_listEntities[m_indexCharacter].get()->getPosition());
 		CDisplay::getWindow()->setView(* CDisplay::getView());
-	}
 
-	void CPlaying::newGame(void)
-	{
-		m_key.escape = false;
-
-		m_listEntities.clear();
-
-		m_client->connection();
-		sf::Packet packetInitGame = m_client->receiveInitgame();
-
-		sf::Uint16 sizeData;
-		packetInitGame >>  m_indexCharacter;
-		packetInitGame >>  sizeData;
-		for(unsigned int i = 0; i < sizeData; ++i)
-		{
-			struct DataInit dataInit;
-			packetInitGame >> dataInit; //On met le paquet dans les donnes
-
-			if((dataInit.cclass).compare("CActor") == 0)
-			{
-				m_listEntities.push_back(std::make_unique<CActor>(dataInit));
-			}
-			else if ((dataInit.cclass).compare("CEvent_pub") == 0)
-			{
-				m_listEntities.push_back(std::make_unique<CEvent_pub>(dataInit));
-			}
-		}
-
-		dynamic_cast<CActor *>(m_listEntities[m_indexCharacter].get())->setIsCharacter(true); //Cast; Pour le PNJ à l'index du joueur, on dit que c'est un joueur
-
-		// centre la vue sur la position du personnage
-		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
-		CDisplay::getView()->setCenter(m_listEntities[m_indexCharacter]->getPosition());
-		CDisplay::getWindow()->setView(* CDisplay::getView());
-
-		m_client->sendState(3); //Synchro totale pour le temps qu'il a mis a créer
+		m_client->sendState(3); //Synchro totale
 	}
 
 	void CPlaying::input(sf::Event * event)
@@ -144,8 +137,7 @@ namespace State
 		//update de la scene
 		if (m_key.escape)
 		{
-			m_client->sendState(1); //On ne fait rien (pas de réception de données)
-			m_application->initPauseState();
+			m_application->initState(EState::e_pause);
 			m_application->changeState(EState::e_pause);
 			return;
 		}
@@ -175,15 +167,34 @@ namespace State
 			}
 
 			// update des entites
+			int numberCActor = 0;
 			for (unsigned int i = 0; i < m_listEntities.size(); ++i)
 			{
+				numberCActor++;
 				try {
 					if (m_listEntities.at(i)->getDataInit().cclass == "CActor" && dynamic_cast<CActor *>(m_listEntities[i].get())->getMustDisappear())
 					{
 						std::cout  << "delete \n";
 						m_listEntities.erase(m_listEntities.begin() + i);
 						if (m_indexCharacter > i) //On décale si le perso est après le mort
-						m_indexCharacter--;
+							m_indexCharacter--;
+
+						//le perso est mort donc scene perdu
+						if (m_indexCharacter == i)
+						{
+							m_client->disconnection();  //Déco du client
+							m_application->setResult("lose");
+							m_application->initState(EState::e_result);
+							m_application->changeState(EState::e_result);
+						}
+						// il ne reste que le joueur donc scene gagne
+						else if (numberCActor == 1)
+						{
+							m_client->disconnection();  //Déco du client
+							m_application->setResult("win");
+							m_application->initState(EState::e_result);
+							m_application->changeState(EState::e_result);
+						}
 					}
 
 					m_listEntities.at(i)->update(false, dt);

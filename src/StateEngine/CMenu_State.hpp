@@ -16,7 +16,7 @@ namespace State
 			explicit CMenu(CApplication& application);
 			virtual ~CMenu();
 
-			void init(void);
+			void init(void) override;
 			void input(sf::Event * event) override;
 			void update(float dt) override;
 			void draw() override;

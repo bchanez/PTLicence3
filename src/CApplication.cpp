@@ -5,11 +5,12 @@
 	LOG("CApplication Constructor\n");
 	CDisplay::init();	//Création fenêtre
 
-	//Insertion tout les états possible (intro, menu, en jeu, pause)
+	//Insertion tout les états possible (intro, menu, en jeu, pause, resultat)
 	m_state.insert(std::make_pair(EState::e_intro, std::make_unique<State::CIntro>(*this)));
 	m_state.insert(std::make_pair(EState::e_menu, std::make_unique<State::CMenu>(*this)));
 	m_state.insert(std::make_pair(EState::e_playing, std::make_unique<State::CPlaying>(*this, &m_client)));
 	m_state.insert(std::make_pair(EState::e_pause, std::make_unique<State::CPause>(*this, &m_client)));
+	m_state.insert(std::make_pair(EState::e_result, std::make_unique<State::CResult>(*this)));
 
 	m_currentScene = EState::e_intro;	//Premier état = intro
 	dynamic_cast<State::CIntro *>(m_state[m_currentScene].get())->init();	//Init intro
@@ -45,32 +46,17 @@ void CApplication::runMainLoop(void)
 	}
 }
 
-void CApplication::initIntroState(void)
+void CApplication::initState(EState state)
 {
-	dynamic_cast<State::CIntro *>(m_state[EState::e_intro].get())->init();
-}
-
-void CApplication::initMenuState(void)
-{
-	dynamic_cast<State::CMenu *>(m_state[EState::e_menu].get())->init();
-}
-
-void CApplication::initPlayingStateNewGame(void)
-{
-	dynamic_cast<State::CPlaying *>(m_state[EState::e_playing].get())->newGame();
-}
-
-void CApplication::initPlayingState(void)
-{
-	dynamic_cast<State::CPlaying *>(m_state[EState::e_playing].get())->init();
-}
-
-void CApplication::initPauseState(void)
-{
-	dynamic_cast<State::CPause *>(m_state[EState::e_pause].get())->init();
+	m_state[state].get()->init();
 }
 
 void CApplication::changeState(EState state)
 {
 	m_currentScene = state;
+}
+
+void CApplication::setResult(std::string str)
+{
+	dynamic_cast<State::CResult *>(m_state[EState::e_result].get())->setResult(str);
 }

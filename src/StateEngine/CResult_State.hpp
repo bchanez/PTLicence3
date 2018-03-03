@@ -5,32 +5,30 @@
 #include "../Tools/CDisplay.hpp"
 #include "../Tools/CButton.hpp"
 #include "../Tools/DEBUG.hpp"
-#include "../Server/CClient.hpp"
 
 namespace State
 {
-	class CPause : public CGame_State
+	class CResult : public CGame_State
 	{
 			struct Key { bool escape; };
 
 		public:
-			explicit CPause(CApplication& application, CClient * client);
-			virtual ~CPause();
+			explicit CResult(CApplication& application);
+			virtual ~CResult();
 
 			void init(void) override;
 			void input(sf::Event * event) override;
 			void update(float dt) override;
 			void draw() override;
 
-		private:
-			// client pour connecter avec le serveur (pointeur)
-			CClient * m_client;
+      void setResult(std::string str);
 
+		private:
 			Key m_key;
 
-			sf::Sprite m_pause;
+			sf::Sprite m_result;
 
-			enum EButton {e_retour, e_quitter};
+			enum EButton {e_retour};
 			std::vector<std::unique_ptr<CButton>> m_listButton;
 	};
 }

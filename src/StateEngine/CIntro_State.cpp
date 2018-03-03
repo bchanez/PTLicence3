@@ -37,7 +37,7 @@ namespace State
 
     if (m_key)  //Change d'état si une touche est appuyée
     {
-      m_application->initMenuState();
+      m_application->initState(EState::e_menu);
       m_application->changeState(EState::e_menu);
     }
   }

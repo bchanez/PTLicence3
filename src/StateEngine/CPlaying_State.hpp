@@ -24,9 +24,7 @@ namespace State
 			explicit CPlaying(CApplication& application, CClient * client);
 			virtual ~CPlaying();
 
-			void init(void);
-			void newGame(void);
-
+			void init(void) override;
 			void input(sf::Event * event) override;
 			void update(float dt) override;
 			void draw() override;
