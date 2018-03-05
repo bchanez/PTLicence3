@@ -127,6 +127,7 @@ namespace State
 			sf::Packet p;
 			m_data = data;
 			m_listEntities.at(m_indexCharacter)->setData(m_data);
+			m_data.mustUpdatePosition = true;
 			p << m_data;
 			m_client->addPacketToSend(p);
 		}
