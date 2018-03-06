@@ -59,19 +59,22 @@ struct Data CEntity::getData(void)
 
 void CEntity::setData(struct Data d)
 {
-  m_data.state = d.state;
-
-  m_data.keyLeft = d.keyLeft;
-  m_data.keyRight = d.keyRight;
-  m_data.keyUp = d.keyUp;
-  m_data.keyDown = d.keyDown;
-  m_data.keyShift = d.keyShift;
-  m_data.mouseLeft = d.mouseLeft;
-
-  if(d.mustUpdatePosition)
+  if(m_dataInit.cclass == "CActor" && m_data.state != 6 && m_data.state != 9)
   {
-      m_data.positionX = d.positionX;
-      m_data.positionY = d.positionY;
+    m_data.state = d.state;
+
+    m_data.keyLeft = d.keyLeft;
+    m_data.keyRight = d.keyRight;
+    m_data.keyUp = d.keyUp;
+    m_data.keyDown = d.keyDown;
+    m_data.keyShift = d.keyShift;
+    m_data.mouseLeft = d.mouseLeft;
+
+    if(d.mustUpdatePosition)
+    {
+        m_data.positionX = d.positionX;
+        m_data.positionY = d.positionY;
+    }
   }
 }
 

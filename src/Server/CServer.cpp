@@ -203,16 +203,27 @@ void CServer::initGame(int nb_npc, int nb_event)
     m_listEntities.push_back(std::make_unique<CEvent_pub>(i, &m_listEntities)); //Pub (éviter d'avoir deux pointeurs sur le même objet)
 
     //evite d'avoir 2 pubs au meme endroit
-    float positionX = CRandom::floatInRange(SIZE_TILE*2, (SIZE_MAP_X-2)*SIZE_TILE);
-    float positionY = CRandom::floatInRange(SIZE_TILE*2, (SIZE_MAP_Y-2)*SIZE_TILE);
-    while(shiftIndex<m_listEntities.size() &&
-          CCollision::collision(
-            sf::FloatRect(m_listEntities.at(m_listEntities.size()-1).get()->getPosition().x, m_listEntities.at(i).get()->getPosition().y, 200.f, 160.f),
-            sf::FloatRect(positionX, positionY, 200.f, 160.f)))
+    float positionX = 0;
+    float positionY = 0;
+    bool collision = false;
+
+    do
     {
       positionX = CRandom::floatInRange(SIZE_TILE*2, (SIZE_MAP_X-2)*SIZE_TILE);
       positionY = CRandom::floatInRange(SIZE_TILE*2, (SIZE_MAP_Y-2)*SIZE_TILE);
-    }
+
+      collision = false;
+      for(unsigned int j = shiftIndex; j < m_listEntities.size(); ++j)
+      {
+        if(m_listEntities.size() - shiftIndex >= 2 &&
+        CCollision::collision(
+          sf::FloatRect(m_listEntities.at(j).get()->getPosition().x, m_listEntities.at(j).get()->getPosition().y, 200.f, 160.f),
+          sf::FloatRect(positionX, positionY, 200.f, 160.f)))
+        {
+          collision = true;
+        }
+      }
+    }while (collision);
 
     m_listEntities.at(i).get()->setPosition(sf::Vector2f(positionX, positionY));
     m_dataInit.push_back(m_listEntities.at(i).get()->getDataInit());
@@ -276,9 +287,6 @@ void CServer::updateGame(float dt)
     // met a jour les donnees d'envois courantes
     if(m_everyData.at(i) != m_listEntities.at(i).get()->getData()) //Si un joueur se connecte, il aura ces infos là
     {
-
-
-
       m_everyData.at(i) = m_listEntities.at(i).get()->getData();
       for (unsigned int j = 0; j < m_listClient.size(); ++j)
       {
