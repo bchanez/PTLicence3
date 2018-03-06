@@ -24,6 +24,11 @@ void CDisplay::clear()
 	m_window->clear();
 }
 
+void CDisplay::clear(sf::Color col)
+{
+	m_window->clear(col);
+}
+
 void CDisplay::display()
 {
 	m_window->display();

@@ -14,6 +14,9 @@
 
 	m_currentScene = EState::e_intro;	//Premier état = intro
 	m_state[m_currentScene]->init();	//Init intro
+
+	clearColor = sf::Color(0, 0, 0, 255);
+	colback = sf::Vector3i(1, 1, 1);
 }
 
 /*virtual*/ CApplication::~CApplication(void)
@@ -35,7 +38,26 @@ void CApplication::runMainLoop(void)
 		float dt = m_clock.restart().asSeconds();
 		sf::Event event;
 
-		CDisplay::clear();
+		if (clearColor.r == 0)
+			colback.x = 1;
+		else if (clearColor.r == 80)
+			colback.x = -1;
+
+		if (clearColor.g == 0)
+			colback.y = 1;
+		else if (clearColor.g == 80)
+			colback.y = -1;
+
+		if (clearColor.b == 0)
+			colback.z = 1;
+		else if (clearColor.b == 80)
+			colback.z = -1;
+
+		clearColor.r += (rand()%2)*colback.x;
+		clearColor.g += (rand()%2)*colback.y;
+		clearColor.b += (rand()%2)*colback.z;
+
+		CDisplay::clear(clearColor);
 
 		while (CDisplay::getWindow()->pollEvent(event)) 		//En fonction de la scène, on l'affiche
 			m_state[m_currentScene]->input(& event);
