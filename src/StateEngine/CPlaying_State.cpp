@@ -122,11 +122,11 @@ namespace State
 		}
 
 		//envoie uniquement les touches si changements par rapport au ancienne data envoye
-		if(m_data != data)
+		if(m_data != data && !dynamic_cast<CActor *>(m_listEntities[i].get())->getMustDisappear())
 		{
 			sf::Packet p;
 			m_data = data;
-			//m_listEntities.at(m_indexCharacter)->setData(m_data);
+			m_listEntities.at(m_indexCharacter)->setData(m_data);
 			m_data.mustUpdatePosition = true;
 			p << m_data;
 			m_client->addPacketToSend(p);
@@ -156,7 +156,7 @@ namespace State
 
 				for (unsigned int j = 0; j < m_listEntities.size(); ++j)
 				try {
-					if(m_listEntities.at(j)->getData().index == data.index )//&& m_listEntities.at(m_indexCharacter)->getData().index != data.index)
+					if(m_listEntities.at(j)->getData().index == data.index && m_listEntities.at(m_indexCharacter)->getData().index != data.index)
 					{
 						m_listEntities.at(j)->setData(data);
 						break;

@@ -59,8 +59,6 @@ struct Data CEntity::getData(void)
 
 void CEntity::setData(struct Data d)
 {
-  if(m_dataInit.cclass == "CActor" && m_data.state != 6 && m_data.state != 9)
-  {
     m_data.state = d.state;
 
     m_data.keyLeft = d.keyLeft;
@@ -75,7 +73,6 @@ void CEntity::setData(struct Data d)
         m_data.positionX = d.positionX;
         m_data.positionY = d.positionY;
     }
-  }
 }
 
 bool CEntity::getIsAlive(void)
