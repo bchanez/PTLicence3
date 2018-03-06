@@ -53,4 +53,7 @@ private:
 	sf::Clock m_clock;
 
 	CClient m_client;		//Quand on va init le côté client
+
+	sf::Color clearColor;
+	sf::Vector3i colback;
 };

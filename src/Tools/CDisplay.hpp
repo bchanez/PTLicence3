@@ -7,6 +7,7 @@ namespace CDisplay
 	void init();
 
 	void clear();
+	void clear(sf::Color col);
 	void display();
 
 	void draw(const sf::Drawable& drawable);
