@@ -405,16 +405,16 @@ void CActor::update(bool isServer, float dt)
       m_move_speed = WALK_SPEED;
 
       if(m_data.keyLeft)
-        position.x += ((position.x - (m_move_speed * dt)) >= SIZE_TILE) ? -(m_move_speed * dt) : 0.f;
+        position.x += ((position.x - (m_move_speed * dt)) >= (SIZE_TILE/2)+1) ? -(m_move_speed * dt) : 0.f;
 
       if(m_data.keyRight)
-        position.x += ((position.x + m_move_speed * dt) < (SIZE_MAP_X-1)*SIZE_TILE) ? m_move_speed * dt : 0.f;
+        position.x += ((position.x + m_move_speed * dt) < (SIZE_MAP_X-1)*SIZE_TILE + (SIZE_TILE/2)) ? m_move_speed * dt : 0.f;
 
       if(m_data.keyUp)
-        position.y += ((position.y - (m_move_speed * dt)) >= SIZE_TILE) ? -(m_move_speed * dt) : 0.f;
+        position.y += ((position.y - (m_move_speed * dt)) >= (SIZE_TILE/2)+1) ? -(m_move_speed * dt) : 0.f;
 
       if(m_data.keyDown)
-        position.y += ((position.y + m_move_speed * dt) < (SIZE_MAP_Y-1)*SIZE_TILE) ? m_move_speed * dt : 0.f;
+        position.y += ((position.y + m_move_speed * dt) < (SIZE_MAP_Y-1)*SIZE_TILE + (SIZE_TILE/2)) ? m_move_speed * dt : 0.f;
 
       if(!(m_data.keyRight && m_data.keyLeft))
       {
