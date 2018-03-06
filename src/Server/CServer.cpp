@@ -128,6 +128,8 @@ void CServer::send(void)
         m_listClient.at(i).state = 2; //Il est en jeu
         break;
       }
+      case 4 : // client mort
+      {break;}
       default :
       {
         std::cout << "PROBLEME le client " << m_listClient.at(i).index << " est a l'etat " << m_listClient.at(i).state << std::endl; //Debug
@@ -174,7 +176,7 @@ void CServer::receive(void)  //recoie
     // deconnecte client si deconnecte
     if(m_listClient.at(i).socketTCP->receive(packet) == sf::Socket::Disconnected)
     {
-       std::cout<<"Client disconnected"<<std::endl;
+       std::cout<<"Client " << m_listClient.at(i).index << " disconnected"<<std::endl;
        dynamic_cast<CActor *>(m_listEntities[m_listClient.at(i).index].get())->setIsCharacter(false);
        m_listClient.at(i).socketTCP->disconnect();
        break;
@@ -288,7 +290,7 @@ void CServer::updateGame(float dt)
       d.state << " " <<
       d.mustUpdatePosition << " " <<
       d.positionX << " " << d.positionY << " " <<
-      d.keyLeft << " " << d.keyRight << " " << d.keyUp << " " << d.keyDown << " " << d.keyShift << " " << d.mouseLeft << 
+      d.keyLeft << " " << d.keyRight << " " << d.keyUp << " " << d.keyDown << " " << d.keyShift << " " << d.mouseLeft <<
       std::endl;
     }
 
