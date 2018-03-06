@@ -11,6 +11,8 @@ enum class ETexture_Name
 	e_Titlescreen,
 	e_Menu,
 	e_Pause,
+	e_ResultLose,
+	e_ResultWin,
 
 	//button
 	e_Play,

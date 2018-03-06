@@ -8,6 +8,8 @@
 	addResource(ETexture_Name::e_Titlescreen, "rsc/graphics/titlescreen.png");
 	addResource(ETexture_Name::e_Menu, "rsc/graphics/screen_menu.png");
 	addResource(ETexture_Name::e_Pause, "rsc/graphics/screen_pause.png");
+	addResource(ETexture_Name::e_ResultLose, "rsc/graphics/lose.png");
+	addResource(ETexture_Name::e_ResultWin, "rsc/graphics/win.png");
 
 	// button
 	addResource(ETexture_Name::e_Play, "rsc/graphics/play.png");

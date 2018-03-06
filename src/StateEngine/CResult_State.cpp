@@ -82,9 +82,9 @@ namespace State
 
   void CResult::setResult(std::string str)
   {
-    // if("lose" == str)
-    //   m_result.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Win));
-    // else
-    //   m_result.setTexture(CResourceHolder::get().texture(ETexture_Name::e_Lose));
+    if("lose" == str)
+      m_result.setTexture(CResourceHolder::get().texture(ETexture_Name::e_ResultLose));
+    else
+      m_result.setTexture(CResourceHolder::get().texture(ETexture_Name::e_ResultWin));
   }
 }
