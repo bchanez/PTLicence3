@@ -280,9 +280,23 @@ void CServer::updateGame(float dt)
     }
 
     m_listEntities.at(i)->update(true, dt);
+    if(m_listEntities.at(i).get()->getData().index == 0)
+    {
+      struct Data d = m_listEntities.at(i).get()->getData();
+      std::cout <<
+      d.index << " " <<
+      d.state << " " <<
+      d.mustUpdatePosition << " " <<
+      d.positionX << " " << d.positionY << " " <<
+      d.keyLeft << " " << d.keyRight << " " << d.keyUp << " " << d.keyDown << " " << d.keyShift << " " << d.mouseLeft << 
+      std::endl;
+    }
+
 
     // met a jour les donnees d'envoie pour la creation d'une partie si un joueur se connecte
     m_dataInit.push_back(m_listEntities.at(i).get()->getDataInit());
+
+
 
     // met a jour les donnees d'envois courantes
     if(m_everyData.at(i) != m_listEntities.at(i).get()->getData()) //Si un joueur se connecte, il aura ces infos là

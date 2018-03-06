@@ -122,7 +122,7 @@ namespace State
 		}
 
 		//envoie uniquement les touches si changements par rapport au ancienne data envoye
-		if(m_data != data && !dynamic_cast<CActor *>(m_listEntities[m_indexCharacter].get())->getMustDisappear())
+		if(m_data != data && m_listEntities[m_indexCharacter]->getData().state != 6 && m_listEntities[m_indexCharacter]->getData().state != 9)
 		{
 			sf::Packet p;
 			m_data = data;
@@ -131,7 +131,7 @@ namespace State
 			p << m_data;
 			m_client->addPacketToSend(p);
 		}
-	}
+	}m_indexCharacterm_indexCharacter
 
 	void CPlaying::update(float dt)
 	{
@@ -156,7 +156,7 @@ namespace State
 
 				for (unsigned int j = 0; j < m_listEntities.size(); ++j)
 				try {
-					if(m_listEntities.at(j)->getData().index == data.index && m_listEntities.at(m_indexCharacter)->getData().index != data.index)
+					if(m_listEntities.at(j)->getData().index == data.index)
 					{
 						m_listEntities.at(j)->setData(data);
 						break;
@@ -209,6 +209,18 @@ namespace State
 					}
 
 					m_listEntities.at(i)->update(false, dt);
+					if(m_listEntities.at(i).get()->getData().index == m_indexCharacter)
+					{
+						struct Data d = m_listEntities.at(i).get()->getData();
+						std::cout <<
+						d.index << " " <<
+						d.state << " " <<
+						d.mustUpdatePosition << " " <<
+						d.positionX << " " << d.positionY << " " <<
+						d.keyLeft << " " << d.keyRight << " " << d.keyUp << " " << d.keyDown << " " << d.keyShift << " " << d.mouseLeft <<
+						std::endl;
+					}
+
 				}
 				catch (std::exception const& e){
 					std::cout << "---------- Error Update Client : " << e.what() << std::endl;
