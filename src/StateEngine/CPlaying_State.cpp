@@ -185,7 +185,7 @@ namespace State
 							if (m_indexCharacter == i)
 							{
 								std::cout << "perdu" << std::endl;
-								m_client->sendState(-1);
+								m_client->sendState(4);
 								m_client->disconnection();  //Déco du client
 								m_application->setResult("lose");
 								m_application->initState(EState::e_result);
