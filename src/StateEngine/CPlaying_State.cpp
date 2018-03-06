@@ -131,7 +131,7 @@ namespace State
 			p << m_data;
 			m_client->addPacketToSend(p);
 		}
-	}m_indexCharacterm_indexCharacter
+	}
 
 	void CPlaying::update(float dt)
 	{
