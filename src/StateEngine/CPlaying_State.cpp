@@ -122,7 +122,7 @@ namespace State
 		}
 
 		//envoie uniquement les touches si changements par rapport au ancienne data envoye
-		if(m_data != data && !dynamic_cast<CActor *>(m_listEntities[i].get())->getMustDisappear())
+		if(m_data != data && !dynamic_cast<CActor *>(m_listEntities[m_indexCharacter].get())->getMustDisappear())
 		{
 			sf::Packet p;
 			m_data = data;
