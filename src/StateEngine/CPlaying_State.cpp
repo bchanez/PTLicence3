@@ -157,11 +157,11 @@ namespace State
 					if(m_listEntities.at(j)->getData().index == data.index)
 					{
 						struct Data changeData = data;
-						if(m_listEntities.at(j)->getData().index == m_indexCharacter)
-						{
-							changeData = m_listEntities.at(j)->getData();
-							changeData.state = data.state;
-						}
+						// if(m_listEntities.at(j)->getData().index == m_indexCharacter)
+						// {
+						// 	changeData = m_listEntities.at(j)->getData();
+						// 	changeData.state = data.state;
+						// }
 						m_listEntities.at(j)->setData(changeData);
 						break;
 					}
