@@ -21,33 +21,31 @@ namespace State
 	{
 		m_key.escape = false;
 
-		if(!m_client->getIsConnected())
+		m_client->connection();
+		m_listEntities.clear();
+		sf::Packet packetInitGame = m_client->receiveInitgame();
+
+		sf::Uint16 sizeData;
+		packetInitGame >>	 m_result;
+		//std::cout << "###" << m_result << "###" << std::endl;
+		packetInitGame >>  m_indexCharacter;
+		packetInitGame >>  sizeData;
+		for(unsigned int i = 0; i < sizeData; ++i)
 		{
-			m_listEntities.clear();
+			struct DataInit dataInit;
+			packetInitGame >> dataInit; //On met le paquet dans les donnes
 
-			m_client->connection();
-			sf::Packet packetInitGame = m_client->receiveInitgame();
-
-			sf::Uint16 sizeData;
-			packetInitGame >>  m_indexCharacter;
-			packetInitGame >>  sizeData;
-			for(unsigned int i = 0; i < sizeData; ++i)
+			if((dataInit.cclass).compare("CActor") == 0)
 			{
-				struct DataInit dataInit;
-				packetInitGame >> dataInit; //On met le paquet dans les donnes
-
-				if((dataInit.cclass).compare("CActor") == 0)
-				{
-					m_listEntities.push_back(std::make_unique<CActor>(dataInit));
-				}
-				else if ((dataInit.cclass).compare("CEvent_pub") == 0)
-				{
-					m_listEntities.push_back(std::make_unique<CEvent_pub>(dataInit));
-				}
+				m_listEntities.push_back(std::make_unique<CActor>(dataInit));
 			}
-
-			dynamic_cast<CActor *>(m_listEntities[m_indexCharacter].get())->setIsCharacter(true); //Cast; Pour le PNJ à l'index du joueur, on dit que c'est un joueur
+			else if ((dataInit.cclass).compare("CEvent_pub") == 0)
+			{
+				m_listEntities.push_back(std::make_unique<CEvent_pub>(dataInit));
+			}
 		}
+
+		dynamic_cast<CActor *>(m_listEntities[m_indexCharacter].get())->setIsCharacter(true); //Cast; Pour le PNJ à l'index du joueur, on dit que c'est un joueur
 
 		// centre la vue sur la position du personnage (Diviser par deux et zoomé)
 		CDisplay::getView()->setSize(1920.f/2, 1080.f/2);
@@ -184,8 +182,6 @@ namespace State
 							//le perso est mort donc scene perdu
 							if (m_indexCharacter == i)
 							{
-								std::cout << "perdu" << std::endl;
-								m_client->sendState(4);
 								m_client->disconnection();  //Déco du client
 								m_application->setResult("lose");
 								m_application->initState(EState::e_result);
@@ -196,35 +192,30 @@ namespace State
 							if (m_indexCharacter > i)
 								m_indexCharacter--;
 						}
-
-						// il ne reste que le joueur donc scene gagne
-						if (numberCActor == 1 && i == m_listEntities.size() - 1)
-						{
-							std::cout << "gagner" << std::endl;
-							m_client->disconnection();  //Déco du client
-							m_application->setResult("win");
-							m_application->initState(EState::e_result);
-							m_application->changeState(EState::e_result);
-						}
 					}
 
 					m_listEntities.at(i)->update(false, dt);
-					if(m_listEntities.at(i).get()->getData().index == m_indexCharacter)
-					{
-						struct Data d = m_listEntities.at(i).get()->getData();
-						std::cout <<
-						d.index << " " <<
-						d.state << " " <<
-						d.mustUpdatePosition << " " <<
-						d.positionX << " " << d.positionY << " " <<
-						d.keyLeft << " " << d.keyRight << " " << d.keyUp << " " << d.keyDown << " " << d.keyShift << " " << d.mouseLeft <<
-						std::endl;
-					}
 
 				}
 				catch (std::exception const& e){
 					std::cout << "---------- Error Update Client : " << e.what() << std::endl;
 				}
+			}
+
+			// il ne reste que le joueur donc scene gagne
+			if (numberCActor == 1 || m_result == "win")
+			{
+				m_client->disconnection();  //Déco du client
+				m_application->setResult("win");
+				m_application->initState(EState::e_result);
+				m_application->changeState(EState::e_result);
+			}
+			else if(m_result == "lose")
+			{
+				m_client->disconnection();  //Déco du client
+				m_application->setResult("lose");
+				m_application->initState(EState::e_result);
+				m_application->changeState(EState::e_result);
 			}
 		}
 

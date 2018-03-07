@@ -30,7 +30,7 @@ void CServer::connection(void)
     bool exist = false;
     for (unsigned int i = 0; i < m_listClient.size(); ++i)
     {
-      if(client->getRemoteAddress() == m_listClient.at(i).adress && m_listClient.at(i).state != 4)
+      if(client->getRemoteAddress() == m_listClient.at(i).adress)
       {
         std::cout << "Client " <<  m_listClient.at(i).index << " reconnected" << std::endl;
         std::cout << "le client " << m_listClient.at(i).index << " passe a l'etat 0" << std::endl;
@@ -48,6 +48,7 @@ void CServer::connection(void)
       std::cout << "New client connected: " << client->getRemoteAddress() << std::endl;
       Client c;
       c.state = 0;
+      c.result = "";
       c.socketTCP = client;
       c.index = m_listClient.size();     //Indice du client (1er client sera le PNJ 0, 2eme sera le PNJ 1 etc...)
       c.adress = client->getRemoteAddress();
@@ -77,6 +78,7 @@ void CServer::send(void)
         std::cout << "le serveur envoie au client " << m_listClient.at(i).index << " les donnees d'init de partie" << std::endl;
         sf::Packet packetInitGame;
         dynamic_cast<CActor *>(m_listEntities[m_listClient.at(i).index].get())->setIsCharacter(true);
+        packetInitGame <<  m_listClient.at(i).result;
         packetInitGame << (sf:: Uint16) (m_listClient.at(i).index);
         packetInitGame << (sf:: Uint16) m_dataInit.size(); //Taille du tableau
         for(unsigned int i = 0; i < m_dataInit.size(); ++i) //Envoi du tableau
@@ -128,8 +130,6 @@ void CServer::send(void)
         m_listClient.at(i).state = 2; //Il est en jeu
         break;
       }
-      case 4 : // client mort
-      {break;}
       default :
       {
         std::cout << "PROBLEME le client " << m_listClient.at(i).index << " est a l'etat " << m_listClient.at(i).state << std::endl; //Debug
@@ -269,36 +269,33 @@ void CServer::loopServer(void)
 void CServer::updateGame(float dt)
 {
   // update des entites
+  int numberCActor = 0;
   for (unsigned int i = 0; i < m_listEntities.size(); ++i) //Parcours tout le tableau d'entité (pub, PNJ, etc...)
   {
     // suppression des CActor qui doivent disparaitre
-    if (m_listEntities.at(i)->getDataInit().cclass == "CActor" && dynamic_cast<CActor *>(m_listEntities.at(i).get())->getMustDisappear()) //Seul CActor peut disparaître
+    if (m_listEntities.at(i)->getDataInit().cclass == "CActor")
     {
-      std::cout  << "delete \n";
-      m_listEntities.erase(m_listEntities.begin() + i); //Supprime de la liste
-      m_everyData.erase(m_everyData.begin() + i);
-      for (unsigned int j = 0; j < m_listClient.size(); ++j)
-        m_listClient[j].synchroPosition.erase(m_listClient[j].synchroPosition.begin() + i); //Supprime de chaque tableau de chaque client
+      numberCActor++;
+      if(dynamic_cast<CActor *>(m_listEntities.at(i).get())->getMustDisappear()) //Seul CActor peut disparaître
+      {
+        std::cout  << "delete \n";
+        m_listEntities.erase(m_listEntities.begin() + i); //Supprime de la liste
+        m_everyData.erase(m_everyData.begin() + i);
+
+        for (unsigned int j = 0; j < m_listClient.size(); ++j)
+        {
+          if(m_listClient[j].index == i)
+            m_listClient[j].result = "lose";
+
+          m_listClient[j].synchroPosition.erase(m_listClient[j].synchroPosition.begin() + i); //Supprime de chaque tableau de chaque client
+        }
+      }
     }
 
     m_listEntities.at(i)->update(true, dt);
-    if(m_listEntities.at(i).get()->getData().index == 0)
-    {
-      struct Data d = m_listEntities.at(i).get()->getData();
-      std::cout <<
-      d.index << " " <<
-      d.state << " " <<
-      d.mustUpdatePosition << " " <<
-      d.positionX << " " << d.positionY << " " <<
-      d.keyLeft << " " << d.keyRight << " " << d.keyUp << " " << d.keyDown << " " << d.keyShift << " " << d.mouseLeft <<
-      std::endl;
-    }
-
 
     // met a jour les donnees d'envoie pour la creation d'une partie si un joueur se connecte
     m_dataInit.push_back(m_listEntities.at(i).get()->getDataInit());
-
-
 
     // met a jour les donnees d'envois courantes
     if(m_everyData.at(i) != m_listEntities.at(i).get()->getData()) //Si un joueur se connecte, il aura ces infos là
@@ -317,4 +314,8 @@ void CServer::updateGame(float dt)
       }
     }
   }
+
+  for (unsigned int j = 0; j < m_listClient.size(); ++j)
+    if (numberCActor == 1 && m_listClient[j].result != "lose")
+      m_listClient[j].result = "win";
 }

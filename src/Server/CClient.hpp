@@ -17,7 +17,6 @@ class CClient
     virtual ~CClient(void);
 
     void connection(void);
-    bool getIsConnected(void);
     void disconnection(void);
 
     sf::Packet receiveInitgame(void); //Reçoie les paquets
@@ -36,8 +35,6 @@ class CClient
     sf::Thread * getThreadReceive(void);
 
   private:
-
-    bool m_isConnected;
 
     sf::IpAddress m_server;
 

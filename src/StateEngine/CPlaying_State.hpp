@@ -47,5 +47,6 @@ namespace State
 			std::vector<std::unique_ptr<CEntity>> m_listEntities; // joueur, pnj, evenement
 
 			sf:: Uint16 m_indexCharacter; // variable qui stocke l'indice du character dans le tableau
+			std::string m_result;
 	};
 }

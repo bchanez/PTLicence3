@@ -44,6 +44,7 @@ class CServer
 
     struct Client {
       unsigned int state;
+      std::string result;
       sf::TcpSocket *socketTCP;
       unsigned int index;
       sf::IpAddress adress;
