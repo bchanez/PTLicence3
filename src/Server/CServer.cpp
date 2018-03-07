@@ -70,7 +70,7 @@ void CServer::send(void)
 {
   for (unsigned int i = 0; i < m_listClient.size(); ++i) //Pour tout les clients du tableau ajouté précedemment
   {
-    switch(m_listClient.at(i).state)  // Etat dess clients (créer la partie, en cours de jeu, reviens d'un état pause; )
+    switch(m_listClient.at(i).state)  // Etat des clients (créer la partie, en cours de jeu, reviens d'un état pause; )
     {
       case 0 : // envoie donnees d'initialisation de partie envoyer tout (position, CActor, Events) dans un tableau
       {
@@ -130,6 +130,9 @@ void CServer::send(void)
         m_listClient.at(i).state = 2; //Il est en jeu
         break;
       }
+      case 4 :
+      {}
+      break;
       default :
       {
         std::cout << "PROBLEME le client " << m_listClient.at(i).index << " est a l'etat " << m_listClient.at(i).state << std::endl; //Debug
@@ -177,6 +180,7 @@ void CServer::receive(void)  //recoie
     if(m_listClient.at(i).socketTCP->receive(packet) == sf::Socket::Disconnected)
     {
        std::cout<<"Client " << m_listClient.at(i).index << " disconnected"<<std::endl;
+       m_listClient.at(i).state = 4;
        dynamic_cast<CActor *>(m_listEntities[m_listClient.at(i).index].get())->setIsCharacter(false);
        m_listClient.at(i).socketTCP->disconnect();
        break;
@@ -314,7 +318,7 @@ void CServer::updateGame(float dt)
       }
     }
   }
-
+  
   for (unsigned int j = 0; j < m_listClient.size(); ++j)
     if (numberCActor == 1 && m_listClient[j].result != "lose")
       m_listClient[j].result = "win";
