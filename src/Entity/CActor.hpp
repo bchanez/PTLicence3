@@ -57,4 +57,5 @@ class CActor : public CEntity
     sf::Vector2i m_goal_point;
 
     bool m_event;
+    float m_fly;
 };

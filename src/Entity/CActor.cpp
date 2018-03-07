@@ -19,6 +19,8 @@
 
   m_timer = 0.f;
 
+  m_fly = 0.f;
+
   m_attack = false;
   m_mustDisappear = false;
 
@@ -640,12 +642,19 @@ void CActor::update(bool isServer, float dt)
 
     case e_dead :
     {
+      m_sprite.setTexture(CResourceHolder::get().texture(ETexture_Name::e_PDead));
       setIsAlive(false);
       m_goal_point = sf::Vector2i(getPosition());
 
       m_timer += dt;
 
-      if (m_timer > 2)
+      m_fly += (m_move_speed * dt);
+      //position.y -= (m_move_speed * dt);
+      //m_sprite.setOrigin(sf::Vector2f(getPosition().x, getPosition().y + (m_move_speed * dt)));
+      m_sprite.setOrigin(sf::Vector2f(20, 35 + m_fly));
+      //setPosition(sf::Vector2f(getPosition().x, getPosition().y - (m_move_speed * dt)));
+
+      if (m_timer > 3)
         m_data.state = e_disappear;
 
       break;

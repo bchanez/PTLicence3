@@ -29,7 +29,10 @@ enum class ETexture_Name
 	e_Pub,
 
 	// map
-	e_TileMap_Grass
+	e_TileMap_Grass,
+
+	//PNJ
+	e_PDead
 };
 
 class CTexture_Manager : public CResourceManager<ETexture_Name, sf::Texture>

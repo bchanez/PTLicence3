@@ -28,7 +28,8 @@
 	// map
 	addResource(ETexture_Name::e_TileMap_Grass, "rsc/graphics/tilemap_grass.png");
 
-
+	//PNJ
+	addResource(ETexture_Name::e_PDead, "rsc/graphics/potatoman_dead.png");
 }
 
 /*virtual*/ CTexture_Manager::~CTexture_Manager()
