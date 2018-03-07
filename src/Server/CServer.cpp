@@ -318,29 +318,8 @@ void CServer::updateGame(float dt)
       }
     }
   }
-
-  unsigned int nbPlayerlose = 0;
-  int indicePlayerWin = 0;
+  
   for (unsigned int j = 0; j < m_listClient.size(); ++j)
-  {
-    if(m_listClient[j].result != "lose" || (m_listClient[j].result == "" && m_listClient[j].state == 4))
-      nbPlayerlose++;
-
-    if(m_listClient[j].result == "" && m_listClient[j].state != 4)
-      indicePlayerWin = j;
-
-  }
-
-  if (nbPlayerlose == m_listClient.size() - 2)
-  {
-
-    m_listClient[indicePlayerWin].result = "win";
-    for (unsigned int i = 0; i < m_listEntities.size(); ++i)
-      if(m_listEntities.at(i)->getDataInit().cclass == "CActor" && m_listClient[indicePlayerWin].index != i)
-      {
-          struct Data data = m_listEntities.at(i).get()->getData();
-          data.state = 6;
-          m_listEntities.at(i).get()->setData(data);
-      }
-  }
+    if (numberCActor == 1 && m_listClient[j].result != "lose")
+      m_listClient[j].result = "win";
 }
